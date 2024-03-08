@@ -1,7 +1,7 @@
 # deployProject2023
 
 command backend
-# Django
+# Run Django
 `python .\manage.py runserver`
 
 # Celery Worker
@@ -10,3 +10,6 @@ command backend
 # Celery Beat
 `celery -A mysite beat --loglevel=info`
 
+command frontend
+# Run React 
+`npm start`

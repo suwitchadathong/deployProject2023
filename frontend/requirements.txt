@@ -7,8 +7,8 @@ sweetalert2
 js-cookie
 react-dropzone
 simple-react-lightbox
-@fortawesome/free-solid-svg-icons
-@fortawesome/react-fontawesome
+@fontawesome/free-solid-svg-icons
+@fontawesome/react-fontawesome
 js-cookie
 papaparse
 react-loading-skeleton

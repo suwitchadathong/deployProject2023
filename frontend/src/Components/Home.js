@@ -190,7 +190,7 @@ const AppHome = () => {
                                         <h1>Multiple Choice</h1>
                                         <h2>and Questionnaire Analysis System</h2>
                                         <div className='space5'></div>
-                                        <div className='flexCenter'><p className='button-submit wfc '><Link to='' className='light-font' style={{color:"#FFF"}}>คู่มือการใช้งาน</Link></p></div>
+                                        <div className='flexCenter'><p className='button-submit wfc '><Link to='/manual' className='light-font' style={{color:"#FFF"}}>คู่มือการใช้งาน</Link></p></div>
                                     </div>
                                     <div className='center div2'>
                                         <img src={'/img/home1.png'} alt="Logo" />
