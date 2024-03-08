@@ -1,0 +1,15 @@
+react-router-dom
+gapi-script
+@react-oauth/google@latest
+react-google-login
+react-table
+sweetalert2
+js-cookie
+react-dropzone
+simple-react-lightbox
+@fortawesome/free-solid-svg-icons
+@fortawesome/react-fontawesome
+js-cookie
+papaparse
+react-loading-skeleton
+chart.js

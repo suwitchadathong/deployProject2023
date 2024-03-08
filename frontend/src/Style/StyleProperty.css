@@ -1,0 +1,169 @@
+/* display */
+.space-between{
+    display: flex;
+    justify-content: space-between;
+}
+.flex-end{
+    display: flex;
+    justify-content: flex-end;
+    height: fit-content;
+}
+.flex{
+    display: flex;
+}
+.flexCenter{
+    display: flex;
+    justify-content: center;
+}
+.flexJACenter{
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+.grid{
+    display: grid;
+}
+.DPcontent{
+    display: contents;
+}
+
+.inline-block{
+    display: inline-block
+}
+.inline-grid{
+    display: inline-grid
+}
+.block{
+    display: block;
+}
+.none{
+    display: none;
+}
+/* END display */
+
+.text-overflow{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+/*  width */
+
+.width100{
+    width: 100%;
+}
+.wAuto{
+    width: auto;
+}
+.w30px{
+    width: 30px;
+}
+.w60px{
+    width: 60px;
+}
+.w80px{
+    width: 80px;
+}
+.w85px{
+    width: 85px;
+}
+.w100px{
+    width: 100px;
+}
+.w120px{
+    width: 120px;
+}
+.w140px{
+    width: 140px;
+}
+.w150px{
+    width: 150px;
+}
+.w200px{
+    width: 200px;
+}
+.w225px{
+    width: 225px;
+}
+.w250px{
+    width: 250px;
+}
+.w300px{
+    width: 300px;
+}
+.mw80px{
+    max-width: 80px;
+    min-width: 80px;
+}
+.mw50px{
+    max-width: 50px;
+}
+.mw300px{
+    max-width: 300px;
+}
+.mw1200px{
+    max-width: 1200px;
+}
+.mw1600px{
+    max-width: 1600px;
+}
+
+
+/* END width */
+/* height */
+.h35px{
+    height: 35px;
+}
+.wfc{
+    width: fit-content;
+}
+.hfc{
+    display: flex;
+    height: fit-content;
+}
+
+/* END height */
+/*  */
+.pdl10px{
+    padding-left: 10px;
+}
+.pdr10px{
+    padding-right: 10px;
+}
+.pdb5px{
+    padding-bottom: 5px;
+}
+.mgR10{
+    margin: 0px 10px 0px 0px;
+}
+
+/* END margin */
+/*  font-size */
+.fs8{
+    font-size: 8px;
+}
+.fs10{
+    font-size: 10px;
+}
+.fs12{
+    font-size: 12px;
+}
+.fs16{
+    font-size: 16px;
+}
+.fs24{
+    font-size: 24px;
+}
+.fb{
+    font-weight: bold;
+}
+
+/* END  font-size */
+.cursor-p{
+    cursor: pointer;
+}
+
+.cursor-p:hover{
+   opacity: 0.8;
+}

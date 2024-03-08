@@ -1,0 +1,188 @@
+.HeadderOutSide nav{
+    
+    box-shadow: 10px 8px 5px -10px var(--dark-grey);
+    background-color: var(--light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 2rem;
+    position: sticky;
+
+    & .logo{
+        display: flex;
+
+        & .logo-icon{
+            min-width: 60px;
+            display: flex;
+            justify-content: center;
+
+            & img{
+                width: 50px;
+                height: 50px;
+            }
+        }
+        & .logo-name{
+            display: flex;
+            justify-content: center;
+            & img{
+                width: 212px;
+                height: 50px;
+            }
+        }
+        @media (max-width: 660px){
+            margin-bottom: 2rem;
+        }
+    }
+    & .menu{
+        display: flex;
+
+        & li{
+            /* margin-left: 2rem; */
+            display: flex;
+            padding-left: 10px;
+            text-decoration: none;
+
+            & a{
+                padding: 5px;
+                border-radius: 5px;
+                border: 1px solid var(--dark);
+                @media (max-width: 360px){
+                    width: 100px;
+                    text-align: center;
+                }
+            }
+            & :hover{
+                opacity: 0.8;
+            }
+            @media (max-width: 360px){
+                padding-bottom: 10px;
+            }
+        }
+        @media (max-width: 360px){
+            display: block;
+        }
+    }
+
+    @media (max-width: 660px){
+        height: auto;
+        flex-direction: column;
+    }
+    
+}
+.wait{
+    /* border-radius: 10px; */
+    background-color: #dddddd; /* Set the background color to gray */
+    color: gray; /* Set the text color to gray */
+    opacity: 0.7; /* Optionally, reduce opacity to visually indicate it's disabled */
+    pointer-events: none; /* Disable pointer events to make it non-interactive */
+}
+
+& .box-contents-que {
+    background-image: linear-gradient(120deg,var(--light),var(--light));
+    padding: 25px;
+    /* display: flex; */
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    justify-content: center;
+    & .Submitadditionalcomments{
+        padding: 20px;
+        border: 1px solid var(--light-grey);
+        height: fit-content;
+    }
+    & .box-que{
+        border: 1px solid var(--light-grey);
+        border-radius: 10px;
+        max-width: 1200px;
+        min-width: 800px;
+        padding: 10px;
+        & .box-que-topicname{
+          padding: 10px;  
+        }
+        
+        & img{
+            width: 100%;
+        }
+        & .box-que-topic{
+            background-color: var(--light-blue);
+            padding: 10px;
+        }
+        & .box-que-detail{
+            padding-left: 10px;
+            padding-top: 10px;   
+            padding-right: 10px;
+        }
+        & .que-wordwrap{
+            word-wrap: break-word;
+        }
+        & .choice{
+            display: flex;
+            padding: 10px;
+
+            & label{
+                padding-left: 10px;
+            }
+            & .other_input{
+                height: 30px;
+                margin-left: 10px;
+                width: 150px;
+            }
+        }
+        .image-container {
+            width: 100%;
+            /* height: 180px; */
+            height: calc(180px);
+            overflow: hidden;
+            @media (max-width: 1270px){
+                height: calc(160px);
+            }  
+          }
+          
+        .focused-image {
+            /* width: 100%;
+            margin-left: -20px;
+            margin-top: -20px */
+            width: calc(100% + 65px); /* Increase width by 20px to create the clipping effect */
+            margin-left: -30px; /* Offset the margin to maintain original position */
+            margin-top: -30px; 
+            margin-right: -20px; /* Offset the right margin to create the clipping effect */
+            clip-path: polygon(20px 0, calc(100% - 20px) 0, calc(100% - 20px) 100%, 0 100%); /* Clip right side by 20px */
+            @media (max-width: 1130px){
+                margin-top: -25px; 
+            }  
+        }
+        
+       
+        @media (max-width: 830px){
+            max-width: auto;
+            min-width: 250px;
+            /* min-width: 250px; */
+        }  
+    }
+    /* & .box-que-show{
+        background: var(--light-primary);
+        margin-top: 5px;
+        margin-bottom: 5px;
+    } */
+    & .que-bx-button-flex-center{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+}
+textarea{
+    font-size: 16px;
+    width: 100%;
+    min-width: 100px;
+    padding: 5px 5px 5px 5px;
+    border: 1px solid var(--dark-grey);
+    border-radius: 6px;
+    color: #000;
+    outline: none;
+    display: inline-block;
+    resize:none;
+}
+textarea:focus{
+    border: 1px solid var(--dark-grey);
+}
