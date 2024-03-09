@@ -11,4 +11,4 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 COPY . .
 # EXPOSE 8001
 # RUN python ./manage.py migrate
-CMD ["python", "./manage.py"]
+CMD ["python", "manage.py", "runserver"]

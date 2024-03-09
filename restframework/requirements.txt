@@ -16,3 +16,4 @@ python-crfsuite
 pyzbar
 qrcode
 redis
+psycopg2
