@@ -16,4 +16,4 @@ python-crfsuite
 pyzbar
 qrcode
 redis
-psycopg2
+psycopg2-binary
