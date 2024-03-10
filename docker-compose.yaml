@@ -14,6 +14,7 @@ services:
         # - "443:8000"
         # - "8101:443"
         - "8000:8000"
+        - "443:8000"
       depends_on:
         - postgres
       environment:
