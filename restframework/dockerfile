@@ -2,14 +2,13 @@ FROM python:3.10
 
 WORKDIR /code
 
-
 COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-
 COPY . .
+
 # EXPOSE 8101
 # RUN python ./manage.py migrate
-# CMD ["python", "manage.py", "runserver","0.0.0.0:8101"]
-CMD ["python", "./manage.py", "runserver"]
+
+CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:8101 & celery -A mysite beat --loglevel=info & celery -A mysite worker --loglevel=info"]
