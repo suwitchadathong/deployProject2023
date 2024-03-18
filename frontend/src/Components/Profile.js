@@ -560,7 +560,7 @@ function AppProfile() {
                   }
                   <h3>ข้อมูลผู้ใช้</h3>
                   <div className="bx-input inline-grid">
-                    <label htmlFor="email">อีเมล์</label>
+                    <label htmlFor="email">อีเมล</label>
                     <input
                       type="text"
                       id="email"
@@ -572,7 +572,7 @@ function AppProfile() {
                     />
                   </div>
                   <div className="bx-input inline-grid">
-                    <label htmlFor="fullname">ชื่อ</label>
+                    <label htmlFor="fullname">ชื่อ-สกุล</label>
                     <input
                       type="text"
                       id="fullname"
@@ -680,7 +680,8 @@ function AppProfile() {
                 <>
                   <hr></hr>
                   <div className="space10"></div>
-                  {Cookies.get("usageformat1") === "1"
+                  
+                  {Cookies.get("typesid") === "1" || Cookies.get("typesid") === 1
                     ? null
                     : "เลือกประเภทสิทธิ์การใช้งานที่ต้องการในระบบ (กรณีเลือกจัดการรายวิชา ต้องทำการยืนยันตัวตน ไม่สามารถเลือกดูคะแนนได้)"}
                   <div className="bx-input-fix">

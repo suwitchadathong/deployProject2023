@@ -220,6 +220,30 @@ const TableUser = ({ columns }) => {
             return "ไม่สามารถระบุได้"
         }
     };
+
+    async function showalert(value) {
+        console.log(value)
+        Swal.fire({
+            title: 'ข้อมูลผู้ใช้',
+            html: 
+                `<div style="text-align: left;">
+                    <b>อีเมล์</b> : ${value.original.email}<br>
+                    <b>ชื่อผู้ใช้</b> : ${value.original.fullname}<br>
+                    <b>เบอร์โทรศัพท์</b> : ${value.original.tel}<br>
+                    <b>อาชีพ</b>  : ${value.original.tel}<br>
+                    <b>สังกัด/คณะ</b> : ${value.original.faculty}<br>
+                    <b>ภาค/สาขา/สาย</b> : ${value.original.department}<br>
+                    <b>องค์กรการศึกษา/สถานที่ทำงาน</b> : ${value.original.workplace}<br>
+                    <b>การยืนยันตัวตน</b> : ${value.original.e_kyc}<br>
+                    <b>สิทธิ์การใช้งาน</b> : ${findusageformat(value.original.usageformat)}<br>
+                    <b>ประเภทผู้ใช้</b> : ${value.original.typesid}<br>
+                <div>`,
+            showCancelButton: false,
+            confirmButtonColor: "#7066e0",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "ตกลง"
+        });
+    }
     return (
         <div>
             <div className='InputSize space-between'>
@@ -269,25 +293,19 @@ const TableUser = ({ columns }) => {
                             prepareRow(row);
                                 return (
                                     <tr {...row.getRowProps()} key={row.id}>
-                                        <td className={"center"}><Link to={""+row.values.userid}>{row.values.userid}</Link></td>
-                                        <td className={""}><Link to={""}>{row.values.email}</Link></td>
-                                        <td className={""}><Link to={""}>{row.values.fullname}</Link></td>
-                                        <td className={""}><Link to={""}>{row.values.job}</Link></td> 
-                                        {/* <td className={""}><Link to={""}>{row.values.department}</Link></td>
-                                        <td className={""}><Link to={""}>{row.values.faculty}</Link></td> */}
-                                        <td className={""}><Link to={""}>{row.values.workplace}</Link></td>
-                                        {/* <td className={""}><Link to={""}>{row.values.tel}</Link></td> */}
-                                        <td className={""}><Link to={""}>{(row.values.usageformat)}</Link></td>
-
-                                        {/* <td className={""}><Link to={""}>{findusageformat(row.values.usageformat)}</Link></td> */}
-                                        <td className={""}><Link to={""}>{row.values.e_kyc === '1' || row.values.e_kyc === 1 ? "1":row.values.e_kyc}</Link></td>
-                                        {/* <td className={""}><Link to={""}>{findUserTypeById(row.values.typesid)}</Link></td> */}
-                                        <td className={""}><Link to={""}>{row.values.typesid}</Link></td>
+                                        <td className={"center"}><Link to={""} onClick={() =>showalert(row)}>{row.values.userid}</Link></td>
+                                        <td className={""}><Link to={""} onClick={() =>showalert(row)}>{row.values.email}</Link></td>
+                                        <td className={""}><Link to={""} onClick={() =>showalert(row)}>{row.values.fullname}</Link></td>
+                                        {/* <td className={""}><Link to={""} onClick={() =>showalert("ผู้ใช้งาน")}>{(row.values.usageformat)}</Link></td> */}
+                                        {/* <td className={""}><Link to={""} onClick={() =>showalert("ผู้ใช้งาน")}>{row.values.e_kyc === '1' || row.values.e_kyc === 1 ? "1":row.values.e_kyc}</Link></td> */}
+                                        <td className={""}><Link to={""} onClick={() =>showalert(row)}>{row.values.typesid}</Link></td>
 
                                         {row.values.userid === 1 ?
                                             <td className='center mw80px ' ><Link to={''} className='' style={{ display: 'contents' }}><span className='border-icon-dark wait'><FontAwesomeIcon icon={faPen} /></span></Link></td>
                                         :                 
-                                            <td className='center mw80px' ><Link to={'/Admin/User/UpdateUser/'+row.values.userid} className='' style={{ display: 'contents' }}><span className='border-icon-dark'><FontAwesomeIcon icon={faPen} /></span></Link><span className='danger light-font' onClick={() => handleDelCours(row.values.userid,row.values.email)}><FontAwesomeIcon icon={faTrashCan} /></span> </td>
+                                            // <td className='center mw80px' ><Link to={'/Admin/User/UpdateUser/'+row.values.userid} className='' style={{ display: 'contents' }}><span className='border-icon-dark'><FontAwesomeIcon icon={faPen} /></span></Link><span className='danger light-font' onClick={() => handleDelCours(row.values.userid,row.values.email)}><FontAwesomeIcon icon={faTrashCan} /></span> </td>
+                                            <td className='center mw80px' ><Link to={'/Admin/User/UpdateUser/'+row.values.userid} className='' style={{ display: 'contents' }}><span className='border-icon-dark'><FontAwesomeIcon icon={faPen} /></span></Link></td>
+
                                         }
                                     </tr>
                                 );

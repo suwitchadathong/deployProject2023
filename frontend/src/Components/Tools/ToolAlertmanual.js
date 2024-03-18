@@ -27,7 +27,7 @@ const Alertmanual = ({ name , status}) => {
         const questionnaireno = ['/manual/questionnaireno1.png','/manual/questionnaireno2.png'];
         const uploadquestionnaire = ['/manual/uploadquestionnaire1.png','/manual/uploadquestionnaire2.png','/manual/uploadquestionnaire3.png'];
         const checkquestionaire = ['/manual/checkquestionaire1.png','/manual/checkquestionaire2.png','/manual/checkquestionaire3.png','/manual/checkquestionaire4.png',];
-        const analyzeresultsque = ['/manual/analyzeresultsque1.png'];
+        const analyzeresultsque = ['/manual/analyzeresultsque1.png','/manual/analyzeresultsque2.png'];
 
         
         const admintype = ['/manual/admin/admintype1.png','/manual/admin/admintype2.png','/manual/admin/admintype3.png'];

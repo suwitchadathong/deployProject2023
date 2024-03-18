@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import Chart from 'chart.js/auto';
 import { Pie } from 'react-chartjs-2';
-
-const QuePart1 = ({ url,showChart }) => {
+import Swal from 'sweetalert2'
+const QuePart1 = ({ url,showChart,data,status }) => {
     const [topicAll, settopicAll] = useState(["","","",""]);
     const [topic1, setTopic1] = useState([]);
     const [topic2, setTopic2] = useState([]);
@@ -13,6 +13,9 @@ const QuePart1 = ({ url,showChart }) => {
     const [data2, setdata2] = useState([]);
     const [data3, setdata3] = useState([]);
     const [data4, setdata4] = useState([]);
+
+    const [Online, setOnline] = useState(["","","","",""]);
+    const [Offline, setOffline] = useState(["","","","",""]);
 
     const [datashowtable, setdatadatashowtable] = useState([
         ['', '', '', ''],
@@ -100,6 +103,67 @@ const QuePart1 = ({ url,showChart }) => {
                         }
                         setdatadatashowtable(transformedArray)
 
+                        let dataOffline0 = []
+                        let dataOffline1 = []
+                        let dataOffline2 = []
+                        let dataOffline3 = []
+                        let dataOffline4 = []
+                        let dataOnline0 = []
+                        let dataOnline1 = []
+                        let dataOnline2 = []
+                        let dataOnline3 = []
+                        let dataOnline4 = []
+          
+
+                        if(status === "รูปแบบออฟไลน์"){
+                            for (let i = 0; i < data.length; i++) {
+                                if(data[i].status_queinfo === "Offline"){
+                                    const dataofflinesplit = data[i].ansother.split(",");
+                                    if(dataofflinesplit[0] !== ''){dataOffline0.push(dataofflinesplit[0])}
+                                    if(dataofflinesplit[1] !== ''){dataOffline1.push(dataofflinesplit[1])}
+                                    if(dataofflinesplit[2] !== ''){dataOffline2.push(dataofflinesplit[2])}
+                                    if(dataofflinesplit[3] !== ''){dataOffline3.push(dataofflinesplit[3])}
+                                    if(dataofflinesplit[4] !== ''){dataOffline4.push(dataofflinesplit[4])}
+                                }
+                            }
+                        }
+                        else if(status === "รูปแบบออนไลน์"){
+                            for (let i = 0; i < data.length; i++) {
+                                if(data[i].status_queinfo === "Online"){
+                                    const dataonlinesplit = data[i].ansother.split(",");
+                                    if(dataonlinesplit[0] !== ''){dataOnline0.push(dataonlinesplit[0])}
+                                    if(dataonlinesplit[1] !== ''){dataOnline1.push(dataonlinesplit[1])}
+                                    if(dataonlinesplit[2] !== ''){dataOnline2.push(dataonlinesplit[2])}
+                                    if(dataonlinesplit[3] !== ''){dataOnline3.push(dataonlinesplit[3])}
+                                    if(dataonlinesplit[4] !== ''){dataOnline4.push(dataonlinesplit[4])}
+                                }
+                            }
+                        }
+                        else if(status === "สรุปผลรวม"){
+                            for (let i = 0; i < data.length; i++) {
+                                if(data[i].status_queinfo === "Offline"){
+                                    const dataofflinesplit = data[i].ansother.split(",");
+                                    if(dataofflinesplit[0] !== ''){dataOffline0.push(dataofflinesplit[0])}
+                                    if(dataofflinesplit[1] !== ''){dataOffline1.push(dataofflinesplit[1])}
+                                    if(dataofflinesplit[2] !== ''){dataOffline2.push(dataofflinesplit[2])}
+                                    if(dataofflinesplit[3] !== ''){dataOffline3.push(dataofflinesplit[3])}
+                                    if(dataofflinesplit[4] !== ''){dataOffline4.push(dataofflinesplit[4])}
+                                }
+                                if(data[i].status_queinfo === "Online"){
+                                    const dataonlinesplit = data[i].ansother.split(",");
+                                    if(dataonlinesplit[0] !== ''){dataOnline0.push(dataonlinesplit[0])}
+                                    if(dataonlinesplit[1] !== ''){dataOnline1.push(dataonlinesplit[1])}
+                                    if(dataonlinesplit[2] !== ''){dataOnline2.push(dataonlinesplit[2])}
+                                    if(dataonlinesplit[3] !== ''){dataOnline3.push(dataonlinesplit[3])}
+                                    if(dataonlinesplit[4] !== ''){dataOnline4.push(dataonlinesplit[4])}
+                                }
+                            }
+                        }
+                        else{
+
+                        }
+                        setOffline([dataOffline0,dataOffline1,dataOffline2,dataOffline3,dataOffline4])
+                        setOnline([dataOnline0,dataOnline1,dataOnline2,dataOnline3,dataOnline4])
                     },
                 });
             } catch (error) {
@@ -108,12 +172,70 @@ const QuePart1 = ({ url,showChart }) => {
         };
 
         fetchData();
-        
-        
-        
-       
-    }, [url]);
+    }, [url,status]);
 
+    async function showalertansother(topic,index,statue_format) {
+        let htmlContent = `<div style="text-align: left;">`;
+        console.log(index)
+        console.log(statue_format)
+        if (statue_format === "รูปแบบออฟไลน์") {
+            htmlContent += "<ul>"; 
+            if(Offline[index].length >= 1){
+                htmlContent +=` <div>${statue_format}<div>`;
+                console.log(Offline[index])
+                for (let i = 0; i < Offline[index].length; i++) {
+                    htmlContent += `<li><img src="${Offline[index][i]}" alt="Offline Image ${i}" style="width:100%;padding:5px;margin: 5px 0;text-align: center; border: 1px solid #DDDDDD;"></li>`;
+                }
+            }else{
+                htmlContent += "<div>ไม่พบข้อมูลอื่นๆ</div>"; 
+            }
+            htmlContent += "</ul>"; 
+        }
+        else if (statue_format === "รูปแบบออนไลน์" ) {
+            htmlContent += "<ul>"; 
+            if(Online[index].length >= 1){
+                htmlContent +=` <div>${statue_format}<div>`;
+                console.log(Online[index])
+                for (let i = 0; i < Online[index].length; i++) {
+                    htmlContent += `<li><p style="padding:5px;margin: 5px 0;text-align: center; border: 1px solid #DDDDDD; ">${Online[index][i]}</p></li>`; 
+                }
+            }else{
+                htmlContent += "<div>ไม่พบข้อมูลอื่นๆ</div>"; 
+            }
+            htmlContent += "</ul>"; 
+        }
+        else if (statue_format === "สรุปผลรวม" ) {
+            htmlContent += "<ul>"; 
+            if(Offline[index].length >= 1){
+                htmlContent +=` <div>${statue_format} ออฟไลน์<div>`;
+                console.log(Offline[index])
+                for (let i = 0; i < Offline[index].length; i++) {
+                    htmlContent += `<li><img src="${Offline[index][i]}" alt="Offline Image ${i}" style="width:100%;padding:5px;margin: 5px 0;text-align: center; border: 1px solid #DDDDDD;"></li>`;
+                }
+            }else{}
+            htmlContent += "</ul>"; 
+
+            htmlContent += "<ul>"; 
+            if(Online[index].length >= 1){
+                htmlContent +=` <div>${statue_format} ออนไลน์<div>`;
+                console.log(Online[index])
+                for (let i = 0; i < Online[index].length; i++) {
+                    htmlContent += `<li><p style="padding:5px;margin: 5px 0;text-align: center; border: 1px solid #DDDDDD; ">${Online[index][i]}</p></li>`; 
+                }
+            }else{}
+            htmlContent += "</ul>"; 
+        }
+        htmlContent += "</div>"; 
+        
+        Swal.fire({
+            title: 'ข้อมูลอื่นๆของ '+topic,
+            html: htmlContent,
+            showCancelButton: false,
+            confirmButtonColor: "#7066e0",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "ตกลง"
+        });
+    }
     return (
         <div>
             <div className=''>
@@ -255,12 +377,12 @@ const QuePart1 = ({ url,showChart }) => {
                             <tbody>
                                 {topicAll.map((value, rowIndex) => (
                                     <tr  key={rowIndex}>
-                                        {console.log(datashowtable[0])}
-                                        <td>{topicAll[rowIndex]}</td>
-                                        <td>{datashowtable[0][rowIndex]}</td>
-                                        <td>{datashowtable[1][rowIndex]}</td>
-                                        <td>{datashowtable[2][rowIndex]}</td>
-                                        <td>{datashowtable[3][rowIndex]}</td>
+                                        {/* {console.log(datashowtable[0])} */}
+                                        <td><p onClick={() =>showalertansother(topicAll[rowIndex],rowIndex,status)}>{topicAll[rowIndex]}</p></td>
+                                        <td><p onClick={() =>showalertansother(topicAll[rowIndex],rowIndex,status)}>{datashowtable[0][rowIndex]}</p></td>
+                                        <td><p onClick={() =>showalertansother(topicAll[rowIndex],rowIndex,status)}>{datashowtable[1][rowIndex]}</p></td>
+                                        <td><p onClick={() =>showalertansother(topicAll[rowIndex],rowIndex,status)}>{datashowtable[2][rowIndex]}</p></td>
+                                        <td><p onClick={() =>showalertansother(topicAll[rowIndex],rowIndex,status)}>{datashowtable[3][rowIndex]}</p></td>
                                     </tr>
                                 ))}
                             </tbody>
