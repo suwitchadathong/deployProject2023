@@ -28,7 +28,7 @@ function AppSubject(){
             {Header: 'รหัสวิชา',accessor: 'subjectid', },
             {Header: 'ชื่อวิชา',accessor: 'subjectname', },
             {Header: 'ปีการศึกษา',accessor: 'year', },
-            {Header: 'เทอม',accessor: 'semester',},
+            {Header: 'ภาคเรียน',accessor: 'semester',},
             {Header: 'statussubject',accessor: 'statussubject',},
             {Header: 'deletetimesubject',accessor: 'deletetimesubject', },
             {Header: 'createtimesubject',accessor: 'createtimesubject', },
