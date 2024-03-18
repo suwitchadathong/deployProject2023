@@ -731,7 +731,7 @@ function AppUpdateQuetionaire(){
                                         overflow: auto;
                                         min-width: 790px; */}
                                         <p>ส่วนที่ 2: ความคิดเห็นเกี่ยวกับแบบสอบถาม (5: มากที่สุด, 4: มาก, 3: ปานกลาง, 2: น้อย, 1: น้อยที่สุด, 0: ไม่ประเมิน)</p>
-                                        <p className="danger-font fs12">*หากเลือก "หัวข้อใหญ่" หัวข้อนั้นจะไม่มีช้อยสำหรับฝนระดับความคิดเห็น</p>
+                                        <p className="danger-font fs12">*หากเลือก "หัวข้อใหญ่" หัวข้อนั้นจะไม่มีชอยซ์สำหรับฝนระดับความคิดเห็น</p>
                                         <div className="tableQue">
                                             <table className="">
                                                 <thead>

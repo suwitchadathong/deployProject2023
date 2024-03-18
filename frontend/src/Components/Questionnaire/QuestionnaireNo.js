@@ -202,10 +202,10 @@ function AppQuestionnaireNo(){
                                         <div className="bx-details-box-small inline-grid"><p className="text-overflow">ชื่อแบบสอบถาม : {QueSheetName}</p></div>
                                     </div>
                                     <div className={dateTimeshow === null || dateTimeshow === ''? "none":"bx-bx-details flexCenter"}>
-                                        <div className="button-submit center w200px" onClick={handleCopyClick}>URL แบบสอบถามออนไลน์</div>
+                                        <div className="button-submit center w250px" onClick={handleCopyClick}>คัดลอกลิงค์แบบสอบถามออนไลน์</div>
                                     </div>
                                     <div className="bx-bx-details flexCenter">
-                                        <div className="button-submit center w200px" onClick={handleDownload}>ดาวโหลดแบบสอบถาม</div>
+                                        <div className="button-submit center w250px" onClick={handleDownload}>ดาวโหลดแบบสอบถาม</div>
                                     </div>
                                 </div>
                             </div> 

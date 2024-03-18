@@ -134,7 +134,7 @@ function AppCreateQuestionnaire(){
         { input: 'การบรรยายชัดเจน/เข้าใจง่าย', checkbox: false, disabled:false },
         { input: 'วิธีการถ่ายทอดเนื้อหาให้น่าสนใจ', checkbox: false, disabled:false },
         { input: 'เอกสาร/สื่อ ประกอบการบรรยาย', checkbox: false, disabled:false },
-        { input: 'การตอบคำถามตรงประเดน', checkbox: false, disabled:false },
+        { input: 'การตอบคำถามตรงประเด็น', checkbox: false, disabled:false },
         { input: 'ความเหมาะสมของวิทยากรโดยรวม', checkbox: false, disabled:false },
         { input: 'รูปแบบการดำเนินงาน', checkbox: true, disabled:false },
         { input: 'การรับข่าวประชาสัมพันธ์การจัดอบรม', checkbox: false, disabled:false },
@@ -407,10 +407,10 @@ function AppCreateQuestionnaire(){
         });
     }
     function path1(){
-        setQueSheetName("CE SmartCamp")
-        setQueSheetTopicName("CE SmartCamp")
-        setDetailsLineOne("30 พฤษภาคม 2566 - 4 มิถุนายน 2566")
-        setDetailsLinetwo("ภาควิชาคอมพิวเตอร์")
+        // setQueSheetName("CE SmartCamp")
+        // setQueSheetTopicName("CE SmartCamp")
+        // setDetailsLineOne("30 พฤษภาคม 2566 - 4 มิถุนายน 2566")
+        // setDetailsLinetwo("ภาควิชาคอมพิวเตอร์")
         // setQueSheetName("")
         // setQueSheetTopicName("")
         // setDetailsLineOne("")
@@ -628,7 +628,7 @@ function AppCreateQuestionnaire(){
                                         overflow: auto;
                                         min-width: 790px; */}
                                         <p>ส่วนที่ 2: ความคิดเห็นเกี่ยวกับแบบสอบถาม (5: มากที่สุด, 4: มาก, 3: ปานกลาง, 2: น้อย, 1: น้อยที่สุด, 0: ไม่ประเมิน)</p>
-                                        <p className="danger-font fs12">*หากเลือก "หัวข้อใหญ่" หัวข้อนั้นจะไม่มีช้อยสำหรับฝนระดับความคิดเห็น</p>
+                                        <p className="danger-font fs12">*หากเลือก "หัวข้อใหญ่" หัวข้อนั้นจะไม่มีชอยซ์สำหรับฝนระดับความคิดเห็น</p>
                                         <div className="tableQue">
                                             <table className="">
                                                 <thead>

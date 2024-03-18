@@ -169,7 +169,7 @@ function AppCheckQuestionaire(){
             `,
             showCancelButton: true,
             confirmButtonColor: "#341699",
-            confirmButtonText: 'แก้ไข',
+            confirmButtonText: 'บันทึก',
             cancelButtonText: 'ยกเลิก',
             customClass: {
                 popup: 'custom-alert-popup',

@@ -332,10 +332,10 @@ function AppSetDateTimeQuesionnaire() {
                     </div>
                     <div className="bx-bx-details flexCenter">
                       <div
-                        className="button-submit center w200px"
+                        className="button-submit center w250px"
                         onClick={handleCopyClick}
                       >
-                        URL แบบสอบถามออนไลน์
+                        คัดลอกลิงค์แบบสอบถามออนไลน์
                       </div>
                     </div>
                   </>

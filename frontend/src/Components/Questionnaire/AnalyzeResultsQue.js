@@ -10,22 +10,21 @@ import QuePart1 from "../Tools/QuePart1";
 import QuePart2 from "../Tools/QuePart2";
 import Alertmanual from "../Tools/ToolAlertmanual";
 
-import { SRLWrapper } from 'simple-react-lightbox';
-
 function AppAnalyzeResultsQue(){
     const { id } = useParams();
 
+    const [dataque, setdataque] = useState('');
     const [QueSheetName, setQueSheetName] = useState('');
     const [resultpart1_csv_path, setresultpart1_csv_path] = useState('');
     const [resultpart2_csv_path, setresultpart2_csv_path] = useState('');
     const [Steppart1, setSteppart1] = useState('');
     const [Steppart2, setSteppart2] = useState('');
 
-
-    const [part1select, setpart1select] = useState('');
+    const [Stepdataque, setStepdataque] = useState(0);
+    const [part1select, setpart1select] = useState(0);
     const [part2select, setpart2select] = useState(0);
     const [part3select, setpart3select] = useState(0);
-
+    
     const handlepart1select = (event) => {
         setpart1select(event.target.value);
     };
@@ -121,6 +120,7 @@ function AppAnalyzeResultsQue(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
+                        setdataque(result)
                         console.log("queinformation ",result)
                         setquesheetinfo(result)
                     }
@@ -153,7 +153,11 @@ function AppAnalyzeResultsQue(){
             setpart3select(FromURL(resultpart2_csv_path[0]))
             setSteppart2(1)
         }
-    }, [resultpart1_csv_path,resultpart2_csv_path]);
+        console.log(dataque.length)
+        if(dataque.length >= 1){
+            setStepdataque(1)
+        }
+    }, [resultpart1_csv_path,resultpart2_csv_path,dataque]);
 
     function FromURL(url) {
         if(url === null || url === ''){
@@ -172,6 +176,14 @@ function AppAnalyzeResultsQue(){
         return decodedFilename;
     }
 
+    const handleDownload = () => {
+        console.log(part1select);
+        const filePath = part1select;
+        const link = document.createElement('a');
+        link.href = process.env.PUBLIC_URL + filePath;
+        link.download = 'result_student_list.csv';
+        link.click();
+    };
     return(
 
         <div className='content'>
@@ -217,61 +229,36 @@ function AppAnalyzeResultsQue(){
                             <input className="mgR10" style={{minWidth:25}} value="" type="checkbox" checked={showChart} onChange = {handleshowChart} />แสดงข้อมูลเพิ่มเติมในรูปแบบแผนภูมิ
                         </span>
                     </div>
-
-                    <div>ส่วนที่ 1 ข้อมูลทั่วไป</div>
+                    <div>
                     {Steppart1 === 1 &&
-                        <div className="bx-input-fix">
-                            <select id="mySelect" value={part1select} onChange={handlepart1select} style={{ width: '150px' }}>
-                            {
-                                resultpart1_csv_path.map((path, index) => (
-                                    <option key={index} value={path}>{FromURL(path)}</option>
-                                ))
-                            }
-                            </select>
-                            <div ><QuePart1 url={part1select} showChart={showChart}/></div>
-                        </div>
-                    }
-                    {/* {Steppart1 === 1 && (
-                        quesheetinfo.length !== 0 ? (
-                            <>
-                                <div className="tableAnalyze">  
-                                    <table className="">
-                                        <thead>
-                                            <tr>
-                                                <th className="">ข้อเสนอแนะเพิ่มเติม</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {quesheetinfo.map((value, index) => {
-                                                if ((FromURL(part1select) === 'รูปแบบออฟไลน์' || FromURL(part1select) === 'สรุปผลรวม') && value.status_queinfo === "Offline" && value.additionalsuggestions) {
-                                                    return (
-                                                        <tr key={index}>
-                                                            <td><img src={value.additionalsuggestions} alt="Description of the image" /></td>
-                                                        </tr>
-                                                    );
-                                                } else if ((FromURL(part1select) === 'รูปแบบออนไลน์' || FromURL(part1select) === 'สรุปผลรวม') && value.status_queinfo === "Online" && value.additionalsuggestions) {
-                                                    return (
-                                                        <tr key={index}>
-                                                            <td>{value.additionalsuggestions}</td>
-                                                        </tr>
-                                                    );
-                                                } else {
-                                                    return null;
-                                                }
-                                            })}
-                                        </tbody>
-                                    </table>
+                        (part1select ? (
+                            <div className="bx-button" style={{ display: 'grid' }}>
+                                <div className="button-download center" onClick={handleDownload}>
+                                    ดาวน์โหลดข้อมูลสรุปผล
                                 </div>
-                            </>
-                        ) : null
-                    )}
-                    <SRLWrapper>
+                            </div>
+                        ) : null)
+                    }
+
+                    </div>
+                    <div>ส่วนที่ 1 ข้อมูลทั่วไป</div>
+                    {console.log("Stepdataque : ",Stepdataque)}
+                    {Steppart1 === 1 && Stepdataque === 1?(
                         <div>
-                            <img src="image1.jpg" alt="Image 1" />
-                            <img src="image2.jpg" alt="Image 2" />
-                            <img src="image3.jpg" alt="Image 3" />
+                           
+                            <div className="bx-input-fix">
+                                <select id="mySelect" value={part1select} onChange={handlepart1select} style={{ width: '150px' }}>
+                                    {resultpart1_csv_path.map((path, index) => (
+                                        <option key={index} value={path}>{FromURL(path)}</option>
+                                    ))}
+                                </select>
+                                <div><QuePart1 url={part1select} showChart={showChart} data={dataque} status={FromURL(part1select)} /></div>
+                            </div>
+                          
                         </div>
-                    </SRLWrapper> */}
+                    ) : null}
+
+                    
                     <div>ส่วนที่ 2 ระดับความคิดเห็นของแบบสอบถาม</div>
                         {Steppart2 === 1 &&
                             <div className="bx-input-fix">

@@ -12,15 +12,15 @@ function AppUser() {
     const columns = useMemo(
         () => [
             {Header: 'ID ผู้ใช้',accessor: 'userid',},
-            {Header: 'อีเมล์',accessor: 'email', },
+            {Header: 'อีเมล',accessor: 'email', },
             {Header: 'ชื่อผู้ใช้',accessor: 'fullname', },
-            {Header: 'อาชีพ',accessor: 'job', },
-            {Header: 'สาขา',accessor: 'department',},
-            {Header: 'คณะ',accessor: 'faculty',},
-            {Header: 'องค์กรการศึกษา',accessor: 'workplace',},
-            {Header: 'เบอร์โทรศัพท์',accessor: 'tel',},
-            {Header: 'สิทธิ์การใช้งาน',accessor: 'usageformat',},
-            {Header: 'การยืนยันตัวตน',accessor: 'e_kyc',},
+            // {Header: 'อาชีพ',accessor: 'job', },
+            // {Header: 'สาขา',accessor: 'department',},
+            // {Header: 'คณะ',accessor: 'faculty',},
+            // {Header: 'องค์กรการศึกษา',accessor: 'workplace',},
+            // {Header: 'เบอร์โทรศัพท์',accessor: 'tel',},
+            // {Header: 'สิทธิ์การใช้งาน',accessor: 'usageformat',},
+            // {Header: 'การยืนยันตัวตน',accessor: 'e_kyc',},
             {Header: 'ประเภทผู้ใช้',accessor: 'typesid',},
         ],
         []

@@ -109,7 +109,7 @@ function AppCreateType(){
                                     />
                                 </div>
                                 <div className="bx-input-fix">
-                                    <label htmlFor="NameExam" className="w140px">จำนวนรายวิชา</label>
+                                    <label htmlFor="NameExam" className="w140px">จำนวนการสอบ</label>
                                     <input className="mw300px"
                                         type="number"
                                         id="limitexam"
