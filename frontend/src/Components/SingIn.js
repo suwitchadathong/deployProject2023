@@ -155,7 +155,7 @@ function AppSingIn(){
               <div className='center'>
                 <GoogleLogin 
                   clientId={clientId}
-                  buttonText="Sing in with Google"
+                  buttonText="Sign in with Google"
                   onSuccess={onSuccess}
                   onFailure={onFailure}
                   cookiePolicy={"single_host_origin"}
@@ -164,7 +164,7 @@ function AppSingIn(){
               </div> 
               <form onSubmit={handleSubmit}>
                   <div className="bx-input-fix">
-                      <label htmlFor="Email">อีเมล์</label>
+                      <label htmlFor="Email">อีเมล</label>
                       <input
                           type="email"
                           id="Email"
