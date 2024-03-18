@@ -851,7 +851,7 @@ input[type=radio]{
         border-spacing: 0;
         border-radius: 5px; /* Apply border-radius to the entire table */
         overflow: hidden; /* Clip the table contents to the rounded shape */
-        min-width: 1600px;
+        min-width: 900px;
 
         
         & tr:last-child > td {
