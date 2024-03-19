@@ -230,7 +230,7 @@ function AppQuestionnaireNo(){
                                 <Link to={"/Questionnaire/QuestionnaireNo/SetDateTimeQuestionnaire/"+id}>
                                     <div className="box">
                                         <div className="box-img">
-                                            {sequencesteps >= 1 ?<FontAwesomeIcon icon={faCircleCheck} className="icon-success" />:''}
+                                            {sequencesteps >=1 ?<FontAwesomeIcon icon={faCircleCheck} className="icon-success" />:''}
                                             <img src='/img/QueStep2.png' alt=''/>
                                             <p>แบบสอบถามออนไลน์</p>
                                         </div>

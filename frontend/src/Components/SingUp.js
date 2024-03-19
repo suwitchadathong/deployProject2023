@@ -459,7 +459,7 @@ function AppSingUp(){
                                     <div className='center'>
                                         <GoogleLogin 
                                         clientId={clientId}
-                                        buttonText="Sign in with Google"
+                                        buttonText="Sign up with Google"
                                         onSuccess={onSuccess}
                                         onFailure={onFailure}
                                         cookiePolicy={"single_host_origin"}

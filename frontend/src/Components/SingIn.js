@@ -189,11 +189,11 @@ function AppSingIn(){
                   <div>
                     <div className='width100 bx-button' style={{ width: '100%' }}>
                       {/* <button type="reset" className='button-cancel'>รีเซ็ท</button> */}
-                      <button type="submit"  className='button-submit width100'>ยืนยัน</button>
+                      <button type="submit"  className='button-submit width100'>เข้าสู่ระบบ</button>
                     </div>
                   </div>
               </form>            
-              <div className="center">สร้างบัญชีใหม่ได้ที่นี่ <Link to="/SingUp">สมัครสมาชิก</Link></div>
+              <div className="center">สร้างบัญชีใหม่ได้ที่นี้ <Link to="/SingUp">สมัครสมาชิก</Link></div>
             </div>
           </div>
         </div>
