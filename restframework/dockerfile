@@ -1,14 +1,17 @@
-FROM python:3.10
+FROM python:3.10-alpine
+ENV PYTHONUNBUFFERED 1
+RUN apk update && apk add python3-dev gcc libc-dev
 
 WORKDIR /code
 
 COPY ./requirements.txt /code/requirements.txt
 
+RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY . .
 
-EXPOSE 8101
-RUN python ./manage.py migrate
+RUN python ./manage.py makemigrations && python ./manage.py migrate
 
-CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:8101 & celery -A mysite beat --loglevel=info & celery -A mysite worker --loglevel=info"]
+EXPOSE 8001
+CMD ["python", "./manage.py", "runserver", "0.0.0.0:8001"]

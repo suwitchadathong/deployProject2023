@@ -16,7 +16,7 @@ RUN npm install --force
 # Copy ไฟล์มั้หมด ได้แก่ public, src folder เข้าไป
 COPY . .
 
-EXPOSE 3000
+EXPOSE 8001
 
 RUN npm run build
 #สั่ง npm start เพื่อ start React App

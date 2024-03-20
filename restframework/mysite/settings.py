@@ -31,7 +31,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["0.0.0.0", "192.168.56.1", "161.246.4.12"]
 
 
 # Application definition
@@ -158,7 +158,6 @@ DATA_UPLOAD_MAX_NUMBER_FILES = None
 # CORS
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'http://161.246.4.12:8101'
 ]
 
 # Celery
