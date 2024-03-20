@@ -46,7 +46,7 @@ services:
       container_name: celery
       restart: always
       build: .
-      command: celery -A mysite worker --loglevel=info
+      command: celery -A mysite worker --loglevel=info & celery -A mysite beat --loglevel=info
       valumes:
         - :/code      
       depends_on:

@@ -1,17 +1,31 @@
+# เลือกใช้ Python 3.10 จาก Alpine Linux เป็นฐาน
 FROM python:3.10-alpine
+
+# ตั้งค่า environment variable เพื่อไม่ให้ Python มีการ buffer output
 ENV PYTHONUNBUFFERED 1
+
+# อัปเดตและติดตั้ง dependencies ที่จำเป็นสำหรับการทำงานของโปรแกรม
 RUN apk update && apk add python3-dev gcc libc-dev
 
+# กำหนดไดเรกทอรีทำงานเป็น /code
 WORKDIR /code
 
+# คัดลอกไฟล์ requirements.txt ไปยังโฟลเดอร์ /code
 COPY ./requirements.txt /code/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade pip && pip install -r requirements.txt
+# ติดตั้ง dependencies จากไฟล์ requirements.txt โดยใช้ pip
+RUN pip install --no-cache-dir --upgrade pip && pip install -r /code/requirements.txt
 # RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY . .
 
+
+EXPOSE 8000
+
 RUN python ./manage.py makemigrations && python ./manage.py migrate
 
-EXPOSE 8001
-CMD ["python", "./manage.py", "runserver", "0.0.0.0:8001"]
+RUN celery -A mysite worker --loglevel=info && celery -A mysite beat --loglevel=info
+
+CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]
+
+
