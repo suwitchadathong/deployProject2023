@@ -6,8 +6,8 @@ import os
 import json
 import math
 
-from datetime import datetime, timedelta
 import time
+from datetime import datetime, timedelta
 
 import pandas as pd
 from rest_framework import status
@@ -184,7 +184,6 @@ def sendmail(subject, message, recipient_list):
               settings.EMAIL_HOST_USER, 
               recipient_list)
     return True
-
 ##########################################################################################
 #- Update
 @api_view(['PUT'])
@@ -284,12 +283,14 @@ def userDuplicateGoogleid(request, googleid):
         return Response(True)
     else:
         return Response({"err" : "บัญชี Google มีผู้ใช้งานแล้ว"}, status=status.HTTP_400_BAD_REQUEST)
-    
+
 @api_view(['POST'])
 def userLogin(request):
     email = request.data['email']
     password = request.data['password']
     queryset = User.objects.filter(email=email)
+    if email == '' or email == None or password == '' or password == None:
+        return Response({"err" : "กรุณากรอกอีเมล และรหัสผ่าน"}, status=status.HTTP_400_BAD_REQUEST)
     if queryset.count() > 0:
         if queryset[0].e_kyc == '1':
             salt = queryset[0].salt
@@ -326,6 +327,83 @@ def userLoginGoogle(request):
         }, status=status.HTTP_200_OK)
     else:
         return Response({"err" : "บัญชี Google ไม่ถูกต้อง"}, status=status.HTTP_401_UNAUTHORIZED)
+    
+##########################################################################################
+#- Subject
+subject_notfound = {"err" : "ไม่พบข้อมูลวิชา"}
+@api_view(['GET'])
+def subjectList(request):
+    try:
+        queryset = Subject.objects.all().order_by('-subid')
+    except Subject.DoesNotExist:
+        return Response(subject_notfound, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = SubjectSerializer(queryset, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def subjectDetail(request, pk):
+    try:
+        queryset = Subject.objects.get(subid=pk)
+    except Subject.DoesNotExist:
+        return Response(subject_notfound, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = SubjectSerializer(queryset, many=False)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def subjectDetailByUserid(request, pk):
+    try:
+        queryset = Subject.objects.filter(userid=pk, statussubject="1")
+    except Subject.DoesNotExist:
+        return Response(subject_notfound, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = SubjectSerializer(queryset, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def subjectCreate(request):
+    try:
+        user = User.objects.get(userid=request.data['userid'])
+    except User.DoesNotExist:
+        return Response(user_notfound, status=status.HTTP_404_NOT_FOUND)
+    subject = Subject.objects.filter(userid=request.data['userid'], statussubject="1")
+    if subject.count() < int(user.typesid.limitsubject):
+        data = request.data
+        data['statussubject'] = "1"
+        data['deletetimesubject'] = None
+        data['createtimesubject'] = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+07:00")
+        serializer = SubjectSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response({"err" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response({"err" : "จำนวนวิชาเกินที่กำหนด"}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def subjectUpdate(request, pk):
+    subject = Subject.objects.get(subid=pk)
+    serializer = SubjectSerializer(instance=subject, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        return Response({"err" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['DELETE'])
+def subjectDelete(request, pk):
+    try:
+        subject = Subject.objects.get(subid=pk)
+    except Subject.DoesNotExist:
+        return Response(subject_notfound, status=status.HTTP_400_BAD_REQUEST)
+    
+    data = {"deletetimesubject" : setDatetime(7)}
+    serializer = SubjectSerializer(instance=subject, data=data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response({"msg" : "วิชาจะถูกลบในวันที่และเวลา", "deletetime": data['deletetimesubject']}, status=status.HTTP_200_OK)
 
 ##########################################################################################
 #- Exam
@@ -475,31 +553,32 @@ def examSendMail(request, pk):
         return Response(exam_notfound, status=status.HTTP_404_NOT_FOUND)
     examindfo = Examinformation.objects.filter(examid=pk)
     for info in examindfo:
-        examanswers = Examanswers.objects.get(examid=pk, examnoanswers=info.setexaminfo)
-        chk = chk_ans(info.anschoicestd, exam.numberofexams, examanswers.choiceanswers, examanswers.scoringcriteria)
-        data = {
-            'subject_name': exam.subid.subjectname,
-            'subject_id': exam.subid.subjectid,
-            'exam_name': exam.examname,
-            'exam_no': info.setexaminfo,
-            'student_id': info.stdid,
-            'score': info.score,
-            'maxscore': chk[3]
-        }
-        # Render the HTML template with the data
-        html_content = render_to_string(fs.path('templates/score.html'), {'data': data})
+        if info.stdemail != None or info.stdemail != "":
+            examanswers = Examanswers.objects.get(examid=pk, examnoanswers=info.setexaminfo)
+            chk = chk_ans(info.anschoicestd, exam.numberofexams, examanswers.choiceanswers, examanswers.scoringcriteria)
+            data = {
+                'subject_name': exam.subid.subjectname,
+                'subject_id': exam.subid.subjectid,
+                'exam_name': exam.examname,
+                'exam_no': info.setexaminfo,
+                'student_id': info.stdid,
+                'score': info.score,
+                'maxscore': chk[3]
+            }
+            # Render the HTML template with the data
+            html_content = render_to_string(fs.path('templates/score.html'), {'data': data})
 
-        # Compose the email
-        subject = 'Exam Results'
-        from_email = settings.EMAIL_HOST_USER
-        to_email = [info.stdemail]
+            # Compose the email
+            subject = 'Exam Results'
+            from_email = settings.EMAIL_HOST_USER
+            to_email = [info.stdemail]
 
-        # Create the EmailMessage object
-        msg = EmailMultiAlternatives(subject, strip_tags(html_content), from_email, to_email)
-        msg.attach_alternative(html_content, "text/html")
+            # Create the EmailMessage object
+            msg = EmailMultiAlternatives(subject, strip_tags(html_content), from_email, to_email)
+            msg.attach_alternative(html_content, "text/html")
 
-        # Send the email
-        msg.send()
+            # Send the email
+            msg.send()
     exam.sendemail = 2
     exam.save()
     return Response({"ok": True}, status=status.HTTP_200_OK)
@@ -2246,81 +2325,3 @@ def subchapterDelete(request, pk):
     return Response({"msg" : "ลบบทย่อยสำเร็จ"}, status=status.HTTP_200_OK)
 
 ##########################################################################################
-#- Subject
-subject_notfound = {"err" : "ไม่พบข้อมูลวิชา"}
-@api_view(['GET'])
-def subjectList(request):
-    try:
-        queryset = Subject.objects.all().order_by('-subid')
-    except Subject.DoesNotExist:
-        return Response(subject_notfound, status=status.HTTP_404_NOT_FOUND)
-    
-    serializer = SubjectSerializer(queryset, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['GET'])
-def subjectDetail(request, pk):
-    try:
-        queryset = Subject.objects.get(subid=pk)
-    except Subject.DoesNotExist:
-        return Response(subject_notfound, status=status.HTTP_404_NOT_FOUND)
-    
-    serializer = SubjectSerializer(queryset, many=False)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['GET'])
-def subjectDetailByUserid(request, pk):
-    try:
-        queryset = Subject.objects.filter(userid=pk, statussubject="1")
-    except Subject.DoesNotExist:
-        return Response(subject_notfound, status=status.HTTP_404_NOT_FOUND)
-    
-    serializer = SubjectSerializer(queryset, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['POST'])
-def subjectCreate(request):
-    try:
-        user = User.objects.get(userid=request.data['userid'])
-    except User.DoesNotExist:
-        return Response(user_notfound, status=status.HTTP_404_NOT_FOUND)
-    subject = Subject.objects.filter(userid=request.data['userid'], statussubject="1")
-    if subject.count() < int(user.typesid.limitsubject):
-        data = request.data
-        data['statussubject'] = "1"
-        data['deletetimesubject'] = None
-        data['createtimesubject'] = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+07:00")
-        serializer = SubjectSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-        else:
-            return Response({"err" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        return Response({"err" : "จำนวนวิชาเกินที่กำหนด"}, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['PUT'])
-def subjectUpdate(request, pk):
-    subject = Subject.objects.get(subid=pk)
-    serializer = SubjectSerializer(instance=subject, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    else:
-        return Response({"err" : serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['DELETE'])
-def subjectDelete(request, pk):
-    try:
-        subject = Subject.objects.get(subid=pk)
-    except Subject.DoesNotExist:
-        return Response(subject_notfound, status=status.HTTP_400_BAD_REQUEST)
-    
-    data = {"deletetimesubject" : setDatetime(7)}
-    serializer = SubjectSerializer(instance=subject, data=data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response({"msg" : "วิชาจะถูกลบในวันที่และเวลา", "deletetime": data['deletetimesubject']}, status=status.HTTP_200_OK)
-
-##########################################################################################
-
