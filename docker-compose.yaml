@@ -4,15 +4,19 @@ services:
         container_name: showweb
         image: myreact
         ports:
-        # - "80:3000"
-        - "8001:8000"
+        # - "80:3000" #localhost
+        - "8001:3000" #server
+        - "80:8001" #server
+
         
     backend:
       container_name: backend
       image: mydb
-      command: python ./manage.py runserver 0.0.0.0:8000
+      # command: python ./manage.py runserver 0.0.0.0:8000
       ports:
-        - 8101:8000
+        # - 8101:8000
+        - "8000:8000"
+        - "8101:443"
       depends_on:
         - postgres
       environment:
@@ -21,6 +25,9 @@ services:
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=admin123
         - POSTGRES_DB=mcqas
+        - REDIS_HOST=redis
+        - REDIS_PORT=6379
+        - WDS_SOCKET_PORT=443
         - SECRET_KEY=django-insecure-fyr$qmpwlyhi6f_xnpliot%q+d+3fx)y0pyy@$u-#yf4&*+!fz
         - PEPPER=kmitl
         - EMAIL_HOST_USER=mcqa.system@gmail.com
@@ -41,14 +48,17 @@ services:
     redis:build: 
       image: redis:alpine
       container_name: redis
+      ports:
+       - "6379:6379"
 
     celery:
       container_name: celery
       restart: always
       build: .
-      command: celery -A mysite worker --loglevel=info & celery -A mysite beat --loglevel=info
+      # command: celery -A mysite worker --loglevel=info & celery -A mysite beat --loglevel=info
       ports:
-      - "5672:5672"
+        - "6379:6379"
+        - "5432:5432"
       valumes:
         - :/code      
       depends_on:
@@ -57,7 +67,15 @@ services:
         - backend
       links:
         - postgres
-
-volumes:
-    pgdata:
-
+      environment:
+        - POSTGRES_HOST=db_host
+        - POSTGRES_PORT=5432
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=admin123
+        - POSTGRES_DB=mcqas
+        - REDIS_HOST=redis
+        - REDIS_PORT=6379
+        - SECRET_KEY=django-insecure-fyr$qmpwlyhi6f_xnpliot%q+d+3fx)y0pyy@$u-#yf4&*+!fz
+        - PEPPER=kmitl
+        - EMAIL_HOST_USER=mcqa.system@gmail.com
+        - EMAIL_HOST_PASSWORD=tubh bawz zcqy bqdg

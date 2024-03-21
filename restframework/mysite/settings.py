@@ -31,7 +31,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["0.0.0.0"]
 
 
 # Application definition
@@ -103,7 +103,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -155,18 +154,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DATA_UPLOAD_MAX_NUMBER_FILES = None
 
 # CORS
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3000',
+# ]
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+    'http://161.246.4.12:8001',
 ]
 
 # Celery
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-# CELERY_ACCEPT_CONTENT = ['application/json']
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_BACKEND = 'django-db'
-CELERY_TIMEZONE = 'Asia/Bangkok'
+# CELERY_broker_url = 'redis://localhost:6379/0'
+# result_backend = 'redis://localhost:6379/0'
+CELERY_broker_url = 'redis://localhost:6379/0'
+result_backend = 'redis://localhost:6379/0'
+# accept_content = ['application/json']
+# result_serializer = 'json'
+# task_serializer = 'json'
+# result_backend = 'django-db'
+timezone = 'Asia/Bangkok'
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
