@@ -34,6 +34,7 @@ function AppUploadStudent(){
 
     const fetchDataStart = async () => {
         try{
+            //Fetch API เพื่อทำการดึกข้อมูล exam/detail ขอข้อมูล เกี่ยวกับ การสอบครั้งที่
             const response = await fetch(variables.API_URL + "exam/detail/" + id + "/", {
                 method: "GET",
                 headers: {
@@ -42,21 +43,19 @@ function AppUploadStudent(){
                 },
             });
             const result = await response.json();
-    
             if (result.err !== undefined) {
                 setStartError(1);
             } else {
                 setExamNo(result.examno);
                 setExamNoShow(result.examid);
                 setsubid(result.subid);
-                
                 if (result.std_csv_path !== null) {
                     const csvResponse = await fetch(result.std_csv_path);
                     const csvText = await csvResponse.text();
                     const csvBlob = new Blob([csvText], { type: 'text/csv' });
                     const csvFile = new File([csvBlob], 'student_list.csv', { type: 'text/csv' });
 
-                    parseCSVData(csvText);
+                    parseCSVData(csvText); // โหลดไฟล์ CSV ใส่ตัวแปร
                     setFile_(csvFile);
                     setStatusItem(true);
                     setNameFileUpload(csvFile.name);
@@ -73,13 +72,9 @@ function AppUploadStudent(){
                     setStartError(1);
                 }else{
                     setsubjectname(subjectResult.subjectname);
-                    // setStartError(2);
                 }
-               
-                
             }
         }catch (err) {
-            console.log(err);
             setStartError(1);
         }
     };
@@ -93,13 +88,9 @@ function AppUploadStudent(){
     }
 
     const onDrop = useCallback((acceptedFiles) => {
-        console.log("OnDrop");
-        console.log(acceptedFiles);
-        console.log(acceptedFiles[0].type);
         if(acceptedFiles[0].type === "text/csv" || acceptedFiles[0].type === "application/vnd.ms-excel"){
             handleFileInputChange(acceptedFiles[0]);
         }else{
-            console.log("รองรับเฉพาะไฟล์ .csv");
             Swal.fire({
                 title: "",
                 text: `รองรับเฉพาะไฟล์ .CSV`,
@@ -131,7 +122,6 @@ function AppUploadStudent(){
             dynamicTyping: true,
             skipEmptyLines: true,
             complete: function (result) {
-                console.log('Parsed CSV data:', result.data);
                 setcsvData(result.data);
             },
         });
@@ -157,7 +147,6 @@ function AppUploadStudent(){
                 cancelButtonText: "ยกเลิก"
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    console.log("File", File);
                     try {
                         const response = await fetch(variables.API_URL + "exam/upload/csv/", {
                             method: "POST",
@@ -196,7 +185,6 @@ function AppUploadStudent(){
                 }
             });
         } else {
-            console.log("กรุณาอัปโหลดไฟล์");
             Swal.fire({
                 title: "",
                 text: `กรุณาอัปโหลดไฟล์`,
@@ -219,7 +207,7 @@ function AppUploadStudent(){
             cancelButtonColor: "#d33",
             cancelButtonText:"ยกเลิก"
         }).then((result) => {
-        if (result.isConfirmed) {
+        if (result.isConfirmed) { // กดยินยัน
             setNameFileUpload('');
             setFile_('');
             setStatusItem(false);
@@ -234,6 +222,7 @@ function AppUploadStudent(){
         link.download = 'UploadStudent.csv';
         link.click();
     };
+    
     return(
 
         <div className='content'>

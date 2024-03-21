@@ -36,7 +36,6 @@ function AppCreateUser(){
     const [errortext,seterrortext] = useState('')
 
     const handletype = (event) => {
-        console.log(event.target.value)
         settype(event.target.value);
     };
     const handleInputEmail = (e) => { setEmail(e.target.value); };
@@ -65,12 +64,10 @@ function AppCreateUser(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log("datatype ",result)
                     setdatatype(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdatatype([])
         }
         
@@ -107,7 +104,6 @@ function AppCreateUser(){
                                     })
                                     .then(response => response.json())
                                     .then(result => {
-                                        console.log(result)
                                         if(result.err !== undefined){
                                             handSwal(result.err)
                                         }
@@ -143,7 +139,6 @@ function AppCreateUser(){
     const [otherRole, setOtherRole] = useState('');
   
     const handleRoleChange = (e) => {
-        console.log(e.target.value)
         if(e.target.value === "นักเรียน" ){
             setCheckbox1(false)
         }
@@ -203,7 +198,6 @@ function AppCreateUser(){
             });
             await loadingSwal;
         } catch (error) {
-            console.error(error);
             Swal.fire('เกิดข้อผิดพลาด');
         }
     }
@@ -236,9 +230,7 @@ function AppCreateUser(){
             });
 
             const result = await response.json();
-            // console.log(result)
             if (response.ok) {
-                console.log(result)
                 return true
             } else {
                 return result.err
@@ -268,7 +260,6 @@ function AppCreateUser(){
     }, [])
 
     const onSuccess = (res) => {
-        console.log('success', res)
         setEmail(res.profileObj.email)
         setGoogleID(res.profileObj.googleId)
         try{
@@ -281,7 +272,6 @@ function AppCreateUser(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     if(result.err !== undefined){
                        handSwal("มีบัญชีอยู่ในระบบแล้ว")
                        setEmail('')
@@ -297,7 +287,6 @@ function AppCreateUser(){
         }  
     }
     const onFailure = (res) => {
-        console.log('failed', res)
     }
 
     const handSwal = (e) => {

@@ -59,7 +59,6 @@ function AppAnalyzeResultsQue(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log("quesheet :",result)
                         setQueSheetName(result.quesheetname)
                         setresultpart1_csv_path(result.resultpart1_csv_path.split(','))
                         setresultpart2_csv_path(result.resultpart2_csv_path.split(','))
@@ -79,7 +78,6 @@ function AppAnalyzeResultsQue(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log(result)
                     }
                     
                 }
@@ -96,12 +94,10 @@ function AppAnalyzeResultsQue(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log(result)
                     }
                 }
             )
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }
@@ -121,7 +117,6 @@ function AppAnalyzeResultsQue(){
                         setStartError(1);
                     }else{
                         setdataque(result)
-                        console.log("queinformation ",result)
                         setquesheetinfo(result)
                     }
                     
@@ -129,7 +124,6 @@ function AppAnalyzeResultsQue(){
             )
             
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }
@@ -153,7 +147,6 @@ function AppAnalyzeResultsQue(){
             setpart3select(FromURL(resultpart2_csv_path[0]))
             setSteppart2(1)
         }
-        console.log(dataque.length)
         if(dataque.length >= 1){
             setStepdataque(1)
         }
@@ -177,7 +170,6 @@ function AppAnalyzeResultsQue(){
     }
 
     const handleDownload = () => {
-        console.log(part1select);
         const filePath = part1select;
         const link = document.createElement('a');
         link.href = process.env.PUBLIC_URL + filePath;
@@ -242,7 +234,6 @@ function AppAnalyzeResultsQue(){
 
                     </div>
                     <div>ส่วนที่ 1 ข้อมูลทั่วไป</div>
-                    {console.log("Stepdataque : ",Stepdataque)}
                     {Steppart1 === 1 && Stepdataque === 1?(
                         <div>
                            

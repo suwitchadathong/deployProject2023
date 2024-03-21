@@ -27,6 +27,7 @@ function AppExam(){
 
     const fetchDataExamAnswer = async () => {
         try{
+            //Fetch API เพื่อทำการดึกข้อมูล examanswers/detail/exam/ ขอข้อมูล ชุดการสอบ
             fetch(variables.API_URL+"examanswers/detail/exam/"+id+"/", {
                 method: "GET",
                 headers: {
@@ -46,6 +47,7 @@ function AppExam(){
      };
     const fetchDataExam = async () => {
         try{
+            //Fetch API เพื่อทำการดึกข้อมูล examanswers/detail/exam/ ขอข้อมูล การสอบ
             fetch(variables.API_URL+"exam/detail/"+id+"/", {
                 method: "GET",
                 headers: {
@@ -55,7 +57,6 @@ function AppExam(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     if(result.err !== undefined){
                         setStartError(1);
                     }
@@ -80,14 +81,12 @@ function AppExam(){
                                 setStartError(1);
                             }else{
                                 setsubjectname(result.subjectname)
-                                // setStartError(2);
                             }
                         }
                     )
                 }
             )
         }catch (err) {
-            // console.error(err)
             setStartError(1);
         }
     };

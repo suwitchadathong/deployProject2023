@@ -20,8 +20,9 @@ function AppExamAnswer(){
     const [Start, setStart] = useState(0);
     const [StartError, setStartError] = useState(0);
     
-    const fetchDataUpdateExam = async () => {
+    const fetchDataExam = async () => {
         try{
+            //Fetch API เพื่อทำการดึกข้อมูล exam/detail ขอข้อมูล exam
             fetch(variables.API_URL+"exam/detail/"+id+"/", {
                 method: "GET",
                 headers: {
@@ -31,7 +32,6 @@ function AppExamAnswer(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    // console.log(result)
                     if(result.err !== undefined){
                         setStartError(1);
                     }
@@ -50,15 +50,12 @@ function AppExamAnswer(){
                         })
                         .then(response => response.json())
                         .then(result => {
-                            // console.log(result)
                             setsubjectname(result.subjectname)
-                            // setStartError(2);
                         }
                     )
                 }
             )
         }catch (err) {
-            // console.error(err)
             setStartError(1);
         }
     };
@@ -66,8 +63,7 @@ function AppExamAnswer(){
         setStartError(2);
     }
     if(Start === 0){
-        // fetchDataExamAnswer();
-        fetchDataUpdateExam();
+        fetchDataExam();
         setStart(1);
         setTimeout(function() {
             setStartError2()

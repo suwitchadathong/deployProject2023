@@ -57,7 +57,6 @@ function AppAdminUpdateQuestionnaire(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log("quesheet :",result)
                     setQueSheetName(result.quesheetname)
                     setsequencesteps(result.sequencesteps)
                     setshowsequencesteps(result.sequencesteps)
@@ -80,7 +79,6 @@ function AppAdminUpdateQuestionnaire(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log(result)
                         setquehead1(result.quehead1)
                         setquehead2(result.quehead2)
                         setquehead3(result.quehead3)
@@ -103,7 +101,6 @@ function AppAdminUpdateQuestionnaire(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log(result)
                         setquetopicdetails(result.quetopicdetails)
                         setquetopicformat(result.quetopicformat)
                     }
@@ -112,7 +109,6 @@ function AppAdminUpdateQuestionnaire(){
             )
             
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }

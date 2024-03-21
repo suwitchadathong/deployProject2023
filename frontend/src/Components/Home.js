@@ -20,8 +20,10 @@ const AppHome = () => {
 
     const [Start, setStart] = useState(0);
     const [StartError, setStartError] = useState(0);
+
     const fetchDataQuesheet = async () => {
         try{
+            // Fetch API quesheet ขอข้อมูล quesheet
             fetch(variables.API_URL+"quesheet/", {
                 method: "GET",
                 headers: {
@@ -31,18 +33,17 @@ const AppHome = () => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setquesheet(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setquesheet([])
         }
-        
     };
+
     const fetchDataSubject = async () => {
         try{
+            // Fetch API subject ขอข้อมูล subject
             fetch(variables.API_URL+"subject/", {
                 method: "GET",
                 headers: {
@@ -52,18 +53,17 @@ const AppHome = () => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setsubject(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setsubject([])
         }
-        
     };
+
     const fetchDataUser = async () => {
         try{
+            // Fetch API user ขอข้อมูล user
             fetch(variables.API_URL+"user/", {
                 method: "GET",
                 headers: {
@@ -73,18 +73,17 @@ const AppHome = () => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setuser(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setuser([])
         }
-        
     };
+
     const fetchDataRequest = async () => {
         try{
+            // Fetch API request ขอข้อมูล request
             fetch(variables.API_URL+"request/", {
                 method: "GET",
                 headers: {
@@ -94,18 +93,17 @@ const AppHome = () => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log("req",result)
                     setRequest(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setRequest([])
         }
-        
     };
+
     const fetchDataType = async () => {
         try{
+            // Fetch API type/detail ขอข้อมูล type/detail/
             fetch(variables.API_URL+"type/detail/"+Cookies.get("typesid")+"/", {
                 method: "GET",
                 headers: {
@@ -118,7 +116,6 @@ const AppHome = () => {
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log(result)        
                         setlimitsubject(result.limitsubject)
                         setlimitexam(result.limitexam)
                         setlimitque(result.limitque)   
@@ -126,10 +123,10 @@ const AppHome = () => {
                 }
             )
         }catch (err) {
-            console.error(err)
             setStartError(1);
         }
     };
+    
     if(Start === 0){
         fetchDataQuesheet();    
         fetchDataSubject();
@@ -145,10 +142,8 @@ const AppHome = () => {
         () => [
             {Header: 'requestid',accessor: 'requestid',},
             {Header: 'รูปที่แนบ',accessor: 'imgrequest_path', },
-            // {Header: 'ผู้ใช้',accessor: 'userid',},
             {Header: 'หมายเหตุ',accessor: 'notes', },
             {Header: 'สถานะ',accessor: 'status_request', },
-            
         ],
         []
     );
@@ -264,19 +259,7 @@ const AppHome = () => {
                                     </div>
                                 </div>
                             </div>
-
                         }
-                        {/* <div className='bx-details light'>
-                            <p>{Cookies.get('userid')}</p>
-                            <p>{Cookies.get('email')}</p>
-                            <p>{Cookies.get('fullname')}</p>
-                            <p>{Cookies.get('googleid')}</p>
-                            <p>{Cookies.get('usageformat1')}</p>
-                            <p>{Cookies.get('usageformat2')}</p>
-                            <p>{Cookies.get('e_kyc')}</p>
-                            <p>{Cookies.get('typesid')}</p>
-                            <p>{Cookies.get('clientId')}</p>
-                        </div> */}
                     </div>
                 </div>
             </main>

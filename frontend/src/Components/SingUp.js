@@ -51,12 +51,11 @@ function AppSingUp(){
     const [agree, setagree] = useState(false);
     const handleChangeagree = (e) => {
         setagree(!agree);
-        console.log(agree)
     }
     // checkbox สำหรับเลือกสิทธิ์การใช้งาน
     const handstep = (e) => {
         e.preventDefault();
-        if(step === true){
+        if(step === true){ // ตรวจสอบ step
             if(GoogleID !== ''){
                 setEmail('')
                 setGoogleID('')
@@ -64,19 +63,16 @@ function AppSingUp(){
                 setConfirmpassword('')
             }else{}
             setstep(false)
-            
         }else{
-            // setstep(true)
-            if(Email !== ''){
-                if(validateEmail(Email) === false){
+            if(Email !== ''){ // ตรวจสอบ อีเมลต้องไม่เป็นค่าว่าง
+                if(validateEmail(Email) === false){ // ตรวจสอบรูปแบบ อีเมล
                     handSwal("รูปแบบ email ไม่ถูกต้อง")
                 }else{
                     if(password === Confirmpassword && password !== "" && Confirmpassword !== ""){
                         if(password.length <= 9 || Confirmpassword <= 9){
                             handSwal("รหัสผ่านต้องไม่ต่ำกว่า 10 ตัวอักษร")
                         }else{
-                       
-                            try{
+                            try{ // Fetch API user/duplicate/email ว่ามีอีเมลซ้ำในระบบหรือไม่
                                 fetch(variables.API_URL+"user/duplicate/email/"+Email+"/", {
                                     method: "GET",
                                     headers: {
@@ -86,11 +82,11 @@ function AppSingUp(){
                                     })
                                     .then(response => response.json())
                                     .then(result => {
-                                        console.log(result)
                                         if(result.err !== undefined){
                                             handSwal(result.err)
                                         }
                                         else{
+                                            // ตรวจสอบและแยกแยะประเภทของผู้ใช้ด้วยอีเมล
                                             if (Email.includes('@kmitl.ac.th')) {settype(2)} 
                                             else {settype(3)}
                                             setstep(true)
@@ -98,30 +94,19 @@ function AppSingUp(){
                                     }
                                 )
                             }catch (err) {
-                    
                             }
                         }
-                        // if(password.length <= 10 || Confirmpassword <= 10){
-                        //     handSwal("รหัสผ่านต้องไม่ต่ำกว่า 10 ตัวอักษร")
-                        // }else{
-                        //     if (Email.includes('@kmitl.ac.th')) {settype(2)} 
-                        //     else {settype(3)}
-                        //     setstep(true)
-                        // }
-                        
                     }else{
                         if(password === '' || Confirmpassword === ''){
                             handSwal("กรุณากรอกรหัสผ่าน")
                         }else{
                             handSwal("รหัสผ่านไม่ตรงกัน")
                         }
-                        
                     }
                 }
             }else{
                 handSwal("กรุณากรอก email")
             }
-            
         } 
     }
     // checkbox
@@ -129,7 +114,6 @@ function AppSingUp(){
     const [otherRole, setOtherRole] = useState('');
   
     const handleRoleChange = (e) => {
-        console.log(e.target.value)
         if(e.target.value === "นักเรียน" ){
             setCheckbox1(false)
             setFile('')
@@ -146,57 +130,39 @@ function AppSingUp(){
     // กด submit
     async function handleSubmit (e) {
         e.preventDefault();
-        if(agree === true){
-            if(errortext === 'กรุณากรอก'){
-               
-                // console.log("ยินยอม")
-                // console.log('Email :', Email);
-                // console.log('FullName :', FullName);
-                // console.log('password :', password);
-                // console.log('GoogleID :', GoogleID);
-                // console.log('job :',selectedRole+otherRole);
-                // console.log('File :',File);
-                // console.log('Department :', Department);
-                // console.log('Faculty :', Faculty);
-                // console.log('Workplace :', Workplace);
-                // console.log('Tel :', Tel);
-                // console.log('usageformat :',usageformat)
-                // console.log(Math.floor(Math.random() * 900000) + 100000)
-                // console.log('type :',type)
-                // console.log('checkbox1 :',checkbox1);
-                // console.log('checkbox2 :',checkbox2);
-                loading()
+        if(agree === true){ // ตรวจสอบการยินยอม
+            if(errortext === 'กรุณากรอก'){ // ตรวจสอบข้อผิดพลาด
+                loading() // เรียกใช้ โมดูล loading
             }else{
                 handSwal(errortext)
             }
-            
         }else{
             handSwal("กรุณากดยอมรับข้อกำหนด")
         }
-
     };
 
     async function loading(){
         try {
-            const loadingSwal = Swal.fire({
+            const loadingSwal = Swal.fire({ // เรียกใช้ Swal
                 title: 'กำลังประมวลผล...',
                 allowOutsideClick: false,
                 showConfirmButton: false,
                 didOpen: async () => { 
                     Swal.showLoading();
                     try {
-                        const check = await CreateUser()
-                       if(check === true){
+                        const check = await CreateUser() // ตรวจสอบความถูกต้องในการสมัคร
+                        if(check === true){
                             Swal.close();
                             Swal.fire({
                                 title: "",
-                                text: GoogleID === '' ? "สร้างบัญชีเสร็จสิ้น โปรดยืนยันตัวตนผ่านที่ Email ที่ใช้ในการสมัครสมาชิก" : "สร้างบัญชีเสร็จสิ้น เข้าสู่ระบบเพื่อใช้งาน",
+                                text: GoogleID === '' ? 
+                                "สร้างบัญชีเสร็จสิ้น โปรดยืนยันตัวตนผ่านที่ Email ที่ใช้ในการสมัครสมาชิก" :
+                                "สร้างบัญชีเสร็จสิ้น เข้าสู่ระบบเพื่อใช้งาน",
                                 icon: "success",
                                 confirmButtonColor: "#341699",
                                 confirmButtonText: "ยืนยัน",  
                             }).then((result) => {
-                                // window.location.reload();
-                                window.location.href = '/SingIn';
+                                window.location.href = '/SingIn'; // ไปยัง SingIn
                             });
                         }else{
                             Swal.close();
@@ -210,13 +176,14 @@ function AppSingUp(){
             });
             await loadingSwal;
         } catch (error) {
-            console.error(error);
             Swal.fire('เกิดข้อผิดพลาด');
         }
     }
+
     async function CreateUser() {
         try {
             const getekyc = Math.floor(Math.random() * 900000) + 100000
+            // Fetch API user/create สมัครสมาชิก
             const response = await fetch(variables.API_URL + "user/create/", {
                 method: "POST",
                 headers: {
@@ -243,24 +210,18 @@ function AppSingUp(){
             });
 
             const result = await response.json();
-            // console.log(result)
-            if (response.ok) {
-                console.log(result)
+
+            if (response.ok) { // ตรวจสอบผลลัพธ์การสมัคร
                 if(checkbox1 === true && (File !== '' || File != null)){
-                    console.log("file : ",File)
-                    console.log("userid : ",result.userid)
                     const formDataRequest = new FormData();
                     formDataRequest.append("userid", result.userid);
                     formDataRequest.append("file", File);
                     formDataRequest.append("status_request", "1");
-                    
+                    // Fetch API request/create ส่ง request การร้องขอใช้งาน
                     const responseRequest = await fetch(variables.API_URL + "request/create/", {
                         method: "POST",
                         body: formDataRequest,
                     });
-        
-                    const resultRequest = await responseRequest.json();
-                    console.log("resultRequest : ",resultRequest)
                     return true
                 }
                 return true
@@ -269,10 +230,10 @@ function AppSingUp(){
             }
         } catch (err) {
             return err
-           
         }
     }
-    const validateEmail = (email) => {
+
+    const validateEmail = (email) => { //ตรวจสอบความถูกต้องของรูปแบบอีเมล
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         return emailRegex.test(email);
     };
@@ -291,10 +252,10 @@ function AppSingUp(){
     }, [])
 
     const onSuccess = (res) => {
-        console.log('success', res)
         setEmail(res.profileObj.email)
         setGoogleID(res.profileObj.googleId)
         try{
+            // Fetch API user/duplicate/email ตรวจสอบอีเมลซ่้ำ
             fetch(variables.API_URL+"user/duplicate/email/"+res.profileObj.email+"/", {
                 method: "GET",
                 headers: {
@@ -304,8 +265,7 @@ function AppSingUp(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
-                    if(result.err !== undefined){
+                    if(result.err !== undefined){ 
                        handSwal("มีบัญชีอยู่ในระบบแล้ว")
                        setEmail('')
                        setGoogleID('')
@@ -319,8 +279,8 @@ function AppSingUp(){
 
         }  
     }
+
     const onFailure = (res) => {
-        console.log('failed', res)
     }
     // Dropzone
     const [File, setFile] = useState(''); // สำหรับเก็บไฟล์
@@ -328,13 +288,9 @@ function AppSingUp(){
     const [namefileupload, setNameFileUpload] = useState(''); // สำหรับชื่อไฟล์อัปโหลด
 
     const onDrop = useCallback((acceptedFiles) => {
-        console.log("OnDrop");
-        console.log(acceptedFiles);
-        console.log(acceptedFiles[0].type);
         if(acceptedFiles[0].type === "image/png" ||acceptedFiles[0].type === "image/jpeg" ||acceptedFiles[0].type === "image/jpg"){
             handleFileInputChange(acceptedFiles[0]);
         }else{
-            console.log("รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE");
             Swal.fire({
                 title: "",
                 text: `รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE`,
@@ -346,19 +302,16 @@ function AppSingUp(){
         }
        
     }, []);
-
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         accepts: "image/*",
         multiple: false,
     })
-
     const handleFileInputChange = (e) => {
         const file = e;
         setFile(file)
         setStatusItem(true);
         setNameFileUpload(file.path);
-
     }
     const handleDelFileUpload = (e) => {
         Swal.fire({
@@ -459,7 +412,7 @@ function AppSingUp(){
                                     <div className='center'>
                                         <GoogleLogin 
                                         clientId={clientId}
-                                        buttonText="Sign up with Google"
+                                        buttonText="Sing in with Google"
                                         onSuccess={onSuccess}
                                         onFailure={onFailure}
                                         cookiePolicy={"single_host_origin"}

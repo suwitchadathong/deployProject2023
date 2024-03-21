@@ -53,7 +53,6 @@ function AppUploadAnswerSheet(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log("quesheet :",result)
                     setQueSheetName(result.quesheetname)
                     setsequencesteps(result.sequencesteps)
                     setQueSheetTopicName(result.quesheettopicname)
@@ -73,7 +72,6 @@ function AppUploadAnswerSheet(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log(result)
                         setquehead1(result.quehead1)
                         setquehead2(result.quehead2)
                         setquehead3(result.quehead3)
@@ -96,7 +94,6 @@ function AppUploadAnswerSheet(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log(result)
                         setquetopicdetails(result.quetopicdetails)
                         setquetopicformat(result.quetopicformat)
                     }
@@ -105,7 +102,6 @@ function AppUploadAnswerSheet(){
             )
             
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }
@@ -165,9 +161,8 @@ function AppUploadAnswerSheet(){
         setNameFileUpload(namefileupload.filter((_, index) => index !== indexitem))
         setShowFile(ShowFile.filter((_, index) => index !== indexitem))
         setFile(File)
-        console.log(File)
-        console.log(namefileupload)
-        console.log(indexitem)
+
+ 
     }
     async function handleSubmitFile(e) {
         e.preventDefault();
@@ -225,7 +220,6 @@ function AppUploadAnswerSheet(){
         formData.append("queheaddetails", JSON.stringify(queheaddetails_data))
         formData.append("quetopicdetails", JSON.stringify(quetopicdetails_data))
         formData.append("nonelogo",false)
-        console.log(formData)
 
         const formDataFalse = new FormData();
         const quesheet_data_false = {
@@ -351,7 +345,6 @@ function AppUploadAnswerSheet(){
                 Swal.fire('เกิดข้อผิดพลาด '+check);
             }
         } catch (error) {
-            console.error(error);
             Swal.fire('เกิดข้อผิดพลาด');
         }
     }

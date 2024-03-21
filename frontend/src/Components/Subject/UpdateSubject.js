@@ -26,6 +26,7 @@ function AppUpdateSubject(){
    
     const fetchDataUpdateSubject = async () => {
         try{
+             // Fetch API subject/detail ขอข้อมูลรายวิชาที่มี id ตรงกัน
             fetch(variables.API_URL+"subject/detail/"+id+"/", {
                 method: "GET",
                 headers: {
@@ -47,10 +48,10 @@ function AppUpdateSubject(){
                 }
             )
         }catch (err) {
-            console.error(err)
             setStartError(1);
         }
     };
+
     const setStartError2 = (e) => {
         setStartError(2);
     }
@@ -108,7 +109,6 @@ function AppUpdateSubject(){
                             }
                         )
                     }catch (err) {
-                        // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                         Swal.fire({
                             title: "เกิดข้อผิดพลาดในการลบรายวิชา",
                             icon: "error",//error,question,warning,success
@@ -129,6 +129,7 @@ function AppUpdateSubject(){
     const handlereset = async (e) => {
         fetchDataUpdateSubject();
     };
+    
     return(
         <div className='content'>
             <main>

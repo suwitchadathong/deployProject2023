@@ -47,7 +47,6 @@ function AppUpdateRequest(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log("result",result)
                         setuserid(result.userid)
                         setimgrequest_path(result.imgrequest_path)
                         setstatus_req(result.status_request)
@@ -58,7 +57,6 @@ function AppUpdateRequest(){
                 }
             )
         }catch (err) {
-            console.error("test,",err)
             setStartError(1);
         }
     };
@@ -183,7 +181,6 @@ function AppUpdateRequest(){
                         icon: "error",//error,question,warning,success
                         confirmButtonColor: "#341699",
                     });
-                    console.error(err);
                 }
                 
             }else{

@@ -18,6 +18,7 @@ function Appverify(){
 
     const fetchUpdateverify = async () => {
         try{
+            // Fetch API verify/email ยืนยีนตัวตน
             fetch(variables.API_URL+"verify/email/"+id+"/", {
                 method: "POST",
                 headers: {

@@ -15,7 +15,7 @@ function AppHeader(){
         if (Cookies.get('email') === "undefined" || Cookies.get('email') === undefined) {
             window.location.href = '/SingIn';
         }else{
-            console.log(Cookies.get())
+            // console.log(Cookies.get())
         }
     }, []);
 
@@ -23,9 +23,11 @@ function AppHeader(){
     const handSidebar = () => setSidebar(!Sidebar);
 
     const location = useLocation();
+    
     const handleLogoutLinkClick = () => {
         handleGoogleLogout();
     };
+
     const handleGoogleLogout = () => {
         Cookies.remove('userid');
         Cookies.remove('email');
@@ -37,7 +39,6 @@ function AppHeader(){
         Cookies.remove('typesid');
         Cookies.remove('clientId');
         Cookies.remove('userToken');
-        console.log(Cookies.get())
         window.location.href = '/SingIn';
     }
 

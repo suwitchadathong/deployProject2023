@@ -52,11 +52,9 @@ function AppCreateExamAnswer(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log(result)
                     setExamNo(result.examno)
                     setExamNoShow(result.examid)
                     setNumExam(result.numberofexams)
-                    // setSetExam(result.numberofexamsets)
                     setanswersheetformat(result.answersheetformat)
                     setsubid(result.subid)
                     fetch(variables.API_URL+"subject/detail/"+result.subid+"/", {
@@ -71,7 +69,6 @@ function AppCreateExamAnswer(){
                             if (result.err !== undefined) {
                                 setStartError(1);
                             }else{
-                            
                                 setsubjectname(result.subjectname)
                                 setStartError(2);
                             }
@@ -101,6 +98,7 @@ function AppCreateExamAnswer(){
     const [checkboxValues8, setCheckboxValues8] = useState(Array(NumExam).fill(false));//ซ
     const [inputValues1, setInputValues1] = useState(Array(NumExam).fill('1'));//คะแนนตอบถูก	
     const [inputValues2, setInputValues2] = useState(Array(NumExam).fill('0'));//คะแนนตอบผิด
+
     const handleCheckbox1Change = (index) => {
       const newCheckboxValues = [...checkboxValues1];
       newCheckboxValues[index] = !newCheckboxValues[index];
@@ -142,17 +140,18 @@ function AppCreateExamAnswer(){
         setCheckboxValues8(newCheckboxValues);
     };
 
-    const handleInput1Change = (index, value) => {
-        const newInputValues = [...inputValues1];
+    const handleInput1Change = (index, value) => { //ปรับคะแนนตอบถูก
+        const newInputValues = [...inputValues1]; 
         newInputValues[index] = value;
         setInputValues1(newInputValues);
     };
-    const handleInput2Change = (index, value) => {
+    const handleInput2Change = (index, value) => {//ปรับคะแนนตอบผิด
         const newInputValues = [...inputValues2];
         newInputValues[index] = Math.abs(value);
         setInputValues2(newInputValues);
     };
 
+    // กำหนดรูปแบบคำตอบจาก true ให้เป็น A B C D E F G H 
     const ChangeAnswerFormat = (checkboxValues , index) => {
         if(index === 'A'){
             return checkboxValues.map(value => value ? 'A' : null);
@@ -179,7 +178,8 @@ function AppCreateExamAnswer(){
             return checkboxValues.map(value => value ? 'H' : null);
         }
     };
-    const setChoiceAnswers = (A, B, C, D, E, F, G, H) => {
+
+    const setChoiceAnswers = (A, B, C, D, E, F, G, H) => { 
         const indexArray = Array.from({ length: NumExam }, (_, index) => index);
         return indexArray.map(index => {
             const value1 = A[index];
@@ -190,10 +190,12 @@ function AppCreateExamAnswer(){
             const value6 = F[index];
             const value7 = G[index];
             const value8 = H[index];
+            // นำช้อย A-H มาตรวจสอบโดยเอา null ออก
             const nonNullValues = [value1, value2, value3 ,value4, value5, value6, value7, value8].filter(value => value !== null);
             return nonNullValues.join(':');
         });
     }
+    // กำหนดรูปแบบข้อมูล ScoringCriteria ให้อยูในรูปแบบที่ต้องการ
     function generateScoringCriteria(Data1, Data2, Data3, Data4) {
         const output = [];
 
@@ -203,10 +205,9 @@ function AppCreateExamAnswer(){
             output.push(tempArray);
         }
         return output;
-    }  
+    }
+    // ไปยัง step การทำงานถัดไป
     const handleNextStep = (e) => {
-        console.log("StepCreate :",StepCreate)
-        console.log("idstatus :",idstatus)
         if(StepCreate === 0){
             if(idstatus === '1'){
                 setStepCreate(2)
@@ -218,29 +219,23 @@ function AppCreateExamAnswer(){
         }
         setInputValues1(inputValues1.map(value => inputValue1));
         setInputValues2(inputValues2.map(value => inputValue2));
-        console.log("NextStep :",StepCreate)
     }
+    // ย้อน step การทำงานถัดไป
     const handleReverseStep = (e) => {
         if(StepCreate === 0){
             setStepCreate(0)
         }else if(StepCreate === 1){
-            if(idstatus === '1'){
-                setStepCreate(0)
-            }else if(idstatus === '2'){
-                setStepCreate(0)
-            }
+            if(idstatus === '1'){setStepCreate(0)}
+            else if(idstatus === '2'){setStepCreate(0)}
         }
         else if(StepCreate === 2){
-            if(idstatus === '1'){
-                setStepCreate(0)
-            }else if(idstatus === '2'){
-                setStepCreate(1)
-            } 
+            if(idstatus === '1'){setStepCreate(0)}
+            else if(idstatus === '2'){setStepCreate(1)} 
         }
-        
     }
     async function handleSubmit(e) {
         e.preventDefault();
+        // กำหนดช้อยให้อยู่ในรูปแบบที่ต้องการ
         const CAOutput = setChoiceAnswers(
             ChangeAnswerFormat(checkboxValues1,"A"),
             ChangeAnswerFormat(checkboxValues2,"B"),
@@ -256,7 +251,7 @@ function AppCreateExamAnswer(){
 
         const ScoringCriteria = generateScoringCriteria(NumExam,selectedOption,inputValues1,inputValues2);
         const ScoringCriteriaOutput = ScoringCriteria.map(arr => arr[0]).join(',');
-        if(nullIndices.length <= NumExam/2){
+        if(nullIndices.length <= NumExam/2){ // ตรวจสอบว่าต้องมีการเลือกช้อยมากกว่าครึ่งนึง
             Swal.fire({
                 title: `สร้างเฉลยข้อสอบชุดที่ `+idsetexam,
                 text: (nullIndices.length === 0 ? "คุณต้องการสร้างเฉลยใช่หรือไม่":'ยังมีข้อ '+nullIndices+" ยังตอบไม่ครบ ยืนยันที่จะสร้างเฉลยใช่หรือไม่"),
@@ -287,7 +282,6 @@ function AppCreateExamAnswer(){
                         const result = await response.json();
 
                         if (response.ok) {
-                            console.log(result)
                             Swal.fire({
                                 title: "สร้างรายวิชาเสร็จสิ้น",
                                 icon: "success",//error,question,warning,success
@@ -302,7 +296,6 @@ function AppCreateExamAnswer(){
                                 icon: "error",//error,question,warning,success
                                 confirmButtonColor: "#341699",
                             });
-                            console.error(result.msg || response.statusText);
                         }
                     } catch (err) {
                         Swal.fire({
@@ -310,7 +303,6 @@ function AppCreateExamAnswer(){
                             icon: "error",//error,question,warning,success
                             confirmButtonColor: "#341699",
                         });
-                        console.error(err);
                     }
                 }
             
@@ -331,13 +323,9 @@ function AppCreateExamAnswer(){
     const [namefileupload, setNameFileUpload] = useState(''); // สำหรับชื่อไฟล์อัปโหลด
 
     const onDrop = useCallback((acceptedFiles) => {
-        console.log("OnDrop");
-        console.log(acceptedFiles);
-        console.log(acceptedFiles[0].type);
         if(acceptedFiles[0].type === "image/png" ||acceptedFiles[0].type === "image/jpeg" ||acceptedFiles[0].type === "image/jpg"){
             handleFileInputChange(acceptedFiles[0]);
         }else{
-            console.log("รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE");
             Swal.fire({
                 title: "",
                 text: `รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE`,
@@ -383,7 +371,6 @@ function AppCreateExamAnswer(){
             setNameFileUpload('');
             setFile('');
             setStatusItem(false);
-            console.log("File",File);
         }
         });
     }
@@ -401,20 +388,20 @@ function AppCreateExamAnswer(){
                 cancelButtonColor: "#d33",
                 cancelButtonText: "ยกเลิก"
             }).then(async (result) => {
-                if (result.isConfirmed) {
+                if (result.isConfirmed) { // กดยืนยัน
                     try{
                         const formData = new FormData();
                         formData.append("file", File);
                         formData.append("userid", Cookies.get('userid'));
                         formData.append("examid", id);
+                        //fetch กระดาษคำตอบไปยัง "examanswers/upload/paper/" เพื่อทำการตรวจกระดาษคำตอบ
                         const upload = await fetch(variables.API_URL + "examanswers/upload/paper/", {
                             method: "POST",
                             body: formData,
                         });
                         const result = await upload.json()
                         if (result.err === undefined) {
-                            console.log(result)
-                            transformChoice(result.choiceanswers)
+                            transformChoice(result.choiceanswers) // จัดรูปแบบไฟล์ให้อยู่ในรูปแบบที่ต้องการ
                             Swal.fire({
                                 title: result.msg,
                                 text: result.msg,
@@ -436,12 +423,10 @@ function AppCreateExamAnswer(){
                         }
                     }
                     catch (err) {
-                        console.error("เกิดข้อผิดพลาด",err);
                     }
                 }
             });
         } else {
-            console.log("กรุณาอัปโหลดไฟล์");
             Swal.fire({
                 title: "",
                 text: `กรุณาอัปโหลดไฟล์`,
@@ -463,10 +448,10 @@ function AppCreateExamAnswer(){
         let G = [];
         let H = [];
         let item = [];
+        // แยกคำตอบ A-H ให้ข้อที่ตอบเป็น true
         pairs.forEach(pair => {
             const letters = pair.split(':');
             letters.forEach(item => {
-                // console.log("item :",item);
                 if(item === "A") {A.push(true);}else{}
                 if(item === "B") {B.push(true);}else{}
                 if(item === "C") {C.push(true);}else{}
@@ -486,14 +471,7 @@ function AppCreateExamAnswer(){
             if(item.length > G.length){G.push(false);}
             if(item.length > H.length){H.push(false);}
         });
-        console.log('A:', A);
-        console.log('B:', B);
-        console.log('C:', C);
-        console.log('D:', D);
-        console.log('E:', E);
-        console.log('F:', F);
-        console.log('G:', G);
-        console.log('H:', H);
+        // กำหนดช้อยให้อยู่ในรูปแบบที่ถูกต้อง
         setCheckboxValues1(A);
         setCheckboxValues2(B);
         setCheckboxValues3(C);
@@ -502,7 +480,6 @@ function AppCreateExamAnswer(){
         setCheckboxValues6(F);
         setCheckboxValues7(G);
         setCheckboxValues8(H);
-
     }
 
 

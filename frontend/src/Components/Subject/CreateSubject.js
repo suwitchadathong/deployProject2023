@@ -31,6 +31,7 @@ function AppCreateSubject(){
         e.preventDefault();
         if(SubjectID !== '' && SubjectName !== '' && selectedYear !== '' && Semester !== ''){
             try {
+                // Fetch API subject/create ขอข้อมูล สร้างรายวิชา
                 const response = await fetch(variables.API_URL + "subject/create/", {
                     method: "POST",
                     headers: {
@@ -67,7 +68,6 @@ function AppCreateSubject(){
                         icon: "error",//error,question,warning,success
                         confirmButtonColor: "#341699",
                     });
-                    console.error(result.msg || response.statusText);
                 }
             } catch (err) {
                 Swal.fire({
@@ -75,7 +75,6 @@ function AppCreateSubject(){
                     icon: "error",//error,question,warning,success
                     confirmButtonColor: "#341699",
                 });
-                console.error(err);
             }
         }else{
             Swal.fire({
@@ -92,6 +91,7 @@ function AppCreateSubject(){
         setSemester(1)
         setSelectedYear(new Date().getFullYear()+543)
     }
+    
     return(
         <div className='content'>
             <main>

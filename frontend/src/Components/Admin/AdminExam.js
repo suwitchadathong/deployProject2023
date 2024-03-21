@@ -54,7 +54,6 @@ function AppAdminExam(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     if(result.err !== undefined){
                         setStartError(1);
                     }
@@ -86,7 +85,6 @@ function AppAdminExam(){
                 }
             )
         }catch (err) {
-            // console.error(err)
             setStartError(1);
         }
     };

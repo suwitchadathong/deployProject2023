@@ -29,6 +29,7 @@ function AppUpdateExam(){
 
     const fetchDataUpdateExam = async () => {
         try{
+            //Fetch API เพื่อทำการดึกข้อมูล exam/detail ขอข้อมูล
             fetch(variables.API_URL+"exam/detail/"+id+"/", {
                 method: "GET",
                 headers: {
@@ -56,24 +57,20 @@ function AppUpdateExam(){
                         })
                         .then(response => response.json())
                         .then(result => {
-                            console.log("result",result)
                             if(result.err !== undefined){
-                                console.log(result.err)
                                 setStartError(1);
                             }else{
                                 setsubjectname(result.subjectname)
-                                // setStartError(3);
                             }
-                            
                         }
                     )
                 }
             )
         }catch (err) {
-            console.error("test,",err)
             setStartError(1);
         }
     };
+
     if(Start === 0){
         
         fetchDataUpdateExam();
@@ -96,11 +93,10 @@ function AppUpdateExam(){
             confirmButtonText: "ยืนยัน",
             cancelButtonText:"ยกเลิก"
         }).then(async (result) => {
-            
-            if(result.isConfirmed){
-
-                if(NameExam !== '' && ExamNo !== '' && NumExam !== '' && SetExam !== ''){
+            if(result.isConfirmed){ // กดยืนยัน
+                if(NameExam !== '' && ExamNo !== '' && NumExam !== '' && SetExam !== ''){ //ตรวจสอบค่าว่าง
                     try {
+                        //Fetch API เพื่อทำการดึกข้อมูล exam/update แก้ไข
                         const response = await fetch(variables.API_URL + "exam/update/"+id+"/", {
                             method: "PUT",
                             headers: {
@@ -138,7 +134,6 @@ function AppUpdateExam(){
                             icon: "error",//error,question,warning,success
                             confirmButtonColor: "#341699",
                         });
-                        console.error(err);
                     }
                 }else{
                     Swal.fire({
@@ -154,6 +149,7 @@ function AppUpdateExam(){
     const handlereset = async (e) => {
         fetchDataUpdateExam();
     };
+    
     return(
         <div className='content'>
             <main>

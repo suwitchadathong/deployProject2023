@@ -28,7 +28,6 @@ function AppShowQuestionaire(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log("quesheet :",result)
                     setQueSheetName(result.quesheetname)
                     setimgquesheet_path(result.imgquesheet_path)
                    
@@ -46,7 +45,6 @@ function AppShowQuestionaire(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log(result)
                 }
             )
             fetch(variables.API_URL+"quetopicdetails/detail/"+id+"/", {
@@ -61,12 +59,10 @@ function AppShowQuestionaire(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log(result)
                 }
             )
             
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }

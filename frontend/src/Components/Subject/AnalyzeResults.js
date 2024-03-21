@@ -44,7 +44,6 @@ function AppAnalyzeResults() {
             if (result.err !== undefined) {
                 setStartError(1);
             } else {
-                console.log("exam detail : ",result)
                 setExamNo(result.examno);
                 setExamNoShow(result.examid);
                 setsubid(result.subid);
@@ -84,11 +83,8 @@ function AppAnalyzeResults() {
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log("fetchDataExamInfoDetail : ",result)
                         setdata(result.non_duplicate_records)
                     }
-
-                    // setdataduplicate(sortObjectsByProperty(result.duplicate_records,'stdid'))
                 }
             )
         }catch (err) {
@@ -105,7 +101,6 @@ function AppAnalyzeResults() {
         }, 800);
     }
     useEffect(() => {
-        console.log(csvPathsArray);
         if(csvPathsArray.length >= 1){
             setStep(1)
         }

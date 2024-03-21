@@ -58,7 +58,6 @@ function AppSetDateTimeQuesionnaire() {
           if (result.err !== undefined) {
             setStartError(1);
           } else {
-            console.log("quesheet :", result);
             setQueSheetName(result.quesheetname);
             setQueSheetTopicName(result.quesheettopicname);
             setDetailsLineOne(result.detailslineone);
@@ -88,7 +87,6 @@ function AppSetDateTimeQuesionnaire() {
           if (result.err !== undefined) {
             setStartError(1);
           } else {
-            console.log(result);
             setquehead1(result.quehead1);
             setquehead2(result.quehead2);
             setquehead3(result.quehead3);
@@ -108,13 +106,11 @@ function AppSetDateTimeQuesionnaire() {
           if (result.err !== undefined) {
             setStartError(1);
           } else {
-            console.log(result);
             setquetopicdetails(result.quetopicdetails);
             setquetopicformat(result.quetopicformat);
           }
         });
     } catch (err) {
-      console.error(err);
       setStartError(1);
     }
   };
@@ -155,8 +151,6 @@ function AppSetDateTimeQuesionnaire() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log("dateTimeStart :", dateTimeStart);
-    console.log("dateTimeend :", dateTimeend);
     if (isChecked === true) {
       loading();
       // fetchDataquesheet()
@@ -175,7 +169,6 @@ function AppSetDateTimeQuesionnaire() {
           loading();
           // fetchDataquesheet()
         } else {
-          console.log("วันที่เริ่มต้องไม่น้อยกว่าวันที่ปิด");
           Swal.fire({
             title: "",
             text: "วันที่เริ่มต้องไม่น้อยกว่าวันที่ปิด",
@@ -197,7 +190,6 @@ function AppSetDateTimeQuesionnaire() {
           Swal.showLoading();
           try {
             const check = await UpdateQue();
-            console.log(check);
             if (check === true) {
               Swal.close();
               Swal.fire({
@@ -225,7 +217,6 @@ function AppSetDateTimeQuesionnaire() {
       });
       await loadingSwal;
     } catch (error) {
-      console.error(error);
       Swal.fire("เกิดข้อผิดพลาด");
     }
   }

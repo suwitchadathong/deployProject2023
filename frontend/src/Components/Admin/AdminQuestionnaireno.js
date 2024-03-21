@@ -38,7 +38,6 @@ function AppAdminQuestionnaireNo(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log(result)
                     setQueSheetName(result.quesheetname)
                     setimgquesheet_path(result.imgquesheet_path)
                     setsequencesteps(parseInt(result.sequencesteps))
@@ -57,7 +56,6 @@ function AppAdminQuestionnaireNo(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log(result)
                 }
             )
             fetch(variables.API_URL+"quetopicdetails/detail/"+id+"/", {
@@ -72,12 +70,10 @@ function AppAdminQuestionnaireNo(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log(result)
                 }
             )
             
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }
@@ -96,7 +92,6 @@ function AppAdminQuestionnaireNo(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log("quesheetinfo :",result)
                         setquesheetinfo(result)
                     }
                     
@@ -104,7 +99,6 @@ function AppAdminQuestionnaireNo(){
             )
             
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }

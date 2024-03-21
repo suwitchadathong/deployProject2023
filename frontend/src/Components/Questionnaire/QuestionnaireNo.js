@@ -39,7 +39,6 @@ function AppQuestionnaireNo(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log(result)
                     setQueSheetName(result.quesheetname)
                     setimgquesheet_path(result.imgquesheet_path)
                     setsequencesteps(parseInt(result.sequencesteps))
@@ -58,7 +57,6 @@ function AppQuestionnaireNo(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log(result)
                 }
             )
             fetch(variables.API_URL+"quetopicdetails/detail/"+id+"/", {
@@ -73,12 +71,10 @@ function AppQuestionnaireNo(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log(result)
                 }
             )
             
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }
@@ -97,7 +93,6 @@ function AppQuestionnaireNo(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log("quesheetinfo :",result)
                         setquesheetinfo(result)
                     }
                     
@@ -105,7 +100,6 @@ function AppQuestionnaireNo(){
             )
             
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }
@@ -214,7 +208,6 @@ function AppQuestionnaireNo(){
                         <div className="fb">ขั้นตอนเตรียมการก่อนการประมวลผล</div>
                         <div className="bx-step-content">
                             {/* <div className={sequencesteps ? "bx-show":"bx-show wait" }><Link to={"/Questionnaire/QuestionnaireNo/ShowQuestionnaire/1"+id}><div className="box"><div className="box-img"><img src='/img/DownloadsQuz.png' alt=''/><p>กระดาษแบบสอบถาม</p></div></div></Link></div> */}
-                            {console.log("quesheetinfo l :",quesheetinfo.length)}
                             <div className={(sequencesteps >= 1 && sequencesteps <=3) && quesheetinfo.length <= 0  ? "bx-show":"bx-show wait" }>
                                 <Link to={"/Questionnaire/QuestionnaireNo/ShowQuestionnaire/"+id}>
                                     <div className="box">
@@ -230,7 +223,7 @@ function AppQuestionnaireNo(){
                                 <Link to={"/Questionnaire/QuestionnaireNo/SetDateTimeQuestionnaire/"+id}>
                                     <div className="box">
                                         <div className="box-img">
-                                            {sequencesteps >=1 ?<FontAwesomeIcon icon={faCircleCheck} className="icon-success" />:''}
+                                            {sequencesteps >= 1 ?<FontAwesomeIcon icon={faCircleCheck} className="icon-success" />:''}
                                             <img src='/img/QueStep2.png' alt=''/>
                                             <p>แบบสอบถามออนไลน์</p>
                                         </div>

@@ -35,7 +35,6 @@ function AppUpdateUser() {
     const [StartError, setStartError] = useState(0);
 
     const handletype = (event) => {
-        console.log(event.target.value)
         settype(event.target.value);
     };
     const handleInputemail = (e) => {
@@ -63,7 +62,6 @@ function AppUpdateUser() {
       setCheckbox2(!checkbox2);
     };
     const handleRoleChange = (e) => {
-        console.log(e.target.value)
         if(e.target.value === "นักเรียน" ){
             setCheckbox1(false)
         }
@@ -89,7 +87,6 @@ function AppUpdateUser() {
               if (result.err !== undefined) {
                 setStartError(1);
               } else {
-                console.log("result :", result);
                 setemail(result.email);
                 setemailshow(result.email);
                 settel(result.tel);
@@ -127,12 +124,10 @@ function AppUpdateUser() {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setdatatype(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdatatype([])
         }
         
@@ -203,18 +198,8 @@ function AppUpdateUser() {
 
     async function handleUpdateUser(e) {
         e.preventDefault();
-        console.log("id:", id);
-        console.log("email:", email);
-        console.log("fullname:", fullname);
-        console.log("tel:", tel);
-        console.log("selectedRole:", selectedRole);
-        console.log("otherRole:", otherRole);
-        console.log("Department:", Department);
-        console.log("Faculty:", Faculty);
-        console.log("Workplace:", Workplace);
-        console.log("tel:", tel);
-        console.log("errortext:", errortext);
-        console.log("checkbox1:", checkbox1);
+  
+  
 
         if (errortext === "กรุณากรอก") {
           try {

@@ -47,7 +47,6 @@ function AppRespond(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log("result",result)
                         setuserid(result.userid)
                         setimgrequest_path(result.imgrequest_path)
                         setstatus_req(result.status_request)
@@ -56,7 +55,6 @@ function AppRespond(){
                 }
             )
         }catch (err) {
-            console.error("test,",err)
             setStartError(1);
         }
     };
@@ -181,7 +179,6 @@ function AppRespond(){
                         icon: "error",//error,question,warning,success
                         confirmButtonColor: "#341699",
                     });
-                    console.error(err);
                 }
                 
             }else{

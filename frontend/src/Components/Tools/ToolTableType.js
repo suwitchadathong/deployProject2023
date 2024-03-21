@@ -28,12 +28,10 @@ const TableType = ({ columns }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setdata(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdata([])
         }
         
@@ -88,7 +86,6 @@ const TableType = ({ columns }) => {
     // const [selectedColumn,setSelectedColumn] = useState('all'); // Default to search all columns
 
     const handleDelCours = async (typesid,typesname) => {
-        // console.log(subid)
         Swal.fire({
             title: "ลบประเภทการใช้งาน",
             text: `คุณต้องการลบประเภทการใช้งาน ${typesname} ใช่หรือไม่ `,

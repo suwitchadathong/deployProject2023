@@ -10,7 +10,6 @@ const QuePart2 = ({ url , showChart}) => {
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
         setvalues(csvData[event.target.value])
-        // console.log(values)
     };
 
     useEffect(() => {
@@ -28,7 +27,6 @@ const QuePart2 = ({ url , showChart}) => {
                     },
                 });
             } catch (error) {
-                // console.error('Error fetching or parsing CSV:', error);
             }
         };
 

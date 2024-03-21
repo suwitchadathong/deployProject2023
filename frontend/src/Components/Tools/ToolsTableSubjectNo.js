@@ -30,16 +30,14 @@ const TableSubjectNo = ({ columns }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setdata(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdata([])
         }
          
-     };
+    };
      
      useEffect(() => {
          fetchDataExam();
@@ -89,91 +87,89 @@ const TableSubjectNo = ({ columns }) => {
      const [selectedColumn] = useState('all');
      // const [selectedColumn,setSelectedColumn] = useState('all'); // Default to search all columns
  
-     const handleDelCours = async (examid,examno) => {
-         // console.log(subid)
-         Swal.fire({
-             title: "ลบการสอบ",
-             text: `คุณต้องการการสอบครั้งที่ ${examno} ใช่หรือไม่ `,
-             icon: "question",
-             showCancelButton: true,
-             confirmButtonColor: "#d33",
-             confirmButtonText: "ยืนยัน",
-             cancelButtonText:"ยกเลิก"
-         }).then( (result) => {
-             if (result.isConfirmed) {
-                 try{
-                     fetch(variables.API_URL+"exam/delete/"+examid+"/", {
-                         method: "DELETE",
-                         headers: {
-                             'Accept': 'application/json, text/plain',
-                             'Content-Type': 'application/json;charset=UTF-8'
-                         },
-                         })
-                         .then(response => response.json())
-                         .then(result => {
-                             console.log(result)
-                             Swal.fire({
-                                 title: result.msg+"\n"+removeTZ(result.deletetime),
-                                 icon: "success",//error,question,warning,success
-                                 confirmButtonColor: "#341699",
-                             });
-                             fetchDataExam();
-                         }
-                     )
-                 }catch (err) {
-                     // console.error('เกิดข้อผิดพลาดในการลบ:', err);
-                     Swal.fire({
-                         title: "เกิดข้อผิดพลาดในการลบการสอบ",
-                         icon: "error",//error,question,warning,success
-                         confirmButtonColor:"#341699",
-                     });
-                 }
-             }
-         });
-     };
-     const handlecancelDel = async (examid,examno,datetime) => {
-         Swal.fire({
-             title: `การสอบจะถูกลบในวันที่และเวลา \n${datetime}`,
-             text: `คุณต้องการยกเลิกการลบการสอบครั้งที่ ${examno} ใช่หรือไม่ `,
-             icon: "question",
-             showCancelButton: true,
-             confirmButtonColor: "#d33",
-             confirmButtonText: "ยืนยัน",
-             cancelButtonText:"ยกเลิก"
-         }).then( (result) => {
-             if (result.isConfirmed) {
-                 try{
-                     fetch(variables.API_URL+"exam/update/"+examid+"/", {
-                         method: "PUT",
-                         headers: {
-                             'Accept': 'application/json, text/plain',
-                             'Content-Type': 'application/json;charset=UTF-8'
-                         },
-                         body: JSON.stringify({
-                            deletetimeexam : null
-                         }),
-                         })
-                         .then(response => response.json())
-                         .then(result => {
-                             Swal.fire({
-                                 title: "ทำการยกเลิกการลบเสร็จสิ้น",
-                                 icon: "success",//error,question,warning,success
-                                 confirmButtonColor: "#341699",
-                             });
-                             fetchDataExam();
-                         }
-                     )
-                 }catch (err) {
-                     // console.error('เกิดข้อผิดพลาดในการลบ:', err);
-                     Swal.fire({
-                         title: "เกิดข้อผิดพลาดในการลบการสอบ",
-                         icon: "error",//error,question,warning,success
-                         confirmButtonColor:"#341699",
-                     });
-                 }
-             }
-         });
-     };
+    const handleDelCours = async (examid,examno) => {
+        Swal.fire({
+            title: "ลบการสอบ",
+            text: `คุณต้องการการสอบครั้งที่ ${examno} ใช่หรือไม่ `,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            confirmButtonText: "ยืนยัน",
+            cancelButtonText:"ยกเลิก"
+        }).then( (result) => {
+            if (result.isConfirmed) { //กดยืนยัน
+                try{
+                // Fetch API exam
+                fetch(variables.API_URL+"exam/delete/"+examid+"/", { 
+                    method: "DELETE",
+                    headers: {
+                        'Accept': 'application/json, text/plain',
+                        'Content-Type': 'application/json;charset=UTF-8'
+                    },
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        Swal.fire({
+                            title: result.msg+"\n"+removeTZ(result.deletetime),
+                            icon: "success",//error,question,warning,success
+                            confirmButtonColor: "#341699",
+                        });
+                        fetchDataExam();
+                    }
+                )
+                }catch (err) {
+                    Swal.fire({
+                        title: "เกิดข้อผิดพลาดในการลบการสอบ",
+                        icon: "error",//error,question,warning,success
+                        confirmButtonColor:"#341699",
+                    });
+                }
+            }
+        });
+    };
+
+    const handlecancelDel = async (examid,examno,datetime) => {
+        Swal.fire({
+            title: `การสอบจะถูกลบในวันที่และเวลา \n${datetime}`,
+            text: `คุณต้องการยกเลิกการลบการสอบครั้งที่ ${examno} ใช่หรือไม่ `,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            confirmButtonText: "ยืนยัน",
+            cancelButtonText:"ยกเลิก"
+        }).then( (result) => {
+            if (result.isConfirmed) { // กดยืนยัน
+                try{ // Fetch API exam update
+                    fetch(variables.API_URL+"exam/update/"+examid+"/", {
+                        method: "PUT",
+                        headers: {
+                            'Accept': 'application/json, text/plain',
+                            'Content-Type': 'application/json;charset=UTF-8'
+                        },
+                        body: JSON.stringify({
+                        deletetimeexam : null
+                        }),
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            Swal.fire({
+                                title: "ทำการยกเลิกการลบเสร็จสิ้น",
+                                icon: "success",//error,question,warning,success
+                                confirmButtonColor: "#341699",
+                            });
+                            fetchDataExam();
+                        }
+                    )
+                }catch (err) {
+                    Swal.fire({
+                        title: "เกิดข้อผิดพลาดในการลบการสอบ",
+                        icon: "error",//error,question,warning,success
+                        confirmButtonColor:"#341699",
+                    });
+                }
+            }
+        });
+    };
 
     function removeTZ(dateTimeString) {
         return dateTimeString.replace("T", " ").replace("Z", "").replace("+07:00", "");
@@ -213,7 +209,6 @@ const TableSubjectNo = ({ columns }) => {
                                      <th {...column.getHeaderProps()}>
                                      {/* <th {...column.getHeaderProps(column.getSortByToggleProps())}> */}
                                          {column.render('Header')}
-                                         {/* {console.log(column.Header)} */}
                                          <span className='' {...column.getSortByToggleProps()}>
                                              {column.isSorted ? (column.isSortedDesc ?  <FontAwesomeIcon icon={faSortDown} />: <FontAwesomeIcon icon={faSortUp} />) : <FontAwesomeIcon icon={faSort} />}
                                          </span>

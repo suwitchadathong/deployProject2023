@@ -36,7 +36,6 @@ function AppUpdateType(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log("result",result)
                         setTypesName(result.typesname)
                         setLimitSubject(result.limitsubject)
                         setLimitExam(result.limitexam)
@@ -46,7 +45,6 @@ function AppUpdateType(){
                 }
             )
         }catch (err) {
-            console.error("test,",err)
             setStartError(1);
         }
     };
@@ -111,7 +109,6 @@ function AppUpdateType(){
                             icon: "error",//error,question,warning,success
                             confirmButtonColor: "#341699",
                         });
-                        console.error(err);
                     }
                 }else{
                     Swal.fire({

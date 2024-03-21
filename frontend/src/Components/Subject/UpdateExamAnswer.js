@@ -89,17 +89,19 @@ function AppUpdateExamAnswer(){
         setCheckboxValues8(newCheckboxValues);
     };
 
-    const handleInput1Change = (index, value) => {
-        const newInputValues = [...inputValues1];
+    const handleInput1Change = (index, value) => { //ปรับคะแนนตอบถูก
+        const newInputValues = [...inputValues1]; 
         newInputValues[index] = value;
         setInputValues1(newInputValues);
     };
-    const handleInput2Change = (index, value) => {
+    const handleInput2Change = (index, value) => {//ปรับคะแนนตอบผิด
         const newInputValues = [...inputValues2];
-        newInputValues[index] = value;
+        newInputValues[index] = Math.abs(value);
         setInputValues2(newInputValues);
     };
 
+
+    // กำหนดรูปแบบคำตอบจาก true ให้เป็น A B C D E F G H 
     const ChangeAnswerFormat = (checkboxValues , index) => {
         if(index === 'A'){
             return checkboxValues.map(value => value ? 'A' : null);
@@ -126,6 +128,7 @@ function AppUpdateExamAnswer(){
             return checkboxValues.map(value => value ? 'H' : null);
         }
     };
+    // กำหนดรูปแบบข้อมูล ScoringCriteria ให้อยูในรูปแบบที่ต้องการ
     const generateChoiceAnswers = (A, B, C, D, E, F, G, H) => {
         const indexArray = Array.from({ length: NumExam }, (_, index) => index);
         return indexArray.map(index => {
@@ -137,10 +140,12 @@ function AppUpdateExamAnswer(){
             const value6 = F[index];
             const value7 = G[index];
             const value8 = H[index];
+            // นำช้อย A-H มาตรวจสอบโดยเอา null ออก
             const nonNullValues = [value1, value2, value3 ,value4, value5, value6, value7, value8].filter(value => value !== null);
             return nonNullValues.join(':');
         });
     }
+    
     function generateScoringCriteria(Data1, Data2, Data3, Data4) {
         const output = [];
         for (let i = 1; i <= Data1; i++) {
@@ -156,17 +161,13 @@ function AppUpdateExamAnswer(){
         return output;
     }  
     const handleNextStep = (e) => {
-        
         if(StepCreate === 0){
             setStepCreate(1)
         }else if(StepCreate === 1){
             setStepCreate(1)
         }
         if(MaskChecked1){setInputValues1(inputValues1.map(value => inputValue1));}
-        else{}
         if(MaskChecked2){setInputValues2(inputValues2.map(value => inputValue2));}
-        // setInputValues1(inputValues1.map(value => inputValue1));
-        // setInputValues2(inputValues2.map(value => inputValue2));
     }
     const handleReverseStep = (e) => {
         if(StepCreate === 0){
@@ -229,10 +230,10 @@ function AppUpdateExamAnswer(){
         let G = [];
         let H = [];
         let item = [];
+        // แยกคำตอบ A-H ให้ข้อที่ตอบเป็น true
         pairs.forEach(pair => {
             const letters = pair.split(':');
             letters.forEach(item => {
-                // console.log("item :",item);
                 if(item === "A") {A.push(true);}else{}
                 if(item === "B") {B.push(true);}else{}
                 if(item === "C") {C.push(true);}else{}
@@ -252,14 +253,8 @@ function AppUpdateExamAnswer(){
             if(item.length > G.length){G.push(false);}
             if(item.length > H.length){H.push(false);}
         });
-        // console.log('A:', A);
-        // console.log('B:', B);
-        // console.log('C:', C);
-        // console.log('D:', D);
-        // console.log('E:', E);
-        // console.log('F:', F);
-        // console.log('G:', G);
-        // console.log('H:', H);
+        // กำหนดช้อยให้อยู่ในรูปแบบที่ถูกต้อง
+
         setCheckboxValues1(A);
         setCheckboxValues2(B);
         setCheckboxValues3(C);
@@ -280,8 +275,7 @@ function AppUpdateExamAnswer(){
             typeOption = letters[1]
             inputV1.push(letters[2])
             inputV2.push(letters[3])
-            // item.push(true);
-            // if(item.length > A.length){A.push(false);}
+
         });
 
         setSelectedOption(typeOption)
@@ -290,6 +284,7 @@ function AppUpdateExamAnswer(){
     }
     const fetchDataExamanswersStart = async () => {
         try{
+            // Fetch ข้อมูลไปยัง API เพื่อขอข้อมูลเกี่ยวกับ examanswers
             fetch(variables.API_URL+"examanswers/detail/"+id+"/", {
                 method: "GET",
                 headers: {
@@ -303,9 +298,9 @@ function AppUpdateExamAnswer(){
                         setStartError(1);
                     }
                     else{
+                        // จัดการช้อยให้อยู่ในรูปบแบบที่ตรงกับข้อมูลที่ดึงออกมา
                         transformChoice(result.choiceanswers)
                         transformScoringCriteria(result.scoringcriteria)
-                        // setStartError(2);
                     }  
                 }
             ) 
@@ -316,6 +311,7 @@ function AppUpdateExamAnswer(){
     const setStartError2 = (e) => {
         setStartError(2);
     }
+
     if(Start === 0){
         fetchDataStart();
         fetchDataExamanswersStart();
@@ -324,6 +320,7 @@ function AppUpdateExamAnswer(){
             setStartError2()
         }, 800);
     }
+
     const handleReset = (e) => {
         fetchDataExamanswersStart();
         setStepCreate(0);
@@ -355,8 +352,9 @@ function AppUpdateExamAnswer(){
                 confirmButtonText: "ยืนยัน",
                 cancelButtonText:"ยกเลิก"
             }).then( async (result) => {
-                if(result.isConfirmed){
+                if(result.isConfirmed){ // กดยืนยัน
                     try {
+                        // fetch เพื่อแก้ไขข้อมูล
                         const response = await fetch(variables.API_URL + "examanswers/update/"+id+"/", {
                             method: "PUT",
                             headers: {

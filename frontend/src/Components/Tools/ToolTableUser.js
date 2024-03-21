@@ -74,12 +74,10 @@ const TableUser = ({ columns }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setdata(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdata([])
         }
     };
@@ -94,12 +92,10 @@ const TableUser = ({ columns }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setuserTypes(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdata([])
         }
         
@@ -155,7 +151,6 @@ const TableUser = ({ columns }) => {
     // const [selectedColumn,setSelectedColumn] = useState('all'); // Default to search all columns
 
     const handleDelCours = async (userid, email) => {
-        // console.log(subid)
         Swal.fire({
             title: "ลบผู้ใช้งาน",
             text: `คุณต้องการลบผู้ใช้งาน ${email} ใช่หรือไม่ `,
@@ -188,7 +183,6 @@ const TableUser = ({ columns }) => {
                         // fetchDataUser();
                         fetchDataUserType();
                     } else {
-                        console.log("result", result);
                         Swal.fire({
                             title: "เกิดข้อผิดพลาดในการลบผู้ใช้งาน " +result,
                             icon: "error", //error,question,warning,success
@@ -222,7 +216,6 @@ const TableUser = ({ columns }) => {
     };
 
     async function showalert(value) {
-        console.log(value)
         Swal.fire({
             title: 'ข้อมูลผู้ใช้',
             html: 

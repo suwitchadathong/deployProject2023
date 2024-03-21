@@ -24,7 +24,6 @@ const QuePart1 = ({ url,showChart,data,status }) => {
         ['', '', '', '']
       ]
     );
-    // console.log(datashowtable.length)
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -36,7 +35,6 @@ const QuePart1 = ({ url,showChart,data,status }) => {
                     skipEmptyLines: true,
                     complete: function (result) {
                         let dataDetail= result.data
-                        // console.log("result",result.data)
                         let section = [] // หัวข้อเรื่อง
                         let originalArray = []
                         let topicAndValue = []
@@ -86,7 +84,6 @@ const QuePart1 = ({ url,showChart,data,status }) => {
                                 topic.push(dataDetail[i][0])
                                 value.push(dataDetail[i][1])
                                 topicAndValue.push(dataDetail[i][0] + " (" + dataDetail[i][1]+" คน)")
-                                // console.log(dataDetail[i])
                             }
                         }
                         settopicAll(section)
@@ -167,7 +164,6 @@ const QuePart1 = ({ url,showChart,data,status }) => {
                     },
                 });
             } catch (error) {
-                console.error('Error fetching or parsing CSV:', error);
             }
         };
 
@@ -176,13 +172,11 @@ const QuePart1 = ({ url,showChart,data,status }) => {
 
     async function showalertansother(topic,index,statue_format) {
         let htmlContent = `<div style="text-align: left;">`;
-        console.log(index)
-        console.log(statue_format)
+
         if (statue_format === "รูปแบบออฟไลน์") {
             htmlContent += "<ul>"; 
             if(Offline[index].length >= 1){
                 htmlContent +=` <div>${statue_format}<div>`;
-                console.log(Offline[index])
                 for (let i = 0; i < Offline[index].length; i++) {
                     htmlContent += `<li><img src="${Offline[index][i]}" alt="Offline Image ${i}" style="width:100%;padding:5px;margin: 5px 0;text-align: center; border: 1px solid #DDDDDD;"></li>`;
                 }
@@ -195,7 +189,6 @@ const QuePart1 = ({ url,showChart,data,status }) => {
             htmlContent += "<ul>"; 
             if(Online[index].length >= 1){
                 htmlContent +=` <div>${statue_format}<div>`;
-                console.log(Online[index])
                 for (let i = 0; i < Online[index].length; i++) {
                     htmlContent += `<li><p style="padding:5px;margin: 5px 0;text-align: center; border: 1px solid #DDDDDD; ">${Online[index][i]}</p></li>`; 
                 }
@@ -208,7 +201,6 @@ const QuePart1 = ({ url,showChart,data,status }) => {
             htmlContent += "<ul>"; 
             if(Offline[index].length >= 1){
                 htmlContent +=` <div>${statue_format} ออฟไลน์<div>`;
-                console.log(Offline[index])
                 for (let i = 0; i < Offline[index].length; i++) {
                     htmlContent += `<li><img src="${Offline[index][i]}" alt="Offline Image ${i}" style="width:100%;padding:5px;margin: 5px 0;text-align: center; border: 1px solid #DDDDDD;"></li>`;
                 }
@@ -218,7 +210,6 @@ const QuePart1 = ({ url,showChart,data,status }) => {
             htmlContent += "<ul>"; 
             if(Online[index].length >= 1){
                 htmlContent +=` <div>${statue_format} ออนไลน์<div>`;
-                console.log(Online[index])
                 for (let i = 0; i < Online[index].length; i++) {
                     htmlContent += `<li><p style="padding:5px;margin: 5px 0;text-align: center; border: 1px solid #DDDDDD; ">${Online[index][i]}</p></li>`; 
                 }
@@ -377,7 +368,6 @@ const QuePart1 = ({ url,showChart,data,status }) => {
                             <tbody>
                                 {topicAll.map((value, rowIndex) => (
                                     <tr  key={rowIndex}>
-                                        {/* {console.log(datashowtable[0])} */}
                                         <td><p onClick={() =>showalertansother(topicAll[rowIndex],rowIndex,status)}>{topicAll[rowIndex]}</p></td>
                                         <td><p onClick={() =>showalertansother(topicAll[rowIndex],rowIndex,status)}>{datashowtable[0][rowIndex]}</p></td>
                                         <td><p onClick={() =>showalertansother(topicAll[rowIndex],rowIndex,status)}>{datashowtable[1][rowIndex]}</p></td>

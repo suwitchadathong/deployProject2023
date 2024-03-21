@@ -44,11 +44,9 @@ function AppCheckAnswerSheet(){
                 },
             });
             const result = await response.json();
-                // console.log(result)
                 if(result.err !== undefined){
                     setStartError(1);
                 }
-                console.log(result)
                 setExamNo(result.examno)
                 setExamNoShow(result.examid)
                 setsubid(result.subid)
@@ -75,14 +73,12 @@ function AppCheckAnswerSheet(){
                     })
                     .then(response => response.json())
                     .then(result => {
-                        // console.log(result)
                         setsubjectid(result.subjectid)
                         setsubjectname(result.subjectname)
                         
                     }
                 )
         }catch (err) {
-            // console.error(err)
             setStartError(1);
         }
     };
@@ -100,7 +96,6 @@ function AppCheckAnswerSheet(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log("result __",result)
                     setdata(sortObjectsByProperty(result.non_duplicate_records,'stdid'))
                     setdataduplicate(sortObjectsByProperty(result.duplicate_records,'stdid'))
                     setnon_duplicate_records(result.non_duplicate_records)
@@ -114,7 +109,6 @@ function AppCheckAnswerSheet(){
     };
     function checknomistake(data) {
         for (let i = 0; i < data.length; i++) {
-            console.log("data.length : ",data[i].errorstype)
             if(data[i].errorstype !== '' && data[i].errorstype !== null){
                 return false;
             } 
@@ -131,7 +125,6 @@ function AppCheckAnswerSheet(){
         return decodedFilename;
     }
     const handleDelCours = async (examinfoid,idindex) => {
-        // console.log(subid)
         Swal.fire({
             title: "ลบข้อมูลข้อสอบ",
             text: `คุณต้องการลบข้อมูลเกี่ยวกับ ${idindex} ใช่หรือไม่ `,
@@ -152,7 +145,6 @@ function AppCheckAnswerSheet(){
                         })
                         .then(response => response.json())
                         .then(result => {
-                            // console.log(result)
                             Swal.fire({
                                 title: result.msg+"\n",
                                 icon: "success",//error,question,warning,success
@@ -162,7 +154,6 @@ function AppCheckAnswerSheet(){
                         }
                     )
                 }catch (err) {
-                    // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบรายวิชา",
                         icon: "error",//error,question,warning,success
@@ -173,11 +164,6 @@ function AppCheckAnswerSheet(){
         });
     };
     const showCustomAlert = (dataid,datastdid,datasubid,datasetexaminfo,dataimg,type) => {
-        console.log(dataid)
-        console.log("รหัสนักศึกษา :",datastdid)
-        console.log("รหัสวิชา :",datasubid)
-        console.log("ชุดข้อสอบ :",datasetexaminfo)
-        console.log("รูปแบบ :",type)
 
         const isMobile = window.innerWidth < 780;
         const subjectpass = subjectid;
@@ -315,7 +301,6 @@ function AppCheckAnswerSheet(){
         return false
     }
     function generateOptionsStd(data, selectedValue) {
-        console.log('selectedValuestd:',selectedValue)
         let optionsHTML = '';
         optionsHTML += `<option value="">กรุณาเลือกรหัสนักศึกษา...</option>`;
         data.forEach(entry => {
@@ -325,7 +310,6 @@ function AppCheckAnswerSheet(){
         return optionsHTML;
     }
     function generateOptionsNumberofExamSets(data, selectedValue) {
-        console.log('selectedValueNumber:',selectedValue)
         let optionsHTML = '';
         optionsHTML += `<option value="">กรุณาเลือกชุดข้อสอบ...</option>`;
         for (let i = 1; i <= data; i++) {
@@ -339,13 +323,11 @@ function AppCheckAnswerSheet(){
             formData.append("file", fileUpload);
             formData.append("userid", Cookies.get('userid'));
             formData.append("examid", id);
-            console.log(formData)
             const response = await fetch(variables.API_URL + "examinformation/update/"+dataid+"/", {
                 method: "PUT",
                 body: formData,
             });
             const result = await response.json();
-            console.log("result :",result)
             if(result.ok){
                 return true;
             }
@@ -364,7 +346,6 @@ function AppCheckAnswerSheet(){
             formData.append("examid", id);
             formData.append("errorstype", '');
             
-            console.log("formData: ",formData)
             const response = await fetch(variables.API_URL + "examinformation/update/"+dataid+"/", {
                 method: "PUT",
                 body: formData,
@@ -377,7 +358,6 @@ function AppCheckAnswerSheet(){
             }
 
         }catch (err) {
-            console.error(err);
             return false;
         }
     }
@@ -387,7 +367,6 @@ function AppCheckAnswerSheet(){
             dynamicTyping: true,
             skipEmptyLines: true,
             complete: function (result) {
-                console.log('Parsed CSV data:', result.data);
                 setcsvData(result.data);
             },
         });
@@ -465,7 +444,6 @@ function AppCheckAnswerSheet(){
                 Swal.fire('เกิดข้อผิดพลาด '+check);
             }
         } catch (error) {
-            console.error(error);
             Swal.fire('เกิดข้อผิดพลาด');
         }
     }
@@ -494,11 +472,9 @@ function AppCheckAnswerSheet(){
                     examid : id
                 }),
             }).then(response => {
-                console.log("1")
                 return true; // รีเทิร์นค่า true เพื่อสื่อว่าการส่งข้อมูลเสร็จสิ้น
                 
             }).catch(error => {
-                console.log("2")
                 fetch(variables.API_URL + "exam/update/"+id+"/", {
                     method: "PUT",
                     headers: {
@@ -528,27 +504,7 @@ function AppCheckAnswerSheet(){
             return err; // รีเทิร์น error เมื่อเกิดข้อผิดพลาด
         }
     }
-    // async function checkanalyzeresults(e){
-    //     console.log("checkanalyzeresults")
-    //     try {
-    //         const resultexaminfo = await fetch(variables.API_URL + "examinformation/result/"+id+"/", {
-    //             method: "POST",
-    //             headers: {
-    //                 'Accept': 'application/json, text/plain',
-    //                 'Content-Type': 'application/json;charset=UTF-8'
-    //             },
-    //             body: JSON.stringify({
-    //                 userid : Cookies.get('userid'),
-    //                 examid : id
-    //             }),
-    //         });
-
-    //         console.log(resultexaminfo)
     
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
     useEffect(() => {
         const intervalId = setInterval(fetchDataStartExam, 30000);
         return () => clearInterval(intervalId);
@@ -563,14 +519,12 @@ function AppCheckAnswerSheet(){
         }, 800);
     }
     const hasEmptyErrorType = (data) => {
-        console.log(data);
         let numErrorType = 0; // Change const to let
         for (const item of data) {
             if (item.errorstype === null || item.errorstype === '') {
                 numErrorType += 1; // Change const to let
             }
         }
-        console.log("numErrorType", numErrorType);
         setEmptyErrorType(numErrorType); // Assuming setEmptyErrorType is properly defined
     };
     
@@ -604,7 +558,6 @@ function AppCheckAnswerSheet(){
                             const result = await response.json();
                             if(result.err === undefined){
                                 Swal.close();
-                                console.log(result)
                                 Swal.fire({
                                     imageUrl: result.img_path,
                                     imageAlt: result.img_path,

@@ -30,6 +30,7 @@ function AppUploadAnswerSheet(){
     
     const fetchDataStartExam = async () => {
         try{
+            // featch ข้อมูล exam 
             fetch(variables.API_URL+"exam/detail/"+id+"/", {
                 method: "GET",
                 headers: {
@@ -39,48 +40,46 @@ function AppUploadAnswerSheet(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    // console.log(result)
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    setExamNo(result.examno)
-                    setExamNoShow(result.examid)
-                    setsubid(result.subid)
-                    setsequencesteps(result.sequencesteps)
-                    fetch(variables.API_URL+"subject/detail/"+result.subid+"/", {
-                        method: "GET",
-                        headers: {
-                            'Accept': 'application/json, text/plain',
-                            'Content-Type': 'application/json;charset=UTF-8'
-                        },
-                        })
-                        .then(response => response.json())
-                        .then(result => {
-                            if(result.err !== undefined){
-                                setStartError(1);
+                    else{
+                        setExamNo(result.examno)
+                        setExamNoShow(result.examid)
+                        setsubid(result.subid)
+                        setsequencesteps(result.sequencesteps)
+                        // featch ข้อมูล subject 
+                        fetch(variables.API_URL+"subject/detail/"+result.subid+"/", {
+                            method: "GET",
+                            headers: {
+                                'Accept': 'application/json, text/plain',
+                                'Content-Type': 'application/json;charset=UTF-8'
+                            },
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                if(result.err !== undefined){
+                                    setStartError(1);
+                                }
+                                else{
+                                    setsubjectname(result.subjectname)
+                                    setStartError(2);
+                                }
                             }
-                            else{
-                                setsubjectname(result.subjectname)
-                                setStartError(2);
-                            }
-                        }
-                    )
+                        )
+                    }
                 }
             )
         }catch (err) {
-            // console.error(err)
             setStartError(1);
         }
     };
     
-    const setStartError2 = (e) => {
-        setStartError(2);
-    }
     if(Start === 0){
         fetchDataStartExam();
         setStart(1);
         setTimeout(function() {
-            setStartError2()
+            setStartError(2);
         }, 800);
     }
 
@@ -130,14 +129,11 @@ function AppUploadAnswerSheet(){
         setNameFileUpload(namefileupload.filter((_, index) => index !== indexitem))
         setShowFile(ShowFile.filter((_, index) => index !== indexitem))
         setFile(File)
-        console.log(File)
-        console.log(namefileupload)
-        console.log(indexitem)
     }
 
     async function handleSubmitFile(e) {
         e.preventDefault();
-        if (File.length > 0) {
+        if (File.length > 0) { // ต้องมีการอัปโหลดไฟล์
             Swal.fire({
                 title: "",
                 text: `กดยืนยันเพื่อจะทำการประมวลผลกระดาษคำตอบ`,
@@ -148,8 +144,8 @@ function AppUploadAnswerSheet(){
                 cancelButtonColor: "#d33",
                 cancelButtonText: "ยกเลิก"
             }).then(async (result) => {
-                if(result.isConfirmed){
-                    loading();
+                if(result.isConfirmed){ // กดยืนยัน
+                    loading();  // เรียกใช้ โมดูล loading
                 }
                 
             });
@@ -161,10 +157,10 @@ function AppUploadAnswerSheet(){
                 confirmButtonColor: "#341699",
                 confirmButtonText: "ตกลง",
             }).then(() => {
-                // Handle user response here if needed
             });
         }
     }
+
     async function saveUpload(){
         const formdata = new FormData();
         for (let i = 0; i < File.length; i++) {
@@ -172,10 +168,8 @@ function AppUploadAnswerSheet(){
         }
         formdata.append("userid", Cookies.get('userid'));
         formdata.append("examid", id);
-        
-        console.log("formdata :",formdata);
-        
-        try {
+
+        try { // fetch อัปเดท sequencesteps exam
             await fetch(variables.API_URL + "exam/update/"+id+"/", {
                 method: "PUT",
                 headers: {
@@ -191,7 +185,7 @@ function AppUploadAnswerSheet(){
             setFile([])
             setShowFile([])
             setNameFileUpload([])
-            
+            // fetch ตรวจกระดาษคำตอบ
             fetch(variables.API_URL + "examinformation/upload/paper/", {
                 method: "POST",
                 body: formdata,
@@ -264,12 +258,10 @@ function AppUploadAnswerSheet(){
                 }
                 });
 
-                
             }else{
                 Swal.fire('เกิดข้อผิดพลาด '+check);
             }
         } catch (error) {
-            console.error(error);
             Swal.fire('เกิดข้อผิดพลาด');
         }
     }
@@ -379,7 +371,6 @@ function AppUploadAnswerSheet(){
                                         <div className="container">
                                         {ShowFile.map((file, index) => (
                                             <div key={index} className="image-card" style={index>=1?{ display: 'none' }:{}}>
-                                                {console.log(file)}
                                                 <a href={file} >
                                                     <img className="image" src={file} alt={namefileupload[index]} />
                                                 </a>

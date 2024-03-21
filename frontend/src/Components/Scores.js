@@ -18,6 +18,7 @@ function AppScores(){
 
     const fetchDataDetailByEmail = async () => {
         try{
+            // Fetch API examinformation/detail/email/ ขอข้อมูลที่มีอีเมลตรงกับการสอบ
             fetch(variables.API_URL+"examinformation/detail/email/"+Cookies.get('email')+"/", {
                 method: "GET",
                 headers: {
@@ -27,17 +28,17 @@ function AppScores(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log("DetailByEmail",result)
                     setdata(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdata([])
         }
     };
+
     const fetchDataexam = async () => {
         try{
+            // Fetch API exam ขอข้อมูลการสอบ
             fetch(variables.API_URL+"exam/", {
                 method: "GET",
                 headers: {
@@ -47,17 +48,17 @@ function AppScores(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log("exam",result)
                     setdataExam(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdataExam([])
         }
     };
+
     const fetchDataSubject = async () => {
         try{
+            // Fetch API subject ขอข้อมูล รายวิชา
             fetch(variables.API_URL+"subject/", {
                 method: "GET",
                 headers: {
@@ -67,15 +68,14 @@ function AppScores(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log("Subject",result)
                     setdataSubject(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdataSubject([])
         }
     };
+
     if(Start === 0){
         fetchDataDetailByEmail();
         fetchDataexam();
@@ -107,6 +107,7 @@ function AppScores(){
             return null
         }
     }
+
     function findExam(inputExamId,format) {
         if(dataExam.length >= 1 && dataSubject.length>=1){
             const foundExam = dataExam.find(exam => exam.examid === inputExamId);
@@ -125,6 +126,7 @@ function AppScores(){
             return null
         }
     }
+    
     return(
         <div className='content'>
             <main>

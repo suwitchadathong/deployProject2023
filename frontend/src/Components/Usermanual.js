@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 function AppUsermanual(){
 
     const handleLinkClick = (event) => {
+        // กดยืนยันเพื่อทำการเปิดคู่มือการใช้งาน
         event.preventDefault();
         window.open(event.target.href, '_blank');
     };

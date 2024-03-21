@@ -34,8 +34,6 @@ function AppProfile() {
   const [errortext, seterrortext] = useState("");
 
   // const clientId ="608918814563-geifv2f4mg3c1rqivvnok1lhcphdfnlf.apps.googleusercontent.com" // pst121243@gmail.com
-  const [emailsingin, setemailsingin] = useState('');
-  const [googleIDsingin, setgoogleIDsingin] = useState('');
   const clientId ="289302695651-pngfh1sob9anv945q7fl3d6krvp0aqom.apps.googleusercontent.com" //mcaqs
 
   const handleInputemail = (e) => {
@@ -72,8 +70,8 @@ function AppProfile() {
   const [StartError, setStartError] = useState(0);
 
   const fetchDataUser = async () => {
-    console.log(Cookies.get("userid"));
     try {
+      // Fetch API user/detail ขอข้อมูล user
       fetch(variables.API_URL + "user/detail/" + Cookies.get("userid") + "/", {
         method: "GET",
         headers: {
@@ -86,7 +84,7 @@ function AppProfile() {
           if (result.err !== undefined) {
             setStartError(1);
           } else {
-            console.log("result :", result);
+            // กำหนดค่าตัวแปร
             setemail(result.email);
             settel(result.tel);
             setfullname(result.fullname);
@@ -99,19 +97,14 @@ function AppProfile() {
           }
         });
     } catch (err) {
-      // console.error(err)
       setStartError(1);
     }
   };
 
   const fetchDataRequest = async () => {
     try {
-      fetch(
-        variables.API_URL +
-          "request/detail/user/" +
-          Cookies.get("userid") +
-          "/",
-        {
+      // Fetch API user/detail ขอข้อมูล user
+      fetch(variables.API_URL +"request/detail/user/" +Cookies.get("userid") +"/",{
           method: "GET",
           headers: {
             Accept: "application/json, text/plain",
@@ -119,21 +112,19 @@ function AppProfile() {
           },
         }
       )
-        .then((response) => response.json())
-        .then((result) => {
-          if (result.err !== undefined) {
-            setStartError(1);
-            console.log("result request: ", result);
-          } else {
-            console.log("result request: ", result);
-            setdatarequest(result);
-          }
-        });
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.err !== undefined) {
+          setStartError(1);
+        } else {
+          setdatarequest(result);
+        }
+      });
     } catch (err) {
-      // console.error(err)
       setStartError(1);
     }
   };
+
   if (Start === 0) {
     fetchDataUser();
     fetchDataRequest();
@@ -145,9 +136,9 @@ function AppProfile() {
         clientId: clientId,
         scope: ''
       }).then(() => {
-        console.log('Google API client initialized successfully');
+        // console.log('Google API client initialized successfully');
       }).catch((error) => {
-        console.error('Error initializing Google API client', error);
+        // console.error('Error initializing Google API client', error);
       });
     };
 
@@ -156,7 +147,6 @@ function AppProfile() {
   }, [clientId]);
 
   const onSuccess = (res) => {
-    console.log('success', res)
     if(res.profileObj.email === Cookies.get('email')){
       SingInGoogleID(res.profileObj.googleId)
     }else{
@@ -169,11 +159,10 @@ function AppProfile() {
   }
 
   const onFailure = (res) => {
-    console.log('failed', res)
+    // console.log('failed', res)
   }
 
   async function SingInGoogleID(googleId){
-    console.log("googleId",googleId)
     try {
       const response = await fetch(
         variables.API_URL + "user/update/" + Cookies.get("userid") + "/",
@@ -190,7 +179,6 @@ function AppProfile() {
       );
       
       const result = await response.json();
-      console.log("result",result)
 
       if (result.err === undefined) {
         Swal.fire({
@@ -227,7 +215,6 @@ function AppProfile() {
     Cookies.remove('typesid');
     Cookies.remove('clientId');
     Cookies.remove('userToken');
-    console.log(Cookies.get())
     window.location.href = '/SingIn';
   }
 
@@ -283,11 +270,6 @@ function AppProfile() {
 
   async function handleUpdateUser(e) {
     e.preventDefault();
-    console.log("email:", email);
-    console.log("tel:", tel);
-    console.log("email:", email);
-    console.log("tel:", tel);
-    console.log("errortext:", errortext);
     if (errortext === "กรุณากรอก") {
       try {
         const response = await fetch(
@@ -367,9 +349,6 @@ function AppProfile() {
   const [namefileupload, setNameFileUpload] = useState(""); // สำหรับชื่อไฟล์อัปโหลด
 
   const onDrop = useCallback((acceptedFiles) => {
-    console.log("OnDrop");
-    console.log(acceptedFiles);
-    console.log(acceptedFiles[0].type);
     if (
       acceptedFiles[0].type === "image/png" ||
       acceptedFiles[0].type === "image/jpeg" ||
@@ -377,7 +356,6 @@ function AppProfile() {
     ) {
       handleFileInputChange(acceptedFiles[0]);
     } else {
-      console.log("รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE");
       Swal.fire({
         title: "",
         text: `รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE`,
@@ -415,7 +393,6 @@ function AppProfile() {
         setNameFileUpload("");
         setFile("");
         setStatusItem(false);
-        console.log("File", File);
       }
     });
   };
@@ -457,7 +434,6 @@ function AppProfile() {
 
             const resultRequest = await responseRequest.json();
             if (resultRequest.err === undefined) {
-              console.log("resultRequest : ", resultRequest);
               fetchDataRequest();
               setNameFileUpload("");
               setFile("");
@@ -540,8 +516,6 @@ function AppProfile() {
             <div className="bx-details light">
               <form>
                 <div className="form-set">
-                  {console.log("googleid",Cookies.get('googleid'))}
-
                   {
                     Cookies.get('googleid') === ''?
                     <div>

@@ -49,7 +49,7 @@ const AppOnlineQuestionnaire = () => {
           if (result.err !== undefined) {
             setStartError(1);
           } else {
-            console.log(result);
+       
             setQueSheetName(result.quesheetname);
             setQueSheetTopicName(result.quesheettopicname);
             setDetailsLineOne(result.detailslineone);
@@ -77,7 +77,6 @@ const AppOnlineQuestionnaire = () => {
           if (result.err !== undefined) {
             setStartError(1);
           } else {
-            console.log(result);
             setquehead1(result.quehead1.split(","));
             setquehead2(result.quehead2.split(","));
             setquehead3(result.quehead3.split(","));
@@ -97,13 +96,11 @@ const AppOnlineQuestionnaire = () => {
           if (result.err !== undefined) {
             setStartError(1);
           } else {
-            console.log(result);
             setquetopicdetails(result.quetopicdetails.split(","));
             setquetopicformat(result.quetopicformat.split(","));
           }
         });
     } catch (err) {
-      console.error(err);
       setStartError(1);
     }
   };
@@ -184,7 +181,6 @@ const AppOnlineQuestionnaire = () => {
     } else if (Step === 1) {
       setStep(0);
     }
-    console.log(Step);
   };
   function checkPath1(
     dataH1,
@@ -195,13 +191,7 @@ const AppOnlineQuestionnaire = () => {
     dataAnsQueHead,
     dataAnsOther
   ) {
-    console.log("dataH1 :", quehead1);
-    console.log("dataH2 :", quehead2);
-    console.log("dataH3 :", quehead3);
-    console.log("dataH4 :", quehead4);
-    console.log("dataH4 :", quehead5);
-    console.log("AnsQueHead :", AnsQueHead);
-    console.log("AnsOther :", AnsOther);
+   
     for (let i = 1; i < quehead1.length; i++) {
       if (quehead1[i] !== "") {
         if (AnsQueHead[0] === "") {
@@ -285,14 +275,11 @@ const AppOnlineQuestionnaire = () => {
     return false;
   }
   function checkPath2(data1, data2, data3) {
-    console.log("data1 :", data1);
-    console.log("data2 :", data2);
-    console.log("data3 :", data3);
+   
     for (let i = 0; i < data2.length; i++) {
       if (data2[i] === 0 || data2[i] === "0") {
         if (data1[i] !== "") {
           if (data3[i] === "") {
-            console.log(data2[i], ":", data1[i], ":", data3[i]);
             return false;
           }
         }
@@ -303,10 +290,6 @@ const AppOnlineQuestionnaire = () => {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log("AnsOther", AnsOther.join(","));
-    console.log("AnsQueHead", AnsQueHead.join(","));
-    console.log("AnsQueTopic", AnsQueTopic.join(","));
-    console.log("path3", path3);
     if (checkPath2(quetopicdetails, quetopicformat, AnsQueTopic) === true) {
       Swal.fire({
         title: ``,
@@ -435,9 +418,7 @@ const AppOnlineQuestionnaire = () => {
             </div>
             <div className={Step === 0 ? "" : "none"}>
               <h3>ส่วนที่ 1 : ข้อมูลทั่วไปของผู้ตอบแบบสอบถาม</h3>
-              {console.log("AnsQueTopic : ", AnsQueTopic)}
-              {console.log("AnsOther : ", AnsOther)}
-              {console.log("AnsQueHead : ", AnsQueHead)}
+            
               {quehead1.map((value, index) => (
                 <div key={"1" + index} className={value !== "" ? "choice" : ""}>
                   {index === 0 ? (

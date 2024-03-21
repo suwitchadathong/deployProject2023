@@ -185,22 +185,6 @@ function AppCreateQuestionnaire(){
     // FORM Submit
     async function handleSubmit(e) {
         e.preventDefault();
-        // loading()
-        // console.log('QueSheetName:', QueSheetName);
-        // console.log('QueSheetTopicName:', QueSheetTopicName);
-        // console.log('DetailsLineOne:', DetailsLineOne);
-        // console.log('DetailsLinetwo:', DetailsLinetwo);
-        // console.log('QH1:', QH1);
-        // console.log('QH1:', checkConsecutiveStrings(QH1));
-        // console.log('QH1:', QH1.join(','));
-        // console.log('QH2:', QH2.join(','));
-        // console.log('QH3:', QH3.join(','));
-        // console.log('QH4:', QH4.join(','));
-        // console.log('QH5:', QH5.join(','));
-        
-        // console.log('inputValues:', inputValues.join(','))
-        // console.log('checkboxValues:', checkboxValues.join(','))
-        // console.log('checkboxValues:', checkConsecutiveTrue(checkboxValues))
         if(checkPath1(QH1) === false){
            
             if(
@@ -252,7 +236,6 @@ function AppCreateQuestionnaire(){
                     Swal.showLoading();
                     try {
                         const check = await CreateQue()
-                        console.log(check)
                        if(check === true){
                             Swal.close();
                             Swal.fire({
@@ -276,24 +259,11 @@ function AppCreateQuestionnaire(){
             });
             await loadingSwal;
         } catch (error) {
-            console.error(error);
             Swal.fire('เกิดข้อผิดพลาด');
         }
     }
     async function CreateQue() {
-        console.log('QueSheetName:', QueSheetName);
-        console.log('QueSheetTopicName:', QueSheetTopicName);
-        console.log('DetailsLineOne:', DetailsLineOne);
-        console.log('DetailsLinetwo:', DetailsLinetwo);
-        
-        console.log('QH1:', QH1.join(','));
-        console.log('QH2:', QH2.join(','));
-        console.log('QH3:', QH3.join(','));
-        console.log('QH4:', QH4.join(','));
-        console.log('QH5:', QH5.join(','));
-        
-        console.log('inputValues:', inputValues.join(','))
-        console.log('checkboxValues:', checkboxValues.join(','))
+       
 
         const formData = new FormData();
         const quesheet_data = {
@@ -320,7 +290,6 @@ function AppCreateQuestionnaire(){
         formData.append("quesheet", JSON.stringify(quesheet_data))
         formData.append("queheaddetails", JSON.stringify(queheaddetails_data))
         formData.append("quetopicdetails", JSON.stringify(quetopicdetails_data))
-        console.log(formData)
 
         try{
             const quecreate = await fetch(variables.API_URL + "quesheet/create/", {
@@ -350,13 +319,10 @@ function AppCreateQuestionnaire(){
     const [namefileupload, setNameFileUpload] = useState(''); // สำหรับชื่อไฟล์อัปโหลด
 
     const onDrop = useCallback((acceptedFiles) => {
-        console.log("OnDrop");
-        console.log(acceptedFiles);
-        console.log(acceptedFiles[0].type);
+
         if(acceptedFiles[0].type === "image/png" ||acceptedFiles[0].type === "image/jpeg" ||acceptedFiles[0].type === "image/jpg"){
             handleFileInputChange(acceptedFiles[0]);
         }else{
-            console.log("รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE");
             Swal.fire({
                 title: "",
                 text: `รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE`,
@@ -381,7 +347,7 @@ function AppCreateQuestionnaire(){
         reader.onloadend = () => {
             setFileShow(reader.result);
         }
-        console.log(file)
+        
         setFile(file)
         setStatusItem(true);
         setNameFileUpload(file.path);
@@ -432,8 +398,7 @@ function AppCreateQuestionnaire(){
         setInputValues(newInputValues);
         setCheckboxValues(newCheckboxValues);
     
-        console.log("inputValues:", newInputValues);
-        console.log("checkboxValues:", newCheckboxValues);
+    
     }
     if(start === 0){
         path1();

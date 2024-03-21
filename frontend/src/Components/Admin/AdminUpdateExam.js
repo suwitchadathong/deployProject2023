@@ -67,9 +67,7 @@ function AppAdminUpdateExam(){
                         })
                         .then(response => response.json())
                         .then(result => {
-                            console.log("result",result)
                             if(result.err !== undefined){
-                                console.log(result.err)
                                 setStartError(1);
                             }else{
                                 setsubjectname(result.subjectname)
@@ -81,7 +79,6 @@ function AppAdminUpdateExam(){
                 }
             )
         }catch (err) {
-            console.error("test,",err)
             setStartError(1);
         }
     };
@@ -150,7 +147,6 @@ function AppAdminUpdateExam(){
                             icon: "error",//error,question,warning,success
                             confirmButtonColor: "#341699",
                         });
-                        console.error(err);
                     }
                 }else{
                     Swal.fire({

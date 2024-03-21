@@ -38,7 +38,6 @@ function AppCheckQuestionaire(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log("quesheet :",result)
                     setquesheetid(result.quesheetid)
                     setQueSheetName(result.quesheetname)
                     setsequencesteps(parseInt(result.sequencesteps, 10))
@@ -79,7 +78,6 @@ function AppCheckQuestionaire(){
             )
             
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }
@@ -98,7 +96,6 @@ function AppCheckQuestionaire(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log("quesheetinfo :",result)
                         setquesheetinfo(result)
                     }
                     
@@ -106,7 +103,6 @@ function AppCheckQuestionaire(){
             )
             
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }
@@ -136,10 +132,6 @@ function AppCheckQuestionaire(){
         return () => clearInterval(intervalId);
     }, []);
     const showCustomAlert = (dataid,type,dataimg,dataerror) => {
-        console.log("quesheetid",quesheetid)
-        console.log(dataid)
-        console.log(type)
-        console.log(dataimg)
         const isMobile = window.innerWidth < 780;
         Swal.fire({
             title: 'แก้ไขข้อผิดพลาด  ',
@@ -255,7 +247,6 @@ function AppCheckQuestionaire(){
             }
 
         }catch (err) {
-            console.error(err);
             return false;
         }
     }
@@ -266,13 +257,11 @@ function AppCheckQuestionaire(){
             formData.append("file", fileUpload);
             formData.append("userid", Cookies.get('userid'));
             formData.append("quesheetid", id);
-            console.log(formData)
             const response = await fetch(variables.API_URL + "queinformation/update/"+dataid+"/", {
                 method: "PUT",
                 body: formData,
             });
             const result = await response.json();
-            console.log("result :",result)
             if(result.ok){
                 return true;
             }
@@ -281,7 +270,6 @@ function AppCheckQuestionaire(){
         }
     }
     const handleDelCours = async (queinfoid,namefile) => {
-        // console.log(subid)
         Swal.fire({
             title: "ลบข้อมูลกระดาบแบบสอบถาม",
             text: `คุณต้องการลบข้อมูลเกี่ยวกับ ${namefile} ใช่หรือไม่ `,
@@ -302,7 +290,6 @@ function AppCheckQuestionaire(){
                         })
                         .then(response => response.json())
                         .then(result => {
-                            // console.log(result)
                             Swal.fire({
                                 title: result.msg+"\n",
                                 icon: "success",//error,question,warning,success
@@ -312,7 +299,6 @@ function AppCheckQuestionaire(){
                         }
                     )
                 }catch (err) {
-                    // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบกระดาบแบบสอบถาม",
                         icon: "error",//error,question,warning,success
@@ -405,7 +391,6 @@ function AppCheckQuestionaire(){
                 Swal.fire('เกิดข้อผิดพลาด '+check);
             }
         } catch (error) {
-            console.error(error);
             Swal.fire('เกิดข้อผิดพลาด');
         }
     }
@@ -434,7 +419,7 @@ function AppCheckQuestionaire(){
                     quesheetid : id
                 }),
             }).then(response => {
-                console.log(response)
+                
                 if(response.status === 500){
                     fetch(variables.API_URL + "quesheet/update/"+id+"/", {
                         method: "PUT",

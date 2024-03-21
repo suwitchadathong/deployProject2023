@@ -15,12 +15,10 @@ const AnalyzeResultsCSV = ({ url }) => {
                     dynamicTyping: true,
                     skipEmptyLines: true,
                     complete: function (result) {
-                        console.log('Parsed CSV data:', result.data);
                         setCsvData(result.data);
                     },
                 });
             } catch (error) {
-                console.error('Error fetching or parsing CSV:', error);
             }
         };
 

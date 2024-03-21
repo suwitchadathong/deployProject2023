@@ -39,14 +39,13 @@ function AppCreateAnswerSheet(){
             setFile('')
             setStatusItem('')
             setNameFileUpload('')
-            console.log(images)
         }else{
             setImages(imganswersheetformat_path)
         }
         setisoriginal(!isoriginal);
     };
 
-    const handleOptionChange = (event) => {setSelectedOption(event.target.value);console.log(images[selectedOption-1])};
+    const handleOptionChange = (event) => {setSelectedOption(event.target.value);};
     const handleCheckboxChange = () => {setChecked(!isChecked);};
     const [Start, setStart] = useState(0);
     const [StartError, setStartError] = useState(0);
@@ -55,6 +54,7 @@ function AppCreateAnswerSheet(){
 
     const fetchDataStart = async () => {
         try{
+            //Fetch API เพื่อทำการดึกข้อมูล exam/detail ขอข้อมูล เกี่ยวกับ การสอบครั้งที่
             fetch(variables.API_URL+"exam/detail/"+id+"/", {
                 method: "GET",
                 headers: {
@@ -67,7 +67,6 @@ function AppCreateAnswerSheet(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log(result)
                     setExamNo(result.examno)
                     setExamNoShow(result.examid)
                     setimgoriginal([
@@ -78,17 +77,17 @@ function AppCreateAnswerSheet(){
                     setimganswersheetformat_path([
                         { id: '1', imageName: result.imganswersheetformat_path+"answersheet_num.jpg", tag: 'free' },
                         { id: '2', imageName: result.imganswersheetformat_path+"answersheet_eng.jpg", tag: 'free' },
-                        { id: '3', imageName: result.imganswersheetformat_path+"answersheet_thai.jpg", tag: 'free' }, // 1170 827
+                        { id: '3', imageName: result.imganswersheetformat_path+"answersheet_thai.jpg", tag: 'free' }, 
                     ])
                     setSelectedOption(result.answersheetformat)
                     setsubid(result.subid)
-                    console.log( new URL(result.imganswersheetformat_path).origin)
                     setimgcheck(extractFilenameFromURL(result.imganswersheetformat_path))
                     setImages([
                         { id: '1', imageName: result.imganswersheetformat_path+"answersheet_num.jpg", tag: 'free' },
                         { id: '2', imageName: result.imganswersheetformat_path+"answersheet_eng.jpg", tag: 'free' },
-                        { id: '3', imageName: result.imganswersheetformat_path+"answersheet_thai.jpg", tag: 'free' }, // 1170 827
+                        { id: '3', imageName: result.imganswersheetformat_path+"answersheet_thai.jpg", tag: 'free' }, 
                     ])
+                    //Fetch API เพื่อทำการดึกข้อมูล subject/detail ขอข้อมูล เกี่ยวกับ รายวิชา
                     fetch(variables.API_URL+"subject/detail/"+result.subid+"/", {
                         method: "GET",
                         headers: {
@@ -123,13 +122,10 @@ function AppCreateAnswerSheet(){
         }, 800);
     }
     const onDrop = useCallback((acceptedFiles) => {
-        console.log("OnDrop");
-        console.log(acceptedFiles);
-        console.log(acceptedFiles[0].type);
+ 
         if(acceptedFiles[0].type === "image/png" ||acceptedFiles[0].type === "image/jpeg" ||acceptedFiles[0].type === "image/jpg"){
             handleFileInputChange(acceptedFiles[0]);
         }else{
-            console.log("รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE");
             Swal.fire({
                 title: "",
                 text: `รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE`,
@@ -161,7 +157,6 @@ function AppCreateAnswerSheet(){
             }
            
         } else {
-            console.log("กรุณาอัปโหลดไฟล์");
             Swal.fire({
                 title: "",
                 text: `กรุณาอัปโหลดไฟล์`,
@@ -181,7 +176,6 @@ function AppCreateAnswerSheet(){
                     Swal.showLoading();
                     try {
                         const check = await saveAnswerSheet()
-                        console.log(check)
                        if(check === true){
                             Swal.close();
                             Swal.fire({
@@ -208,7 +202,6 @@ function AppCreateAnswerSheet(){
             });
             await loadingSwal;
         } catch (error) {
-            console.error(error);
             Swal.fire('เกิดข้อผิดพลาด');
         }
     }
@@ -233,7 +226,6 @@ function AppCreateAnswerSheet(){
                 return err
             }
         }
-        
         try {
             const response = await fetch(variables.API_URL + "exam/update/" + id + "/", {
                 method: "PUT",
@@ -248,9 +240,7 @@ function AppCreateAnswerSheet(){
                     userid: Cookies.get('userid')
                 }),
             });
-    
             const result = await response.json();
-    
             if (result.err === undefined) {
                 fetchDataStart()
                 return true;
@@ -262,6 +252,7 @@ function AppCreateAnswerSheet(){
         }
     }
     async function resetlogo(){
+        //Fetch API เพื่อทำการส่งข้อมูล exam/update/
         const response = await fetch(variables.API_URL + "exam/update/"+id+"/", {
             method: "PUT",
             headers: {
@@ -275,7 +266,7 @@ function AppCreateAnswerSheet(){
         });
     
         const result = await response.json();
-        console.log("result",result)
+
         if(result.err === undefined){
             Swal.fire({
                 title: "",
@@ -308,7 +299,6 @@ function AppCreateAnswerSheet(){
             setNameFileUpload('');
             setFile('');
             setStatusItem(false);
-            console.log("File",File);
         }
         });
     }
@@ -318,6 +308,7 @@ function AppCreateAnswerSheet(){
         const decodedFilename = decodeURIComponent(filenameWithSpaces);
         return decodedFilename;
     }
+    
     const example_image = () => {
         const show_image = images.map(image => {
             if (image.id === selectedOption){

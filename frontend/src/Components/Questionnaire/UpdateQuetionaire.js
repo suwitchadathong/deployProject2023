@@ -158,7 +158,6 @@ function AppUpdateQuetionaire(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }
-                    console.log(result)
                     setQueSheetName(result.quesheetname)
                     setQueSheetTopicName(result.quesheettopicname)
                     setDetailsLineOne(result.detailslineone)
@@ -166,7 +165,6 @@ function AppUpdateQuetionaire(){
                 }
             )
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }
@@ -216,12 +214,10 @@ function AppUpdateQuetionaire(){
                         setQH5C4(quehead5[3])
                         setQH5C5(quehead5[4])
                     }
-                    console.log(result)
                     
                 }
             )
         }catch (err) {
-            console.error(err)
             setStartError(1);
         }
     };
@@ -239,7 +235,6 @@ function AppUpdateQuetionaire(){
                     if(result.err !== undefined){
                         setStartError(1);
                     }else{
-                        console.log(result)
                         setInputValues(result.quetopicdetails.split(','))
                         const array = result.quetopicformat.split(',');
                         const booleanArray = array.map(item => item === '1');
@@ -249,7 +244,6 @@ function AppUpdateQuetionaire(){
                 }
             )
         }catch (err) {
-            console.error(err)
             setStartError(1);
            
         }
@@ -374,7 +368,6 @@ function AppUpdateQuetionaire(){
                     Swal.showLoading();
                     try {
                         const check = await UpdateQue()
-                        console.log(check)
                        if(check === true){
                             Swal.close();
                             Swal.fire({
@@ -398,26 +391,10 @@ function AppUpdateQuetionaire(){
             });
             await loadingSwal;
         } catch (error) {
-            console.error(error);
             Swal.fire('เกิดข้อผิดพลาด');
         }
     }
     async function UpdateQue() {
-        console.log('File:', File);
-        console.log('QueSheetName:', QueSheetName);
-        console.log('QueSheetTopicName:', QueSheetTopicName);
-        console.log('DetailsLineOne:', DetailsLineOne);
-        console.log('DetailsLinetwo:', DetailsLinetwo);
-        
-        console.log('QH1:', QH1.join(','));
-        console.log('QH2:', QH2.join(','));
-        console.log('QH3:', QH3.join(','));
-        console.log('QH4:', QH4.join(','));
-        console.log('QH5:', QH5.join(','));
-        
-        console.log('inputValues:', inputValues.join(','))
-        console.log('checkboxValues:', checkboxValues.join(','))
-
         const formData = new FormData();
         const quesheet_data = {
             userid : Cookies.get('userid'),
@@ -445,7 +422,6 @@ function AppUpdateQuetionaire(){
         formData.append("queheaddetails", JSON.stringify(queheaddetails_data))
         formData.append("quetopicdetails", JSON.stringify(quetopicdetails_data))
         formData.append("nonelogo",checknonelogo === false ? false : true)
-        console.log(formData)
 
         try{
             const quecreate = await fetch(variables.API_URL + "quesheet/update/"+id+"/", {
@@ -475,13 +451,10 @@ function AppUpdateQuetionaire(){
     const [namefileupload, setNameFileUpload] = useState(''); // สำหรับชื่อไฟล์อัปโหลด
 
     const onDrop = useCallback((acceptedFiles) => {
-        console.log("OnDrop");
-        console.log(acceptedFiles);
-        console.log(acceptedFiles[0].type);
+
         if(acceptedFiles[0].type === "image/png" ||acceptedFiles[0].type === "image/jpeg" ||acceptedFiles[0].type === "image/jpg"){
             handleFileInputChange(acceptedFiles[0]);
         }else{
-            console.log("รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE");
             Swal.fire({
                 title: "",
                 text: `รองรับเฉพาะไฟล์ .PNG .JPG และ .JPGE`,
@@ -527,7 +500,6 @@ function AppUpdateQuetionaire(){
             setFile('');
             setStatusItem(false);
             setFileShow('')
-            console.log("File",File);
         }
         });
     }

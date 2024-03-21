@@ -20,6 +20,7 @@ function AppSubjectNo(){
 
     const fetchDataSubject = async () => {
         try{
+            //Fetch API เพื่อทำการดึกข้อมูล subject ที่ตรงกับ id ดังกล่าว
             fetch(variables.API_URL+"subject/detail/"+id+"/", {
                 method: "GET",
                 headers: {
@@ -39,7 +40,8 @@ function AppSubjectNo(){
                     }
                 }
             )
-        }catch (err) {
+        }catch (err) { 
+            // ถ้าเกิดข้อผิดพลาดจะกำหนดตัวแปรเป็นค่าว่าง
             setSubjectID('')
             setSubjectName('')
             setSemester('')
@@ -47,6 +49,7 @@ function AppSubjectNo(){
         }
         
     };
+
     const setStartError2 = (e) => {
         setStartError(2);
     }

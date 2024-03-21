@@ -56,7 +56,6 @@ const TableAdminQuestionnaire = ({ columns }) => {
                 ...entry,
                 useridUpdate: userMap[entry.userid] || 'Unknown'
             }));
-            console.log("updatedInput",updatedInput)
             setdata(updatedInput)
         }catch (err) {
             setdata([])
@@ -73,12 +72,10 @@ const TableAdminQuestionnaire = ({ columns }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setdata(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdata([])
         }
         
@@ -94,12 +91,10 @@ const TableAdminQuestionnaire = ({ columns }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setuser(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setuser([])
         }
         
@@ -155,7 +150,6 @@ const TableAdminQuestionnaire = ({ columns }) => {
     // const [selectedColumn,setSelectedColumn] = useState('all'); // Default to search all columns
 
     const handleDelCours = async (queid,quesheetname,) => {
-        // console.log(subid)
         Swal.fire({
             title: "ลบแบบสอบถาม",
             text: `คุณต้องการลบแบบสอบถาม ${quesheetname} ใช่หรือไม่ `,
@@ -176,7 +170,6 @@ const TableAdminQuestionnaire = ({ columns }) => {
                         })
                         .then(response => response.json())
                         .then(result => {
-                            // console.log(result)
                             Swal.fire({
                                 title: result.msg+"\n"+removeTZ(result.deletetime),
                                 icon: "success",//error,question,warning,success
@@ -187,7 +180,6 @@ const TableAdminQuestionnaire = ({ columns }) => {
                         }
                     )
                 }catch (err) {
-                    // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบแบบสอบถาม",
                         icon: "error",//error,question,warning,success
@@ -234,7 +226,6 @@ const TableAdminQuestionnaire = ({ columns }) => {
                         }
                     )
                 }catch (err) {
-                    // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบแบบสอบถาม",
                         icon: "error",//error,question,warning,success
@@ -310,7 +301,6 @@ const TableAdminQuestionnaire = ({ columns }) => {
                                     <th {...column.getHeaderProps()}>
                                     {/* <th {...column.getHeaderProps(column.getSortByToggleProps())}> */}
                                         {column.render('Header')}
-                                        {/* {console.log(column.Header)} */}
                                         <span className='' {...column.getSortByToggleProps()}>
                                             {column.isSorted ? (column.isSortedDesc ?  <FontAwesomeIcon icon={faSortDown} />: <FontAwesomeIcon icon={faSortUp} />) : <FontAwesomeIcon icon={faSort} />}
                                         </span>

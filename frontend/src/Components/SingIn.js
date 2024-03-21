@@ -28,9 +28,7 @@ function AppSingIn(){
         clientId: clientId,
         scope: ''
       }).then(() => {
-        console.log('Google API client initialized successfully');
       }).catch((error) => {
-        console.error('Error initializing Google API client', error);
       });
     };
 
@@ -39,17 +37,15 @@ function AppSingIn(){
   }, [clientId]);
   
   const onSuccess = (res) => {
-    console.log('success', res)
     SingInGoogleID(res.profileObj.email,res.profileObj.googleId)
   }
 
   const onFailure = (res) => {
-    console.log('failed', res)
   }
 
   async function SingInGoogleID(email, googleId){
-    console.log("Email : ",email,"GoogleID :",googleId);
     try{
+      // Fetch API user/login/google/ เข้าสู่ระบบด้วย google
       const response = await fetch(variables.API_URL + "user/login/google/", {
         method: "POST",
         headers: {
@@ -64,6 +60,7 @@ function AppSingIn(){
       const result = await response.json(); 
 
       if(result.err === undefined){
+        // สร้าง Cookies
         Cookies.set('userid', result.userid, { expires: 5 / 24 });
         Cookies.set('email', result.email, { expires: 5 / 24 });
         Cookies.set('fullname', result.fullname, { expires: 5 / 24 });
@@ -79,7 +76,6 @@ function AppSingIn(){
         Cookies.set('clientId', clientId, { expires: 5 / 24 });
         window.location.href = '/Home';
       }else{
-        console.log("result err :",result.err)
         Swal.fire({
           title: result.err,
           icon: "error",//error,question,warning,success
@@ -87,17 +83,14 @@ function AppSingIn(){
         }); 
       }
     }catch(err){
-      console.log(err)
     }
   }
 
   
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log('Email:', Email);
-    console.log('password:', password);
-
     try{
+      // Fetch API user/login/ เข้าสู่ระบบด้วย 
       const response = await fetch(variables.API_URL + "user/login/", {
         method: "POST",
         headers: {
@@ -111,9 +104,8 @@ function AppSingIn(){
       });
 
       const result = await response.json(); 
-      console.log(result)
-      
       if(result.err === undefined){
+        // สร้าง Cookies
         // UserID,Email,FullName,googleID,Usageformat,E_KYC,TypesID
         Cookies.set('userid', result.userid, { expires: 5 / 24 });
         Cookies.set('email', result.email, { expires: 5 / 24 });
@@ -128,19 +120,13 @@ function AppSingIn(){
 
         window.location.href = '/Home';
       }else{
-        console.log("result err :",result.err)
         Swal.fire({
           title: result.err,
           icon: "error",//error,question,warning,success
           confirmButtonColor:"#341699",
         }); 
       }
-       
-      // Log the values to the console
-     
-      
     }catch(error){
-
     }
   }
 
@@ -155,7 +141,7 @@ function AppSingIn(){
               <div className='center'>
                 <GoogleLogin 
                   clientId={clientId}
-                  buttonText="Sign in with Google"
+                  buttonText="Sing in with Google"
                   onSuccess={onSuccess}
                   onFailure={onFailure}
                   cookiePolicy={"single_host_origin"}
@@ -164,7 +150,7 @@ function AppSingIn(){
               </div> 
               <form onSubmit={handleSubmit}>
                   <div className="bx-input-fix">
-                      <label htmlFor="Email">อีเมล</label>
+                      <label htmlFor="Email">อีเมล์</label>
                       <input
                           type="email"
                           id="Email"
@@ -189,11 +175,11 @@ function AppSingIn(){
                   <div>
                     <div className='width100 bx-button' style={{ width: '100%' }}>
                       {/* <button type="reset" className='button-cancel'>รีเซ็ท</button> */}
-                      <button type="submit"  className='button-submit width100'>เข้าสู่ระบบ</button>
+                      <button type="submit"  className='button-submit width100'>ยืนยัน</button>
                     </div>
                   </div>
               </form>            
-              <div className="center">สร้างบัญชีใหม่ได้ที่นี้ <Link to="/SingUp">สมัครสมาชิก</Link></div>
+              <div className="center">สร้างบัญชีใหม่ได้ที่นี่ <Link to="/SingUp">สมัครสมาชิก</Link></div>
             </div>
           </div>
         </div>

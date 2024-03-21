@@ -14,13 +14,9 @@ function AppAnswerSheet(){
     const [namefileupload, setNameFileUpload] = useState(''); // สำหรับชื่อไฟล์อัปโหลด
 
     const onDrop = useCallback((acceptedFiles) => {
-        console.log("OnDrop");
-        console.log(acceptedFiles);
-        console.log(acceptedFiles[0].type);
         if(acceptedFiles[0].type === "text/csv"){
             handleFileInputChange(acceptedFiles[0]);
         }else{
-            console.log("รองรับเฉพาะไฟล์ .csv");
         }
        
     }, []);
@@ -46,9 +42,7 @@ function AppAnswerSheet(){
     const handleSubmitFile = (e) => {
         e.preventDefault();
         if(csvFile !== ''){
-            console.log("csvFile",csvFile);
         }else{
-            console.log("กรุณาอัปโหลดไฟล์csvFile");
         }
     }
 
@@ -56,7 +50,6 @@ function AppAnswerSheet(){
         setNameFileUpload('');
         setcsvFile('');
         setStatusItem(false);
-        console.log("csvFile",csvFile);
     }
     return(
 

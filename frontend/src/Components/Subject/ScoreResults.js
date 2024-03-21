@@ -106,7 +106,6 @@ function AppScoreResults() {
                 confirmButtonText: "ยืนยัน",
                 cancelButtonText:"ยกเลิก"
             }).then(async (result) => {
-                console.log(result)
                 if(result.isConfirmed){
                     const response = await fetch(variables.API_URL + "exam/update/"+id+"/", {
                         method: "PUT",
@@ -130,7 +129,6 @@ function AppScoreResults() {
                         .then(response => response.json())
                         .then(result => {
                             if(result.ok){
-                                console.log("sendmail ",result)
                             }else{
                                 fetch(variables.API_URL + "exam/update/"+id+"/", {
                                     method: "PUT",
@@ -181,9 +179,7 @@ function AppScoreResults() {
                         .then(response => response.json())
                         .then(result => {
                             if(result.ok){
-                                console.log("sendmail ",result)
                             }else{
-                                console.log("not ok ",result)
                                 fetch(variables.API_URL + "exam/update/"+id+"/", {
                                     method: "PUT",
                                     headers: {
@@ -217,7 +213,6 @@ function AppScoreResults() {
             if (result.err !== undefined) {
                 setStartError(1);
             } else {
-                console.log(result)
                 setExamNo(result.examno);
                 setExamNoShow(result.examid);
                 setsubid(result.subid);
@@ -271,30 +266,19 @@ function AppScoreResults() {
             dynamicTyping: true,
             skipEmptyLines: true,
             complete: function (result) {
-                console.log('Parsed CSV data:', result.data);
                 setcsvData(result.data);
             },
         });
     };
 
     const handleDownload = () => {
-        console.log(link_result);
         const filePath = link_result;
         const link = document.createElement('a');
         link.href = process.env.PUBLIC_URL + filePath;
         link.download = 'result_student_list.csv';
         link.click();
     };
-    // const handleDownload = (link_result) => {
-    //     // link_result = link
-
-    //     const blob = new Blob([link_result], { type: 'text/csv; charset=utf-8' });
-    //     const url = URL.createObjectURL(blob);
-    //     const link = document.createElement('a');
-    //     link.href = url;
-    //     link.download = 'result_student_list.csv';
-    //     link.click();
-    // };
+ 
     
 
     useEffect(() => {

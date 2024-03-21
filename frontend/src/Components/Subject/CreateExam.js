@@ -24,6 +24,7 @@ function AppCreateExam(){
         e.preventDefault();
         if(NameExam !== '' && ExamNo !== '' && NumExam !== '' && SetExam !== ''){
             try {
+                // Fetch API exam/create ขอข้อมูล สร้างการสอบของรายวิชา
                 const response = await fetch(variables.API_URL + "exam/create/", {
                     method: "POST",
                     headers: {
@@ -55,15 +56,13 @@ function AppCreateExam(){
                         setSetExam(1);
                         window.location.href = '/Subject/SubjectNo/'+id;
                     });
-                  
-                } else {
-                    console.log(result)
+                } 
+                else {
                     Swal.fire({
                         title: "เกิดข้อผิดพลาด"+result.err,
                         icon: "error",//error,question,warning,success
                         confirmButtonColor: "#341699",
                     });
-                    console.error(result.msg || response.statusText);
                 }
             } catch (err) {
                 Swal.fire({
@@ -71,7 +70,6 @@ function AppCreateExam(){
                     icon: "error",//error,question,warning,success
                     confirmButtonColor: "#341699",
                 });
-                console.error(err);
             }
         }else{
             Swal.fire({
@@ -81,12 +79,14 @@ function AppCreateExam(){
             });
         }
     }
+
     const handleReset = (e) => {
         setNameExam('');
         setExamNo(1);
         setNumExam(40)
         setSetExam(1);
     }
+    
     return(
         <div className='content'>
             <main>

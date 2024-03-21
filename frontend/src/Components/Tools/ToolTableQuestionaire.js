@@ -31,12 +31,10 @@ const ToolTableQuestionaire = ({ columns }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setdata(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdata([])
         }
         
@@ -91,7 +89,6 @@ const ToolTableQuestionaire = ({ columns }) => {
     // const [selectedColumn,setSelectedColumn] = useState('all'); // Default to search all columns
 
     const handleDelCours = async (Queid,Quename) => {
-        // console.log(subid)
         Swal.fire({
             title: "ลบแบบสอบถาม",
             text: `คุณต้องการลบแบบสอบถาม ${Quename} ใช่หรือไม่ `,
@@ -112,7 +109,6 @@ const ToolTableQuestionaire = ({ columns }) => {
                         })
                         .then(response => response.json())
                         .then(result => {
-                            // console.log(result)
                             Swal.fire({
                                 title: result.msg+"\n"+removeTZ(result.deletetime),
                                 icon: "success",//error,question,warning,success
@@ -122,7 +118,6 @@ const ToolTableQuestionaire = ({ columns }) => {
                         }
                     )
                 }catch (err) {
-                    // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบแบบสอบถาม",
                         icon: "error",//error,question,warning,success
@@ -166,7 +161,6 @@ const ToolTableQuestionaire = ({ columns }) => {
                         }
                     )
                 }catch (err) {
-                    // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบรายวิชา",
                         icon: "error",//error,question,warning,success
@@ -214,7 +208,6 @@ const ToolTableQuestionaire = ({ columns }) => {
                                     <th {...column.getHeaderProps()}>
                                     {/* <th {...column.getHeaderProps(column.getSortByToggleProps())}> */}
                                         {column.render('Header')}
-                                        {/* {console.log(column.Header)} */}
                                         <span className='' {...column.getSortByToggleProps()}>
                                             {column.isSorted ? (column.isSortedDesc ?  <FontAwesomeIcon icon={faSortDown} />: <FontAwesomeIcon icon={faSortUp} />) : <FontAwesomeIcon icon={faSort} />}
                                         </span>
@@ -235,7 +228,6 @@ const ToolTableQuestionaire = ({ columns }) => {
                                         <td className={row.values.deletetimequesheet === null || row.values.deletetimequesheet === '' || row.values.deletetimequesheet === "null"?"center":"center wait"}><Link to={"/Questionnaire/QuestionnaireNo/"+row.values.quesheetid}>{Number(row.id)+1}</Link></td>
                                         <td className={row.values.deletetimequesheet === null || row.values.deletetimequesheet === '' || row.values.deletetimequesheet === "null"?"":"wait"}><Link to={"/Questionnaire/QuestionnaireNo/"+row.values.quesheetid}>{row.values.quesheetname}</Link></td>
                                         <td className={row.values.deletetimequesheet === null || row.values.deletetimequesheet === '' || row.values.deletetimequesheet === "null"?"":"wait"}><Link to={"/Questionnaire/QuestionnaireNo/"+row.values.quesheetid}>{row.values.quesheettopicname}</Link></td>                                       
-                                        {console.log(row.values.createtimequesheet)}
                                         {row.values.deletetimequesheet === null || row.values.deletetimequesheet === '' || row.values.deletetimequesheet === "null"?
                                             <td className='center mw80px' ><Link to={'/Questionnaire/QuestionnaireNo/ShowQuestionnaire/UpdateQuestionnaire/'+row.values.quesheetid} className='' style={{ display: 'contents' }}><span className='border-icon-dark'><FontAwesomeIcon icon={faPen} /></span></Link><span className='danger light-font' onClick={() => handleDelCours(row.values.quesheetid,row.values.quesheetname)}><FontAwesomeIcon icon={faTrashCan} /></span> </td>
                                         :

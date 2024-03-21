@@ -31,16 +31,12 @@ const TableSubject = ({ columns }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    // console.log(result)
-                    setdata(result)
-                    // setdata([])
+                    setdata(result)  // นำผลลัพธ์มาเก็บไว้ใน data 
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdata([])
         }
-        
     };
     
     useEffect(() => {
@@ -92,7 +88,8 @@ const TableSubject = ({ columns }) => {
     // const [selectedColumn,setSelectedColumn] = useState('all'); // Default to search all columns
 
     const handleDelCours = async (subid,subname) => {
-        // console.log(subid)
+        // subid = subjectid
+        // subname = subjectname
         Swal.fire({
             title: "ลบรายวิชา",
             text: `คุณต้องการลบรายวิชา ${subname} ใช่หรือไม่ `,
@@ -102,7 +99,7 @@ const TableSubject = ({ columns }) => {
             confirmButtonText: "ยืนยัน",
             cancelButtonText:"ยกเลิก"
         }).then( (result) => {
-            if (result.isConfirmed) {
+            if (result.isConfirmed) { // กดยืนยัน
                 try{
                     fetch(variables.API_URL+"subject/delete/"+subid+"/", {
                         method: "DELETE",
@@ -113,7 +110,6 @@ const TableSubject = ({ columns }) => {
                         })
                         .then(response => response.json())
                         .then(result => {
-                            // console.log(result)
                             Swal.fire({
                                 title: result.msg+"\n"+removeTZ(result.deletetime),
                                 icon: "success",//error,question,warning,success
@@ -123,7 +119,6 @@ const TableSubject = ({ columns }) => {
                         }
                     )
                 }catch (err) {
-                    // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบรายวิชา",
                         icon: "error",//error,question,warning,success
@@ -133,8 +128,9 @@ const TableSubject = ({ columns }) => {
             }
         });
     };
+
     const handlecancelDel = async (subid,subname,datetime) => {
-        Swal.fire({
+        Swal.fire({ 
             title: `วิชาจะถูกลบในวันที่และเวลา \n${datetime}`,
             text: `คุณต้องการยกเลิกการลบวิชา ${subname} ใช่หรือไม่ `,
             icon: "question",
@@ -143,9 +139,9 @@ const TableSubject = ({ columns }) => {
             confirmButtonText: "ยืนยัน",
             cancelButtonText:"ยกเลิก"
         }).then( (result) => {
-            if (result.isConfirmed) {
+            if (result.isConfirmed) { //กดยืนยัน
                 try{
-                    fetch(variables.API_URL+"subject/update/"+subid+"/", {
+                    fetch(variables.API_URL+"subject/update/"+subid+"/", { 
                         method: "PUT",
                         headers: {
                             'Accept': 'application/json, text/plain',
@@ -166,7 +162,6 @@ const TableSubject = ({ columns }) => {
                         }
                     )
                 }catch (err) {
-                    // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบรายวิชา",
                         icon: "error",//error,question,warning,success
@@ -214,7 +209,6 @@ const TableSubject = ({ columns }) => {
                                     <th {...column.getHeaderProps()}>
                                     {/* <th {...column.getHeaderProps(column.getSortByToggleProps())}> */}
                                         {column.render('Header')}
-                                        {/* {console.log(column.Header)} */}
                                         <span className='' {...column.getSortByToggleProps()}>
                                             {column.isSorted ? (column.isSortedDesc ?  <FontAwesomeIcon icon={faSortDown} />: <FontAwesomeIcon icon={faSortUp} />) : <FontAwesomeIcon icon={faSort} />}
                                         </span>

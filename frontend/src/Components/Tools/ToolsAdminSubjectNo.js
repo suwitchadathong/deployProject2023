@@ -30,12 +30,10 @@ const TableAdminSubjectNo = ({ columns }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setdata(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdata([])
         }
             
@@ -89,7 +87,6 @@ const TableAdminSubjectNo = ({ columns }) => {
     const [selectedColumn] = useState('all');
  
     const handleDelCours = async (examid,examno) => {
-        // console.log(subid)
         Swal.fire({
             title: "ลบการสอบ",
             text: `คุณต้องการการสอบครั้งที่ ${examno} ใช่หรือไม่ `,
@@ -110,7 +107,6 @@ const TableAdminSubjectNo = ({ columns }) => {
                         })
                         .then(response => response.json())
                         .then(result => {
-                            console.log(result)
                             Swal.fire({
                                 title: result.msg+"\n"+removeTZ(result.deletetime),
                                 icon: "success",//error,question,warning,success
@@ -120,7 +116,6 @@ const TableAdminSubjectNo = ({ columns }) => {
                         }
                     )
                 }catch (err) {
-                    // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบการสอบ",
                         icon: "error",//error,question,warning,success
@@ -163,7 +158,6 @@ const TableAdminSubjectNo = ({ columns }) => {
                         }
                     )
                 }catch (err) {
-                    // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบการสอบ",
                         icon: "error",//error,question,warning,success

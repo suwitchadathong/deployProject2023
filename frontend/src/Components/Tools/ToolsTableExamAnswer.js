@@ -32,6 +32,7 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
     }));
     const fetchDataExamAnswer = async () => {
         try{
+            //Fetch API เพื่อทำการดึกข้อมูล examanswers/detail/exam/ ขอข้อมูล examanswers exam
             fetch(variables.API_URL+"examanswers/detail/exam/"+id+"/", {
                 method: "GET",
                 headers: {
@@ -41,8 +42,7 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
- 
-                    console.log(result)
+                    // กำหนดการแสดงให้อยู่ในรูปแบบที่ต้องการ
                     const output2Map = result.reduce((map, item) => {
                         map[item.examnoanswers] = item;
                         return map;
@@ -104,7 +104,6 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
     // const [selectedColumn,setSelectedColumn] = useState('all'); // Default to search all columns
 
     const handleDelCours = async (examanswersid,examnoanswers) => {
-        // console.log(subid)
         Swal.fire({
             title: "ลบเฉลยคำตอบ",
             text: `คุณต้องลบเฉลยข้อสอบชุดที่ ${examnoanswers} ใช่หรือไม่ `,
@@ -114,7 +113,7 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
             confirmButtonText: "ยืนยัน",
             cancelButtonText:"ยกเลิก"
         }).then( (result) => {
-            if (result.isConfirmed) {
+            if (result.isConfirmed) { // กดยืนยัน
                 try{
                     fetch(variables.API_URL+"examanswers/delete/"+examanswersid+"/", {
                         method: "DELETE",
@@ -125,7 +124,6 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
                         })
                         .then(response => response.json())
                         .then(result => {
-                            // console.log(result)
                             Swal.fire({
                                 title: result.msg,
                                 icon: "success",//error,question,warning,success
@@ -135,7 +133,6 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
                         }
                     )
                 }catch (err) {
-                    // console.error('เกิดข้อผิดพลาดในการลบ:', err);
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบการสอบ",
                         icon: "error",//error,question,warning,success
@@ -145,18 +142,36 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
             }
         });
     };    
-    // display: flex;
-    // justify-content: center;
-    // padding: 20px;
-    // margin: 20px
+  
     const showAlertCreate = (id,idsetexam) => {
         const isMobile = window.innerWidth < 500;
         Swal.fire({
           title: 'รูปแบบการสร้างเฉลย  ',
           html: `
             <div className="bx-step-content" style="display: ${isMobile ? 'grid' : 'flex'};justify-content: center;" >
-                <div style="margin: 20px;"><a href="/Subject/SubjectNo/Exam/ExamAnswer/CreateExamAnswer/${id}/${idsetexam}/1"><div className="bx-show" style="padding: 20px;border: 1px solid #DDDDDD" ><div className="box"><div className="box-img"><img src='/img/AnsCustomized.png' alt='' /><p className="grid" style="color: #000;">กำหนดเอง</p></div></div></div></a></div>
-                <div style="margin: 20px;"><a href="/Subject/SubjectNo/Exam/ExamAnswer/CreateExamAnswer/${id}/${idsetexam}/2"><div className="bx-show" style="padding: 20px;border: 1px solid #DDDDDD;" ><div className="box"><div className="box-img"><img src='/img/AnsScan.png' alt='' /><p className="grid" style="color: #000;">สแกนไฟล์เฉลย</p></div></div></div></a></div>
+                <div style="margin: 20px;">
+                    <a href="/Subject/SubjectNo/Exam/ExamAnswer/CreateExamAnswer/${id}/${idsetexam}/1">
+                        <div className="bx-show" style="padding: 20px;border: 1px solid #DDDDDD" >
+                            <div className="box">
+                                <div className="box-img"><img src='/img/AnsCustomized.png' alt='' />
+                                    <p className="grid" style="color: #000;">กำหนดเอง</p>
+                                </div>
+                            </div>
+                        </div> 
+                    </a>
+                </div>
+                <div style="margin: 20px;">
+                    <a href="/Subject/SubjectNo/Exam/ExamAnswer/CreateExamAnswer/${id}/${idsetexam}/2">
+                        <div className="bx-show" style="padding: 20px;border: 1px solid #DDDDDD;" >
+                            <div className="box">
+                                <div className="box-img">
+                                    <img src='/img/AnsScan.png' alt='' />
+                                    <p className="grid" style="color: #000;">สแกนไฟล์เฉลย</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
             `,
             showConfirmButton:false,
@@ -179,11 +194,9 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
         fetchDataExamAnswer();
         setStart(1);
     }
-    
 
     const showcountOccurrences= (data,data1) => {
         const isMobile = window.innerWidth < 780;
-
         Swal.fire({
             title: 'ข้อมูลเฉลยคำตอบ',
             html: `
@@ -193,7 +206,7 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
                         <p><b>คะแนนเต็ม</b></p>
                         คะแนนรวม <span style=''>${sumAns(data)}</span> คะแนน<br>
                         ${countOccurrences(data)}
-                    </div>
+                    </div> 
                 </div>
                 <div style="flex: 1; text-align: center;">
                     <div>
@@ -214,6 +227,7 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
             }
         })
     }
+
     const choiceanswerslength = (inputString) => {
         const groups = inputString.split(',');
         const array = [0,0,0,0,0,0,0,0,0]
@@ -227,12 +241,9 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
             }
             
         });
-        console.log(array)
         let result = '';
         array.forEach((count, index) => {
-            console.log("count",count)
             if(count === 0){
-                // result += `คำตอบ ${index} ช้อย = ${count} ข้อ<br>`;
             }else{
                 if(index === 0){
                     const Counts = parseInt(count, 10);
@@ -246,6 +257,7 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
         });
         return result;
     };
+
     const choiceanswerslengthtable = (inputString) => {
         const groups = inputString.split(',');
         const array = [0,0,0,0,0,0,0,0,0]
@@ -259,10 +271,8 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
             }
             
         });
-        console.log(array)
         let result = '';
         array.forEach((count, index) => {
-            console.log("count",count)
             if(count === 0){
                 // result += `คำตอบ ${index} ช้อย = ${count} ข้อ<br>`;
             }else{
@@ -278,14 +288,14 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
         });
         return result;
     };
+
     const sumAns = (inputString) => {
-        // [1,2,3,4,5,6,7,1,1,2,2,3,4,5]
         const resultArray = inputString.split(",");
         let sum = 0;
         for (let i = 0; i < resultArray.length; i++) {
             const resultArrayRemove =  resultArray[i].split(":");
-            const thirdCharacter = parseInt(resultArrayRemove[2]); // Parse the third character as an integer
-            sum += thirdCharacter; // Add the parsed value to the sum
+            const thirdCharacter = parseInt(resultArrayRemove[2]); 
+            sum += thirdCharacter; 
         }
         return sum;
     };

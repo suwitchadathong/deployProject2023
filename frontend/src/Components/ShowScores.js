@@ -19,8 +19,9 @@ function AppShowScores(){
     const [Start, setStart] = useState(0);
     const [StartError, setStartError] = useState(0);
 
-    const fetchDataDetailByEmail = async () => {
+    const fetchDataexamDetail = async () => {
         try{
+            // Fetch API examinformation/detail ขอข้อมูล examinformation โดยอิงจาก id
             fetch(variables.API_URL+"examinformation/detail/"+id+"/", {
                 method: "GET",
                 headers: {
@@ -30,7 +31,6 @@ function AppShowScores(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log("examinformation",result)
                     setdata(result)
                 }
             )
@@ -40,6 +40,7 @@ function AppShowScores(){
     };
     const fetchDataexam = async () => {
         try{
+            // Fetch API exam ขอข้อมูลการสอบ
             fetch(variables.API_URL+"exam/", {
                 method: "GET",
                 headers: {
@@ -49,17 +50,16 @@ function AppShowScores(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log("exam",result)
                     setdataExam(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdataExam([])
         }
     };
     const fetchDataSubject = async () => {
         try{
+            // Fetch API subject ขอข้อมูล รายวิชา
             fetch(variables.API_URL+"subject/", {
                 method: "GET",
                 headers: {
@@ -69,17 +69,17 @@ function AppShowScores(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log("Subject",result)
                     setdataSubject(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdataSubject([])
         }
     };
+
     const fetchDataexamanswers = async () => {
         try{
+            // Fetch API examanswers ขอข้อมูล examanswers
             fetch(variables.API_URL+"examanswers/", {
                 method: "GET",
                 headers: {
@@ -89,7 +89,6 @@ function AppShowScores(){
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log("examanswers",result)
                     setdataExamanswers(result)
                 }
             )
@@ -97,8 +96,9 @@ function AppShowScores(){
             setdataExamanswers([])
         }
     };
+
     if(Start === 0){
-        fetchDataDetailByEmail();
+        fetchDataexamDetail();
         fetchDataexam();
         fetchDataSubject();
         fetchDataexamanswers();
@@ -133,6 +133,7 @@ function AppShowScores(){
             return null
         }
     }
+
     function findExam(inputExamId,format) {
         try{
             if(dataExam.length >= 1 && dataSubject.length>=1){
@@ -159,14 +160,15 @@ function AppShowScores(){
         try{
             if(dataExam.length >= 1 && dataExamanswers.length>=1){
                 const foundExam = dataExam.find(exam => exam.examid === inputExamId);
-                const foundExamanswers = dataExamanswers.find(answers => answers.examid === foundExam.examid && parseInt(answers.examnoanswers,10) === parseInt(setexaminfo));
+                const foundExamanswers = dataExamanswers.find(
+                    answers => answers.examid === foundExam.examid && parseInt(answers.examnoanswers,10) === parseInt(setexaminfo));
                 
                 const resultArray = foundExamanswers.scoringcriteria.split(",");
                 let sum = 0;
                 for (let i = 0; i < resultArray.length; i++) {
                     const resultArrayRemove =  resultArray[i].split(":");
-                    const thirdCharacter = parseInt(resultArrayRemove[2]); // Parse the third character as an integer
-                    sum += thirdCharacter; // Add the parsed value to the sum
+                    const thirdCharacter = parseInt(resultArrayRemove[2]); 
+                    sum += thirdCharacter; 
                 }
                 return sum
 

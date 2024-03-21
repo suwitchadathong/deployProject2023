@@ -47,6 +47,8 @@ services:
       restart: always
       build: .
       command: celery -A mysite worker --loglevel=info & celery -A mysite beat --loglevel=info
+      ports:
+      - "5672:5672"
       valumes:
         - :/code      
       depends_on:

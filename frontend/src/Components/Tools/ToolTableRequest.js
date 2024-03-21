@@ -18,8 +18,9 @@ const TableRequest = ({ columns }) => {
     const [data, setdata] = useState([]);
     const [user, setuser] = useState([]);
 
-    const fetchDataType = async () => {
+    const fetchDataRequest = async () => {
         try{
+            // Fetch API request ขอข้อมูล request
             fetch(variables.API_URL+"request/", {
                 method: "GET",
                 headers: {
@@ -29,12 +30,10 @@ const TableRequest = ({ columns }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setdata(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setdata([])
         }
         
@@ -50,19 +49,18 @@ const TableRequest = ({ columns }) => {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
                     setuser(result)
                 }
             )
         }catch (err) {
-            // console.error('ไม่พบข้อมูล:', err);
             setuser([])
         }
         
     };
+
     useEffect(() => {
         fetchDataUser();
-        fetchDataType();
+        fetchDataRequest();
     }, []);
 
     const {
@@ -110,7 +108,6 @@ const TableRequest = ({ columns }) => {
     // const [selectedColumn,setSelectedColumn] = useState('all'); // Default to search all columns
 
     const handleDelCours = async (requestid,typesname) => {
-        // console.log(subid)
         Swal.fire({
             title: "ลบประเภทการใช้งาน",
             text: `คุณต้องการลบประเภทการใช้งาน ${typesname} ใช่หรือไม่ `,
@@ -136,7 +133,7 @@ const TableRequest = ({ columns }) => {
                                 icon: "success",//error,question,warning,success
                                 confirmButtonColor: "#341699",
                             });
-                            fetchDataType();
+                            fetchDataRequest();
                         }
                     )
                 }catch (err) {
