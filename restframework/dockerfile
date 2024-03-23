@@ -7,6 +7,9 @@ ENV PYTHONUNBUFFERED 1
 # อัปเดตและติดตั้ง dependencies ที่จำเป็นสำหรับการทำงานของโปรแกรม
 RUN apk update && apk add python3-dev gcc libc-dev
 
+# ติดตั้ง dependencies ที่จำเป็นสำหรับการใช้งาน opencv-python
+RUN apk add --no-cache cmake make gcc g++
+
 # กำหนดไดเรกทอรีทำงานเป็น /code
 WORKDIR /code
 
@@ -15,17 +18,15 @@ COPY ./requirements.txt /code/requirements.txt
 
 # ติดตั้ง dependencies จากไฟล์ requirements.txt โดยใช้ pip
 RUN pip install --no-cache-dir --upgrade pip && pip install -r /code/requirements.txt
-# RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
+# คัดลอกโค้ดจากโฟลเดอร์ปัจจุบันไปยังโฟลเดอร์ /code
 COPY . .
 
-
+# กำหนด port ที่เปิดให้ Docker container
 EXPOSE 8000
 
-RUN python ./manage.py makemigrations && python ./manage.py migrate
+# ทำการ migrate database และเริ่มการทำงานของ celery worker และ beat
+RUN python ./manage.py makemigrations && python ./manage.py migrate && celery -A mysite worker --loglevel=info && celery -A mysite beat --loglevel=info
 
-RUN celery -A mysite worker --loglevel=info && celery -A mysite beat --loglevel=info
-
+# คำสั่งที่ใช้เมื่อ Docker container ถูกเริ่มต้น
 CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]
-
-

@@ -51,14 +51,14 @@ services:
       ports:
        - "6379:6379"
 
-    # celery:
-    #   container_name: celery
-    #   restart: always
-    #   build: .
-    #   # command: celery -A mysite worker --loglevel=info & celery -A mysite beat --loglevel=info
-    #   ports:
-    #     - "6379:6379"
-    #     - "5432:5432"
+    celery:
+      container_name: celery
+      restart: always
+      build: .
+      # command: celery -A mysite worker --loglevel=info & celery -A mysite beat --loglevel=info
+      ports:
+        - "6379:6379"
+        - "5432:5432"
     #   valumes:
     #     - :/code      
     #   depends_on:
