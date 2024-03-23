@@ -59,12 +59,12 @@ services:
       ports:
         - "6379:6379"
         - "5432:5432"
-    #   valumes:
-    #     - :/code      
-    #   depends_on:
-    #     - postgres
-    #     - redis
-    #     - backend
+      valumes:
+        - :/code      
+      depends_on:
+        - postgres
+        - redis
+        - backend
     #   environment:
     #     - POSTGRES_HOST=db_host
     #     - POSTGRES_PORT=5432
