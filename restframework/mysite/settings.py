@@ -164,8 +164,8 @@ CORS_ALLOWED_ORIGINS = [
 # Celery
 # CELERY_broker_url = 'redis://localhost:6379/0'
 # result_backend = 'redis://localhost:6379/0'
-CELERY_broker_url = 'redis://localhost:6379/0'
-result_backend = 'redis://localhost:6379/0'
+CELERY_broker_url = 'redis://161.246.4.12:6379/0'
+result_backend = 'redis://161.246.4.12:6379/0'
 # accept_content = ['application/json']
 # result_serializer = 'json'
 # task_serializer = 'json'

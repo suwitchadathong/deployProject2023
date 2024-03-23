@@ -1,4 +1,4 @@
-version: "3.3"
+version: "4"
 services:
     showweb:
         container_name: showweb
@@ -8,13 +8,11 @@ services:
         - "8001:3000" #server
         - "80:8001" #server
 
-        
     backend:
       container_name: backend
       image: mydb
       # command: python ./manage.py runserver 0.0.0.0:8000
       ports:
-        # - 8101:8000
         - "8000:8000"
         - "8101:443"
       depends_on:
@@ -32,6 +30,8 @@ services:
         - PEPPER=kmitl
         - EMAIL_HOST_USER=mcqa.system@gmail.com
         - EMAIL_HOST_PASSWORD=tubh bawz zcqy bqdg
+        - CELERY_BROKER_URL=redis://redis:6379/0
+        - CELERY_RESULT_BACKEND=redis://redis:6379/0
 
     postgres:
       container_name: postgres
@@ -51,31 +51,29 @@ services:
       ports:
        - "6379:6379"
 
-    celery:
-      container_name: celery
-      restart: always
-      build: .
-      # command: celery -A mysite worker --loglevel=info & celery -A mysite beat --loglevel=info
-      ports:
-        - "6379:6379"
-        - "5432:5432"
-      valumes:
-        - :/code      
-      depends_on:
-        - postgres
-        - redis
-        - backend
-      links:
-        - postgres
-      environment:
-        - POSTGRES_HOST=db_host
-        - POSTGRES_PORT=5432
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=admin123
-        - POSTGRES_DB=mcqas
-        - REDIS_HOST=redis
-        - REDIS_PORT=6379
-        - SECRET_KEY=django-insecure-fyr$qmpwlyhi6f_xnpliot%q+d+3fx)y0pyy@$u-#yf4&*+!fz
-        - PEPPER=kmitl
-        - EMAIL_HOST_USER=mcqa.system@gmail.com
-        - EMAIL_HOST_PASSWORD=tubh bawz zcqy bqdg
+    # celery:
+    #   container_name: celery
+    #   restart: always
+    #   build: .
+    #   # command: celery -A mysite worker --loglevel=info & celery -A mysite beat --loglevel=info
+    #   ports:
+    #     - "6379:6379"
+    #     - "5432:5432"
+    #   valumes:
+    #     - :/code      
+    #   depends_on:
+    #     - postgres
+    #     - redis
+    #     - backend
+    #   environment:
+    #     - POSTGRES_HOST=db_host
+    #     - POSTGRES_PORT=5432
+    #     - POSTGRES_USER=postgres
+    #     - POSTGRES_PASSWORD=admin123
+    #     - POSTGRES_DB=mcqas
+    #     - REDIS_HOST=redis
+    #     - REDIS_PORT=6379
+    #     - SECRET_KEY=django-insecure-fyr$qmpwlyhi6f_xnpliot%q+d+3fx)y0pyy@$u-#yf4&*+!fz
+    #     - PEPPER=kmitl
+    #     - EMAIL_HOST_USER=mcqa.system@gmail.com
+    #     - EMAIL_HOST_PASSWORD=tubh bawz zcqy bqdg
