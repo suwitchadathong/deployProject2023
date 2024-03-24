@@ -4,8 +4,15 @@ FROM python:3.10-alpine
 # ตั้งค่า environment variable เพื่อไม่ให้ Python มีการ buffer output
 ENV PYTHONUNBUFFERED 1
 
-# อัปเดตและติดตั้ง dependencies ที่จำเป็นสำหรับการทำงานของโปรแกรม
-RUN apk update && apk add python3-dev gcc libc-dev
+# ติดตั้ง dependencies ที่จำเป็นสำหรับการทำงานของโปรแกรม
+RUN apk update && apk add --no-cache \
+    build-base \
+    python3-dev \
+    postgresql-dev \
+    musl-dev \
+    libffi-dev \
+    gcc \
+    libc-dev
 
 # กำหนดไดเรกทอรีทำงานเป็น /code
 WORKDIR /code
@@ -14,18 +21,48 @@ WORKDIR /code
 COPY ./requirements.txt /code/requirements.txt
 
 # ติดตั้ง dependencies จากไฟล์ requirements.txt โดยใช้ pip
-RUN pip install --no-cache-dir --upgrade pip && pip install -r /code/requirements.txt
-# RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && pip install -r requirements.txt
 
+# คัดลอกโค้ดทั้งหมดไปยังโฟลเดอร์ /code
 COPY . .
 
-
+# เปิดพอร์ต 8000 สำหรับการเชื่อมต่อ
 EXPOSE 8000
 
-RUN python ./manage.py makemigrations && python ./manage.py migrate
+# คำสั่งที่ใช้ในการ migrate ฐานข้อมูลและเริ่มต้นการทำงานของเซิร์ฟเวอร์
+CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
 
-RUN celery -A mysite worker --loglevel=info && celery -A mysite beat --loglevel=info
 
-CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]
+
+
+# เลือกใช้ Python 3.10 จาก Alpine Linux เป็นฐาน
+# FROM python:3.10-alpine
+
+# # ตั้งค่า environment variable เพื่อไม่ให้ Python มีการ buffer output
+# ENV PYTHONUNBUFFERED 1
+
+# # อัปเดตและติดตั้ง dependencies ที่จำเป็นสำหรับการทำงานของโปรแกรม
+# RUN apk update && apk add python3-dev gcc libc-dev
+
+# # กำหนดไดเรกทอรีทำงานเป็น /code
+# WORKDIR /code
+
+# # คัดลอกไฟล์ requirements.txt ไปยังโฟลเดอร์ /code
+# COPY ./requirements.txt /code/requirements.txt
+
+# # ติดตั้ง dependencies จากไฟล์ requirements.txt โดยใช้ pip
+# RUN pip install --no-cache-dir --upgrade pip && pip install -r /code/requirements.txt
+# # RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+# COPY . .
+
+
+# EXPOSE 8000
+
+# RUN python ./manage.py makemigrations && python ./manage.py migrate
+
+# RUN celery -A mysite worker --loglevel=info && celery -A mysite beat --loglevel=info
+
+# CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]
 
 
