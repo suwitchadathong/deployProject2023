@@ -210,7 +210,7 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
                 </div>
                 <div style="flex: 1; text-align: center;">
                     <div>
-                        <p><b>จำนวนช้อย</b></p>
+                        <p><b>จำนวนชอยซ์</b></p>
                         ${choiceanswerslength(data1)}
                     </div>
                 </div>
@@ -250,7 +250,7 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
                     result += `ไม่มีคำตอบ = ${Counts} ข้อ<br>`;
                 }else{
                     const Counts = parseInt(count, 10);
-                    result += `คำตอบ ${index} ช้อย = ${Counts} ข้อ<br>`;
+                    result += `คำตอบ ${index} ชอยซ์ = ${Counts} ข้อ<br>`;
                 }
             }
            
@@ -274,14 +274,14 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
         let result = '';
         array.forEach((count, index) => {
             if(count === 0){
-                // result += `คำตอบ ${index} ช้อย = ${count} ข้อ<br>`;
+                // result += `คำตอบ ${index} ชอยซ์ = ${count} ข้อ<br>`;
             }else{
                 if(index === 0){
                     const Counts = parseInt(count, 10);
                     result += `ไม่มีคำตอบ = ${Counts} ข้อ `;
                 }else{
                     const Counts = parseInt(count, 10);
-                    result += `คำตอบ ${index} ช้อย = ${Counts} ข้อ`;
+                    result += `คำตอบ ${index} ชอยซ์ = ${Counts} ข้อ`;
                 }
             }
            
@@ -353,7 +353,7 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
                                 ) : null
                             ))}
                             <th>จำนวนคะแนนเต็ม</th>
-                            <th>จำนวนช้อย</th>
+                            <th>จำนวนชอยซ์</th>
                             <th>สถานะ</th>
                             <th>การจัดการ</th>
                         </tr>
