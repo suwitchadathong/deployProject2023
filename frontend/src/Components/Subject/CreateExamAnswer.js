@@ -283,7 +283,7 @@ function AppCreateExamAnswer(){
 
                         if (response.ok) {
                             Swal.fire({
-                                title: "สร้างรายวิชาเสร็จสิ้น",
+                                title: "สร้างเฉลยข้อสอบเสร็จสิ้น",
                                 icon: "success",//error,question,warning,success
                                 confirmButtonColor: "#341699",
                             }).then((result) => {
