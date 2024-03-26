@@ -32,6 +32,7 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = ["0.0.0.0"]
+# ALLOWED_HOSTS = []
 
 
 # Application definition
