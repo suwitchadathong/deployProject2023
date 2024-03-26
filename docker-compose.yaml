@@ -37,25 +37,26 @@ services:
     container_name: postgres
     image: postgres
     restart: unless-stopped
-    # ports:
-    #   - "5432:5432"
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin123
       - POSTGRES_DB=mcqas
     volumes:
       - ./postgres:/var/lib/postgresql/data
-    expose:
-      - 5432
+    # expose:
+    #   - 5432
 
   redis:
     restart: unless-stopped
-    image: redis:7.0.5-alpine
-    expose:
-      - 6379
     container_name: redis
-    # ports:
-    #   - "6379:6379"
+    image: redis:7.0.5-alpine
+    # expose:
+    #   - 6379
+
+    ports:
+      - "6379:6379"
 
   celery:
     container_name: celery
