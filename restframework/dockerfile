@@ -1,5 +1,5 @@
 # เลือกใช้ Python 3.10 จาก Alpine Linux เป็นฐาน
-FROM python:3.10-alpine
+FROM python:3.9-alpine
 
 # ตั้งค่า environment variable เพื่อไม่ให้ Python มีการ buffer output
 ENV PYTHONUNBUFFERED 1
