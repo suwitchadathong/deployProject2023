@@ -52,11 +52,10 @@ services:
     restart: unless-stopped
     container_name: redis
     image: redis:7.0.5-alpine
+    ports:
+      - "6380:6379"
     # expose:
     #   - 6379
-
-    ports:
-      - "6379:6379"
 
   celery:
     container_name: celery
