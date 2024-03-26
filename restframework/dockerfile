@@ -22,7 +22,7 @@ WORKDIR /code
 COPY ./requirements.txt /code/requirements.txt
 
 # ติดตั้ง dependencies จากไฟล์ requirements.txt โดยใช้ pip
-RUN pip install --upgrade && pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
+RUN pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
 
 # คัดลอกโค้ดทั้งหมดไปยังโฟลเดอร์ /code
 COPY . .
