@@ -52,16 +52,13 @@ services:
       ports:
         - "6379:6379"
 
-  celery:
-    container_name: celery
-    restart: always
-    image: celery
-    ports:
-      - "6379:6379"
-    depends_on:
-      - postgres
-      - redis
-      - backend
-volumes:
-  static_volume: {}
-  postgres_data: {}
+  # celery:
+  #   container_name: celery
+  #   restart: always
+  #   image: celery
+  #   ports:
+  #     - "6379:6379"
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #     - backend
