@@ -16,7 +16,6 @@ services:
     depends_on:
       - showweb
       - postgres
-      - redis
     environment:
       - POSTGRES_HOST=db_host
       - POSTGRES_PORT=5432
@@ -36,7 +35,6 @@ services:
   postgres:
     container_name: postgres
     image: postgres
-    restart: unless-stopped
     ports:
       - "5432:5432"
     environment:
@@ -45,8 +43,6 @@ services:
       - POSTGRES_DB=mcqas
     volumes:
       - ./postgres:/var/lib/postgresql/data
-    # expose:
-    #   - 5432
 
   redis:
     restart: unless-stopped
@@ -54,8 +50,6 @@ services:
     image: redis:7.0.5-alpine
     ports:
       - "6380:6379"
-    # expose:
-    #   - 6379
 
   celery:
     container_name: celery
