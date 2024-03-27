@@ -1,19 +1,19 @@
 # เลือกใช้ Python 3.10 จาก Alpine Linux เป็นฐาน
-FROM python:3.10-alpine3.18
+FROM python:3.10
 
 # ตั้งค่า environment variable เพื่อไม่ให้ Python มีการ buffer output
 ENV PYTHONUNBUFFERED 1
 
 # ติดตั้ง dependencies ที่จำเป็นสำหรับการทำงานของโปรแกรม
-RUN apk update && apk add --no-cache \
-    build-base \
-    python3-dev \
-    postgresql-dev \
-    musl-dev \
-    libffi-dev \
-    gcc \
-    libc-dev\
-    redis
+# RUN apk update && apk add --no-cache \
+#     build-base \
+#     python3-dev \
+#     postgresql-dev \
+#     musl-dev \
+#     libffi-dev \
+#     gcc \
+#     libc-dev\
+#     redis
 
 # กำหนดไดเรกทอรีทำงานเป็น /code
 WORKDIR /code
