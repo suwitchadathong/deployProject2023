@@ -27,11 +27,11 @@ RUN pip install --upgrade pip setuptools wheel && pip install -r requirements.tx
 # คัดลอกโค้ดทั้งหมดไปยังโฟลเดอร์ /code
 COPY . .
 
-# เปิดพอร์ต 8000 สำหรับการเชื่อมต่อ
-EXPOSE 8000
+# เปิดพอร์ต 8000 8001 สำหรับการเชื่อมต่อ
+EXPOSE 8000 8101
 
 # คำสั่งที่ใช้ในการ migrate ฐานข้อมูลและเริ่มต้นการทำงานของเซิร์ฟเวอร์
-CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000 && celery -A mysite worker --loglevel=info && celery -A mysite beat --loglevel=info"]
+CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver && celery -A mysite worker --loglevel=info && celery -A mysite beat --loglevel=info"]
 
 
 
