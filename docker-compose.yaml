@@ -57,7 +57,7 @@ services:
     restart: always
     image: celery
     ports:
-      - "6379:6379"
+      - "6380:6380"
     depends_on:
       - postgres
       - redis
