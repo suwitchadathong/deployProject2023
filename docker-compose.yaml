@@ -12,7 +12,7 @@ services:
       container_name: redis
       image: redis:7.0.5-alpine 
       ports:
-        - "6380:6380"
+        - "6379:6379"
 
   backend:
     container_name: backend
@@ -30,14 +30,14 @@ services:
       - POSTGRES_PASSWORD=admin123
       - POSTGRES_DB=mcqas
       - REDIS_HOST=redis
-      - REDIS_PORT=6380
+      - REDIS_PORT=6379
       - WDS_SOCKET_PORT=443
       - SECRET_KEY=django-insecure-fyr$qmpwlyhi6f_xnpliot%q+d+3fx)y0pyy@$u-#yf4&*+!fz
       - PEPPER=kmitl
       - EMAIL_HOST_USER=mcqa.system@gmail.com
       - EMAIL_HOST_PASSWORD=tubh bawz zcqy bqdg
-      - CELERY_BROKER_URL=redis://redis:6380/0
-      - CELERY_RESULT_BACKEND=redis://redis:6380/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
 
   postgres:
       container_name: postgres
