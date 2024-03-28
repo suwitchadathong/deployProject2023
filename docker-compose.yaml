@@ -28,11 +28,23 @@ services:
       - ./database/mcqas.sql:/docker-entrypoint-initdb.d/mcqas.sql
       - ./postgres-data:/var/lib/postgresql/data
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@kmitl.ac.th
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "10.220.66.101:80:5050"
+    volumes:
+      - pgadmin-data:/root/.pgadmin
+
   backend:
     container_name: backend
     image: mydb
     ports:
-      - "10.220.66.101:80:8000"
+      - "8000:8000"
     depends_on:
       - showweb
       - postgresdb
@@ -87,3 +99,4 @@ services:
 
 volumes:
   postgres-data:
+  pgadmin-data:
