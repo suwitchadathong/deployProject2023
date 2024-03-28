@@ -71,9 +71,7 @@ function AppAdminUpdateExam(){
                                 setStartError(1);
                             }else{
                                 setsubjectname(result.subjectname)
-                                // setStartError(3);
                             }
-                            
                         }
                     )
                 }

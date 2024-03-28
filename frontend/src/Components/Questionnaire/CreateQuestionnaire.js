@@ -149,7 +149,6 @@ function AppCreateQuestionnaire(){
       newInputValues[index] = value;
       setInputValues(newInputValues);
     };
-  
     const handleCheckboxChange = (index) => {
       const newCheckboxValues = [...checkboxValues];
       newCheckboxValues[index] = !newCheckboxValues[index];
@@ -223,8 +222,6 @@ function AppCreateQuestionnaire(){
                 confirmButtonText: "ยืนยัน",  
             })
         }
-
-        
     };
     async function loading(){
         try {
@@ -263,8 +260,6 @@ function AppCreateQuestionnaire(){
         }
     }
     async function CreateQue() {
-       
-
         const formData = new FormData();
         const quesheet_data = {
             userid : Cookies.get('userid'),
@@ -487,7 +482,7 @@ function AppCreateQuestionnaire(){
 
 
                                         <div className="space5"></div>
-                                        <div className="fb">ปรับแต่งตราสัญลักษณ์ (ขนาดรูปภาพที่แนะนำ 300 x 135 Pixels)</div>
+                                        <div className="fb">ปรับแต่งตราสัญลักษณ์ <span className="fs12" style={{ fontWeight: "normal" }}>(ขนาดรูปภาพที่แนะนำ 300 x 135 Pixels)</span></div>
                                         <div className="mw300px">
                                             <div className="dropzone">
                                                 <div className="dz-box"{...getRootProps()}>

@@ -85,8 +85,6 @@ function AppAdminUpdateQuestionnaire(){
                         setquehead4(result.quehead4)
                         setquehead5(result.quehead5)
                     }
-                    
-
                 }
             )
             fetch(variables.API_URL+"quetopicdetails/detail/"+id+"/", {
@@ -104,10 +102,8 @@ function AppAdminUpdateQuestionnaire(){
                         setquetopicdetails(result.quetopicdetails)
                         setquetopicformat(result.quetopicformat)
                     }
-                   
                 }
             )
-            
         }catch (err) {
             setStartError(1);
            

@@ -130,7 +130,6 @@ function AppUpdateUser() {
         }catch (err) {
             setdatatype([])
         }
-        
     };
     if (Start === 0) {
         fetchDataUser();
@@ -198,9 +197,6 @@ function AppUpdateUser() {
 
     async function handleUpdateUser(e) {
         e.preventDefault();
-  
-  
-
         if (errortext === "กรุณากรอก") {
           try {
             const response = await fetch(

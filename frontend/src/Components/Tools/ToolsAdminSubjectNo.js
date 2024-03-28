@@ -36,8 +36,7 @@ const TableAdminSubjectNo = ({ columns }) => {
         }catch (err) {
             setdata([])
         }
-            
-        };
+    };
      
     useEffect(() => {
         fetchDataExam();

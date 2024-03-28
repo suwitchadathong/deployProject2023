@@ -600,7 +600,7 @@ function AppUpdateQuetionaire(){
                                                 <label htmlFor="myCheckbox">เอาตราสัญลักษณ์ออก</label>
                                             </span>
                                         </div>
-                                        <div className="fb">ปรับแต่งตราสัญลักษณ์ (ขนาดรูปภาพที่แนะนำ 300 x 135 Pixels)</div>
+                                        <div className="fb">ปรับแต่งตราสัญลักษณ์ <span className="fs12" style={{ fontWeight: "normal" }}>(ขนาดรูปภาพที่แนะนำ 300 x 135 Pixels)</span></div>
                                         <div className={checknonelogo === true ?"mw300px wait":"mw300px"}>
                                             <div className="dropzone">
                                                 <div className="dz-box"{...getRootProps()}>

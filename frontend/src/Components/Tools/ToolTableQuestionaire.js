@@ -20,7 +20,7 @@ const ToolTableQuestionaire = ({ columns }) => {
     // const [DataSubject, setDataSubject] = useState([]);
     const [data, setdata] = useState([]);
 
-    const fetchDataSubject = async () => {
+    const fetchDataQue = async () => {
         try{
             fetch(variables.API_URL+"quesheet/detail/user/"+Cookies.get('userid')+"/", {
                 method: "GET",
@@ -37,11 +37,10 @@ const ToolTableQuestionaire = ({ columns }) => {
         }catch (err) {
             setdata([])
         }
-        
     };
     
     useEffect(() => {
-        fetchDataSubject();
+        fetchDataQue();
     }, []);
 
     const {
@@ -114,7 +113,7 @@ const ToolTableQuestionaire = ({ columns }) => {
                                 icon: "success",//error,question,warning,success
                                 confirmButtonColor: "#341699",
                             });
-                            fetchDataSubject();
+                            fetchDataQue();
                         }
                     )
                 }catch (err) {
@@ -157,7 +156,7 @@ const ToolTableQuestionaire = ({ columns }) => {
                                 icon: "success",//error,question,warning,success
                                 confirmButtonColor: "#341699",
                             });
-                            fetchDataSubject();
+                            fetchDataQue();
                         }
                     )
                 }catch (err) {

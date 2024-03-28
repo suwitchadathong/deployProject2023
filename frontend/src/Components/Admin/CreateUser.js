@@ -70,7 +70,6 @@ function AppCreateUser(){
         }catch (err) {
             setdatatype([])
         }
-        
     };
 
     const handstep = (e) => {
@@ -162,7 +161,6 @@ function AppCreateUser(){
         }else{
             handSwal("กรุณากดยอมรับข้อกำหนด")
         }
-
     };
     async function loading(){
         try {
@@ -370,7 +368,7 @@ function AppCreateUser(){
                                             <div className='center'>
                                                 <GoogleLogin 
                                                 clientId={clientId}
-                                                buttonText="Sing in with Google"
+                                                buttonText="Sign in with Google"
                                                 onSuccess={onSuccess}
                                                 onFailure={onFailure}
                                                 cookiePolicy={"single_host_origin"}

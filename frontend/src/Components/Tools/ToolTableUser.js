@@ -44,14 +44,12 @@ const TableUser = ({ columns }) => {
             const input = resultUser;
             const type = resultType;
 
-            
             const typeMap = {};
 
             type.forEach(entry => {
-                    typeMap[entry.typesid] = entry.typesname;
+                typeMap[entry.typesid] = entry.typesname;
             });
 
- 
             const updatedInput = input.map(entry => ({
                 ...entry,
                 typesid: typeMap[entry.typesid] || 'Unknown'

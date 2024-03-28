@@ -53,13 +53,13 @@ function AppUpdateRequest(){
                         setstatus_request(result.status_request)
                         setnotes(result.notes)
                     }
-                    
                 }
             )
         }catch (err) {
             setStartError(1);
         }
     };
+
     if(Start === 0){
         
         fetchDataUpdateRequest();
@@ -197,7 +197,6 @@ function AppUpdateRequest(){
                 confirmButtonColor: "#341699",
             });
         }
-        
     }
     const options = {}
     return (

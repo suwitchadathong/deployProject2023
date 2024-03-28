@@ -58,15 +58,15 @@ function AppRespond(){
             setStartError(1);
         }
     };
-    if(Start === 0){
-        
+
+    if(Start === 0){  
         fetchDataUpdateRequest();
         setStart(1);
         setTimeout(function() {
             setStartError(2);
         }, 800);
-
     }
+
     async function handleSubmit(e) {
         e.preventDefault();
         if(status_request !== ''){
@@ -195,9 +195,10 @@ function AppRespond(){
                 confirmButtonColor: "#341699",
             });
         }
-        
     }
+
     const options = {}
+
     return (
         <div className='content'>
             <main>

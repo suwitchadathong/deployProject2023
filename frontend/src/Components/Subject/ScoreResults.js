@@ -95,6 +95,7 @@ function AppScoreResults() {
             })
         }
     };
+
     async function handlesendemail(e) {
         if(sendemail === null){
             Swal.fire({
@@ -252,6 +253,7 @@ function AppScoreResults() {
             setStartError(1);
         }
     };
+
     if (Start === 0) {
         fetchDataExaminfo();
         setStart(1);

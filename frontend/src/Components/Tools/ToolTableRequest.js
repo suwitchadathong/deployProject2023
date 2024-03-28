@@ -36,7 +36,6 @@ const TableRequest = ({ columns }) => {
         }catch (err) {
             setdata([])
         }
-        
     };
     const fetchDataUser = async () => {
         try{

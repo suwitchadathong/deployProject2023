@@ -57,9 +57,6 @@ function AppCheckAnswerSheet(){
                 if (result.std_csv_path !== null) {
                     const csvResponse = await fetch(result.std_csv_path);
                     const csvText = await csvResponse.text();
-                    // const csvBlob = new Blob([csvText], { type: 'text/csv' });
-                    // const csvFile = new File([csvBlob], 'student_list.csv', { type: 'text/csv' });
-
                     parseCSVData(csvText);
                 }
 
@@ -163,8 +160,8 @@ function AppCheckAnswerSheet(){
             }
         });
     };
-    const showCustomAlert = (dataid,datastdid,datasubid,datasetexaminfo,dataimg,type) => {
 
+    const showCustomAlert = (dataid,datastdid,datasubid,datasetexaminfo,dataimg,type) => {
         const isMobile = window.innerWidth < 780;
         const subjectpass = subjectid;
         Swal.fire({
@@ -211,7 +208,6 @@ function AppCheckAnswerSheet(){
                     </div>
                 </div>
             `,
-        
             showCancelButton: true,
             confirmButtonColor: "#341699",
             confirmButtonText: 'แก้ไข',
@@ -256,7 +252,6 @@ function AppCheckAnswerSheet(){
                         text: '',
                     });
                 }
-              
             }
         });
 
@@ -288,6 +283,7 @@ function AppCheckAnswerSheet(){
             }
         });
     };
+
     function nameRepeat(dataarray) {
         if(dataarray === null){
             return ""
@@ -300,6 +296,7 @@ function AppCheckAnswerSheet(){
         }
         return false
     }
+
     function generateOptionsStd(data, selectedValue) {
         let optionsHTML = '';
         optionsHTML += `<option value="">กรุณาเลือกรหัสนักศึกษา...</option>`;
@@ -309,6 +306,7 @@ function AppCheckAnswerSheet(){
         });
         return optionsHTML;
     }
+
     function generateOptionsNumberofExamSets(data, selectedValue) {
         let optionsHTML = '';
         optionsHTML += `<option value="">กรุณาเลือกชุดข้อสอบ...</option>`;
@@ -317,6 +315,7 @@ function AppCheckAnswerSheet(){
         }
         return optionsHTML;
     }
+    
     async function UpdateuploadFile(fileUpload,dataid) {
         try{
             const formData = new FormData();
@@ -402,8 +401,8 @@ function AppCheckAnswerSheet(){
         }else{
             Swal.fire('ยังมีข้อมูลที่ยังรอการแก้ไขไม่สามารถวิเคราะห์ผลได้');
         }
-       
     }
+
     async function loading(){
         try {
             const check = await Analyzeresults()
@@ -438,8 +437,6 @@ function AppCheckAnswerSheet(){
                     });
                 }
                 });
-
-                
             }else{
                 Swal.fire('เกิดข้อผิดพลาด '+check);
             }
@@ -447,6 +444,7 @@ function AppCheckAnswerSheet(){
             Swal.fire('เกิดข้อผิดพลาด');
         }
     }
+    
     async function Analyzeresults(){
         try {
             fetch(variables.API_URL + "exam/update/"+id+"/", {
@@ -578,8 +576,8 @@ function AppCheckAnswerSheet(){
                 });
             }
         });
-
     }
+    
     return(
         <div className='content'>
         <main>

@@ -50,7 +50,6 @@ function AppAnalyzeResults() {
                 setnumberofexams(result.numberofexams)
                 setnumberofexamsets(result.numberofexamsets)
                 setcsvPathsArray(result.analysis_csv_path.split(","))
-                
             }
             const subjectResponse = await fetch(variables.API_URL + "subject/detail/" + result.subid + "/", {
                 method: "GET",
@@ -90,7 +89,6 @@ function AppAnalyzeResults() {
         }catch (err) {
             setdata([])
         }
-
     }; 
     if (Start === 0) {
         fetchDataExaminfo();

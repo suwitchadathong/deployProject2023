@@ -56,8 +56,6 @@ function AppCheckQuestionaire(){
                         setStartError(1);
                     }else{
                     }
-                    
-
                 }
             )
             fetch(variables.API_URL+"quetopicdetails/detail/"+id+"/", {
@@ -76,10 +74,8 @@ function AppCheckQuestionaire(){
                    
                 }
             )
-            
         }catch (err) {
             setStartError(1);
-           
         }
     };
     const fetchDataquesheetinfo = async () => {
@@ -98,10 +94,8 @@ function AppCheckQuestionaire(){
                     }else{
                         setquesheetinfo(result)
                     }
-                    
                 }
             )
-            
         }catch (err) {
             setStartError(1);
            
@@ -198,15 +192,12 @@ function AppCheckQuestionaire(){
             }
             
         });
-        // <img src="/img/check.png" alt="Image" id="passTextquzid" style="width: 30px; height: 30px; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);left: 0;">
-
         document.getElementById('passTextquzid').addEventListener('click', function() {
             document.getElementById('input2').value = quesheetid;
             document.getElementById('input2').disabled = true;
             document.getElementById('input2').style.backgroundColor = '#DDDDDD';
             document.getElementById('passTextquzid').src = "/img/checkgreen.png";
         });
-
         document.getElementById('fileInput').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if(UpdateuploadFile(file,dataid)) {
