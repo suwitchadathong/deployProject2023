@@ -158,6 +158,7 @@ DATA_UPLOAD_MAX_NUMBER_FILES = None
 CORS_ALLOWED_ORIGINS = [
     'http://161.246.4.12:8101',
 ]
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Celery
 # Celery Configuration
