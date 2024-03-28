@@ -56,6 +56,6 @@ services:
     restart: always
     image: celery
     depends_on:
-      - postgres
+      - postgresdb
       - redis
       - backend
