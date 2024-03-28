@@ -15,7 +15,7 @@ services:
 
   postgresdb:
     container_name: postgres
-    image: postgres 
+    image: postgres:alpine-3.18 
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -25,7 +25,6 @@ services:
       - POSTGRES_DB=mcqas
       - POSTGRES_PORT=5432
     volumes:
-      - ./mydb:/var/lib/postgresql/data
       - ./database/mcqas.sql:/docker-entrypoint-initdb.d/mcqas.sql
 
   backend:
