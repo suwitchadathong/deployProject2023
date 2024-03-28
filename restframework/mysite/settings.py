@@ -161,6 +161,7 @@ CORS_ALLOWED_ORIGINS = [
 
 # Celery
 # Celery Configuration
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 REDIS_HOST = 'redis'
 REDIS_PORT = 6380
 CELERY_BROKER_URL = 'redis://redis:6380/0'

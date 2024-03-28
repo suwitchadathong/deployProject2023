@@ -53,16 +53,34 @@ services:
       - CELERY_BROKER_URL=redis://redis:6380/0
       - CELERY_RESULT_BACKEND=redis://redis:6380/0
 
-  celery:
-    container_name: celery
+  celerybeat:
+    container_name: celerybeat
     restart: always
     image: celery
     depends_on:
       - postgresdb
       - redis
       - backend
+    command: celery -A mysite beat --loglevel=INFO
     environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6380
-      CELERY_BROKER_URL: redis://redis:6380/0
-      CELERY_RESULT_BACKEND: redis://redis:6380/0
+      - DJANGO_SETTINGS_MODULE=mysite.settings
+      - REDIS_HOST=redis
+      - REDIS_PORT=6380
+      - CELERY_BROKER_URL=redis://redis:6380/0
+      - CELERY_RESULT_BACKEND=redis://redis:6380/0
+
+  celeryworker:
+    container_name: celeryworker
+    restart: always
+    image: celery
+    depends_on:
+      - postgresdb
+      - redis
+      - backend
+    command: celery -A mysite worker --loglevel=INFO
+    environment:
+      - DJANGO_SETTINGS_MODULE=mysite.settings
+      - REDIS_HOST=redis
+      - REDIS_PORT=6380
+      - CELERY_BROKER_URL=redis://redis:6380/0
+      - CELERY_RESULT_BACKEND=redis://redis:6380/0
