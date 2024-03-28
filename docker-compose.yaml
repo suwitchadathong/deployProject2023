@@ -13,6 +13,20 @@ services:
       ports:
         - "6380:6380"
 
+  postgres:
+    container_name: postgres
+    image: postgres 
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DB=mcqas
+      - POSTGRES_PORT=5432
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
   backend:
     container_name: backend
     image: mydb
@@ -36,19 +50,6 @@ services:
       - EMAIL_HOST_PASSWORD=tubh bawz zcqy bqdg
       - CELERY_BROKER_URL=redis://redis:6380/0
       - CELERY_RESULT_BACKEND=redis://redis:6380/0
-
-  postgres:
-      container_name: postgres
-      image: postgres 
-      restart: unless-stopped
-      ports:
-        - "5432:5432"
-      environment:
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=admin123
-        - POSTGRES_DB=mcqas
-      volumes:
-        - ./postgres:/var/lib/postgresql/data
 
   celery:
     container_name: celery
