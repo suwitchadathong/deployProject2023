@@ -15,7 +15,7 @@ services:
 
   postgresdb:
     container_name: postgres
-    image: postgres:alpine-3.18 
+    image: postgres:alpine3.18
     restart: unless-stopped
     ports:
       - "5432:5432"
