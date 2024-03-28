@@ -13,7 +13,7 @@ services:
       ports:
         - "6380:6380"
 
-  postgresdb:
+  postgres:
     container_name: postgres
     image: postgres 
     restart: unless-stopped
@@ -34,9 +34,9 @@ services:
       - "10.220.66.101:80:8000"
     depends_on:
       - showweb
-      - postgresdb
+      - postgres
     environment:
-      - POSTGRES_HOST=postgresdb
+      - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin123
@@ -56,6 +56,6 @@ services:
     restart: always
     image: celery
     depends_on:
-      - postgresdb
+      - postgres
       - redis
       - backend
