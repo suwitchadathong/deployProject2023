@@ -23,8 +23,7 @@ RUN apk update && apk add --no-cache \
     openssl-dev \
     freetype-dev \
     lcms2-dev \
-    libjpeg \
-    libtiff
+    libjpeg
 
 # คัดลอกไฟล์ requirements.txt ไปยังโฟลเดอร์ /code
 COPY ./requirements.txt /code/requirements.txt
