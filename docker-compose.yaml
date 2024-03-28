@@ -36,6 +36,7 @@ services:
     depends_on:
       - showweb
       - postgresdb
+      - redis
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
@@ -60,6 +61,8 @@ services:
       - postgresdb
       - redis
       - backend
-
-volumes:
-  pg_data:
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6380
+      CELERY_BROKER_URL: redis://redis:6380/0
+      CELERY_RESULT_BACKEND: redis://redis:6380/0
