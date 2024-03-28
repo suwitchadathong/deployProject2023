@@ -4,8 +4,7 @@ services:
     container_name: showweb
     image: myreact
     ports:
-      - "8001:3000" #server
-      - "80:8001" #server
+      - "80:80"
 
   redis:
       restart: unless-stopped
@@ -18,8 +17,7 @@ services:
     container_name: backend
     image: mydb
     ports:
-      - "8000:8000"
-      - "8101:443"
+      - "443:443"
     depends_on:
       - showweb
       - postgres
