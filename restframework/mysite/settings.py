@@ -159,6 +159,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://161.246.4.12:8101',
     'https://161.246.4.12:8101'
 ]
+CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Celery

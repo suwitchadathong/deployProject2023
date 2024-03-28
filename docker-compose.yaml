@@ -45,7 +45,7 @@ services:
       - POSTGRES_DB=mcqas
       - REDIS_HOST=redis
       - REDIS_PORT=6380
-      - WDS_SOCKET_PORT=443
+      - WDS_SOCKET_PORT=300
       - SECRET_KEY=django-insecure-fyr$qmpwlyhi6f_xnpliot%q+d+3fx)y0pyy@$u-#yf4&*+!fz
       - PEPPER=kmitl
       - EMAIL_HOST_USER=mcqa.system@gmail.com
