@@ -26,7 +26,7 @@ services:
       - POSTGRES_PORT=5432
     volumes:
       - ./database/mcqas.sql:/docker-entrypoint-initdb.d/mcqas.sql
-      - ./postgres:/var/lib/postgresql/data
+      - ./postgres-data:/var/lib/postgresql/data
 
   backend:
     container_name: backend
@@ -84,3 +84,6 @@ services:
       - REDIS_PORT=6380
       - CELERY_BROKER_URL=redis://redis:6380/0
       - CELERY_RESULT_BACKEND=redis://redis:6380/0
+
+volumes:
+  postgres-data:
