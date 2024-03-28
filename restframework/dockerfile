@@ -24,7 +24,7 @@ RUN apk update && apk add --no-cache \
     freetype-dev \
     lcms2-dev \
     libjpeg \
-    libtiff \
+    libtiff
 
 # คัดลอกไฟล์ requirements.txt ไปยังโฟลเดอร์ /code
 COPY ./requirements.txt /code/requirements.txt
