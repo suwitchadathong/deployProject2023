@@ -20,7 +20,7 @@ RUN apk update && apk add --no-cache \
     zbar-dev \
     jpeg-dev \
     zlib-dev \
-    libtiff-dev \
+    openssl-dev \
     freetype-dev \
     lcms2-dev
 
