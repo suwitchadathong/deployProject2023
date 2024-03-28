@@ -26,6 +26,7 @@ services:
       - POSTGRES_PORT=5432
     volumes:
       - ./postgres:/var/lib/postgresql/data
+      - ./database/mcqas.sql:/docker-entrypoint-initdb.d/mcqas.sql
 
   backend:
     container_name: backend
@@ -59,3 +60,6 @@ services:
       - postgres
       - redis
       - backend
+
+volumes:
+  pg_data:
