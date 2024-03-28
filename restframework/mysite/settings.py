@@ -159,14 +159,20 @@ DATA_UPLOAD_MAX_NUMBER_FILES = None
 #     'http://localhost:3000',
 # ]
 CORS_ALLOWED_ORIGINS = [
-    'http://161.246.4.12:8001',
+    'http://161.246.4.12:8101',
 ]
+
+# Celery Configuration
+REDIS_HOST = 'redis'
+REDIS_PORT = 6380
+CELERY_BROKER_URL = 'redis://redis:6380/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6380/0'
 
 # Celery
 # CELERY_broker_url = 'redis://localhost:6379/0'
 # result_backend = 'redis://localhost:6379/0'
-CELERY_broker_url = 'redis://161.246.4.12:6380/0'
-result_backend = 'redis://161.246.4.12:6380/0'
+# CELERY_broker_url = 'redis://161.246.4.12:6380/0'
+# result_backend = 'redis://161.246.4.12:6380/0'
 # accept_content = ['application/json']
 # result_serializer = 'json'
 # task_serializer = 'json'
