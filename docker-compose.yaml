@@ -39,6 +39,8 @@ services:
       - "10.220.66.101:80:5050"
     volumes:
       - pgadmin-data:/root/.pgadmin
+    depends_on:
+      - postgresdb
 
   backend:
     container_name: backend
