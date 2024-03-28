@@ -13,7 +13,7 @@ services:
       ports:
         - "6380:6380"
 
-  postgres:
+  postgresdb:
     container_name: postgres
     image: postgres 
     restart: unless-stopped
@@ -34,7 +34,7 @@ services:
       - "10.220.66.101:80:8000"
     depends_on:
       - showweb
-      - postgres
+      - postgresdb
     environment:
       - POSTGRES_HOST=db_host
       - POSTGRES_PORT=5432
