@@ -8,12 +8,12 @@ services:
       - "10.220.66.101:443:3000"
 
   redis:
-      restart: unless-stopped
-      container_name: redis
-      image: redis:7.0.5-alpine
-      command: ["redis-server", "--bind", "redis", "--port", "6380"]
-      ports:
-        - "6380:6380"
+    restart: unless-stopped
+    container_name: redis
+    image: redis:7.0.5-alpine
+    command: ["redis-server", "--bind", "redis", "--port", "6380"]
+    ports:
+      - "6380:6380"
 
   postgresdb:
     restart: unless-stopped
@@ -40,7 +40,7 @@ services:
     ports:
       - "10.220.66.101:81:80"
     volumes:
-      - pgadmin-data:/root/.pgadmin
+      - pgadmin-data:/var/lib/pgadmin
     depends_on:
       - postgresdb
 
