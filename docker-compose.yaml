@@ -10,9 +10,9 @@ services:
       restart: unless-stopped
       container_name: redis
       image: redis:7.0.5-alpine
-      command: ["redis-server", "--bind", "redis", "--port", "6379"]
+      command: ["redis-server", "--bind", "redis", "--port", "6380"]
       ports:
-        - "6380:6379"
+        - "6380:6380"
 
   postgresdb:
     container_name: postgres
