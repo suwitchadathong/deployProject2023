@@ -31,6 +31,11 @@ function AppProfile() {
   const [checkbox1, setCheckbox1] = useState(false);
   const [checkbox2, setCheckbox2] = useState(false);
 
+  const [password, setpassword] = useState('');
+  const [password2, setpassword2] = useState('');
+  const [checkpassword, setcheckpassword] = useState(false);
+
+
   const [errortext, seterrortext] = useState("");
 
   // const clientId ="608918814563-geifv2f4mg3c1rqivvnok1lhcphdfnlf.apps.googleusercontent.com" // pst121243@gmail.com
@@ -62,6 +67,15 @@ function AppProfile() {
   };
   const handleCheckbox2 = (e) => {
     setCheckbox2(!checkbox2);
+  };
+  const handlecheckpassword = (e) => {
+    setcheckpassword(!checkpassword);
+  };
+  const handleInputpassword = (event) => {
+    setpassword(event.target.value);
+  };
+  const handleInputpassword2 = (event) => {
+    setpassword2(event.target.value);
   };
   // const handleInputpassword = (e) => { setpassword(e.target.value); };
   // const handleInputConfirmpassword = (e) => {setConfirmpassword(e.target.value);};
@@ -264,49 +278,126 @@ function AppProfile() {
         errorMessage += ", สถานที่ทำงาน\n";
       }
     }
+    if(checkpassword === true){
+      if (password === "") {
+        if (errorMessage === "กรุณากรอก") {
+          errorMessage += " รหัสผ่าน\n";
+        } else {
+          errorMessage += ", รหัสผ่าน\n";
+        }
+      }
+      if (password2 === "") {
+        if (errorMessage === "กรุณากรอก") {
+          errorMessage += " ยืนยันรหัสผ่าน\n";
+        } else {
+          errorMessage += ", ยืนยันรหัสผ่าน\n";
+        }
+      }
+    }
 
     seterrortext(errorMessage);
-  }, [email, tel, fullname, Department, Faculty, Workplace, job]);
+  }, [email, tel, fullname, Department, Faculty, Workplace, job, password, password2, checkpassword]);
 
   async function handleUpdateUser(e) {
     e.preventDefault();
     if (errortext === "กรุณากรอก") {
       try {
-        const response = await fetch(
-          variables.API_URL + "user/update/" + Cookies.get("userid") + "/",
-          {
-            method: "PUT",
-            headers: {
-              Accept: "application/json, text/plain",
-              "Content-Type": "application/json;charset=UTF-8",
-            },
-            body: JSON.stringify({
-              fullname: fullname,
-              tel: tel,
-              job: job,
-              department: Department,
-              faculty: Faculty,
-              workplace: Workplace,
-            }),
+        if(checkpassword === true){
+          if(password === password2){
+            if(password.length >= 10 && password2.length >=10){
+            const response = await fetch(
+              variables.API_URL + "user/update/" + Cookies.get("userid") + "/",
+                {
+                  method: "PUT",
+                  headers: {
+                    Accept: "application/json, text/plain",
+                    "Content-Type": "application/json;charset=UTF-8",
+                  },
+                  body: JSON.stringify({
+                    fullname: fullname,
+                    tel: tel,
+                    job: job,
+                    department: Department,
+                    faculty: Faculty,
+                    workplace: Workplace,
+                    password : password,
+                  }),
+                }
+              );
+    
+              const result = await response.json();
+    
+              if (result.err === undefined) {
+                fetchDataUser();
+                setClickUpdate(false);
+                Swal.fire({
+                  title: "แก้ไขข้อมูลผู้ใช้เสร็จสิ้น",
+                  icon: "success", //error,question,warning,success
+                  confirmButtonColor: "#341699",
+                }).then((result) => {
+                  window.location.href = '/Home';
+                });
+              } else {
+                Swal.fire({
+                  title: "เกิดข้อผิดพลาด" + result.err,
+                  icon: "error", //error,question,warning,success
+                  confirmButtonColor: "#341699",
+                });
+              }
+            }else{
+              Swal.fire({
+                title: "รหัสผ่านต้องมากกว่า 10 ตัวอักษร",
+                icon: "error", //error,question,warning,success
+                confirmButtonColor: "#341699",
+              });
+            }
           }
-        );
+          else{
+            Swal.fire({
+              title: "รหัสผ่านไม่ตรงกัน",
+              icon: "error", //error,question,warning,success
+              confirmButtonColor: "#341699",
+            });
+          }
+        }else{
+          const response = await fetch(
+          variables.API_URL + "user/update/" + Cookies.get("userid") + "/",
+            {
+              method: "PUT",
+              headers: {
+                Accept: "application/json, text/plain",
+                "Content-Type": "application/json;charset=UTF-8",
+              },
+              body: JSON.stringify({
+                fullname: fullname,
+                tel: tel,
+                job: job,
+                department: Department,
+                faculty: Faculty,
+                workplace: Workplace,
+              }),
+            }
+          );
 
-        const result = await response.json();
+          const result = await response.json();
 
-        if (result.err === undefined) {
-          fetchDataUser();
-          setClickUpdate(false);
-          Swal.fire({
-            title: "แก้ไขข้อมูลผู้ใช้เสร็จสิ้น",
-            icon: "success", //error,question,warning,success
-            confirmButtonColor: "#341699",
-          });
-        } else {
-          Swal.fire({
-            title: "เกิดข้อผิดพลาด" + result.err,
-            icon: "error", //error,question,warning,success
-            confirmButtonColor: "#341699",
-          });
+          if (result.err === undefined) {
+            fetchDataUser();
+            setClickUpdate(false);
+            Swal.fire({
+              title: "แก้ไขข้อมูลผู้ใช้เสร็จสิ้น",
+              icon: "success", //error,question,warning,success
+              confirmButtonColor: "#341699",
+            }).then((result) => {
+              window.location.href = '/Home';
+            });
+          } else {
+            Swal.fire({
+              title: "เกิดข้อผิดพลาด" + result.err,
+              icon: "error", //error,question,warning,success
+              confirmButtonColor: "#341699",
+            });
+          }
         }
       } catch (err) {
         Swal.fire({
@@ -633,14 +724,48 @@ function AppProfile() {
                     </div>
                   )}
                   {ClickUpdate ? (
-                    <div
-                      className={ClickUpdate ? "bx-button" : "none bx-button"}
-                    >
-                      <div onClick={handleResetUser} className="button-reset">
-                        รีเซ็ท
+                    <div>
+                      <div>
+                        <div className="pdt10 px"></div>
+                        <div className="bx-input-fix">
+                            <span className="flex"><input className="mgR10" type = "checkbox" checked={checkpassword} onChange={handlecheckpassword} />เปลี่ยนรหัสผ่าน </span>
+                        </div>
+                        {checkpassword === false ? '':
+                          <div className="inline-grid">
+                            <div className="bx-input-fix inline-grid">
+                              <label htmlFor="password">รหัสผ่าน <span className="danger-font">*</span></label>
+                              <input
+                                  type="password"
+                                  id="password"
+                                  name="password"
+                                  value={password}
+                                  onChange={handleInputpassword}
+                                  placeholder="กรอกรหัสผ่านใหม่"
+                              />
+                            </div>
+                            <div className="bx-input-fix inline-grid">
+                              <label htmlFor="password">ยืนยันรหัสผ่าน <span className="danger-font">*</span></label>
+                              <input
+                                  type="password"
+                                  id="password2"
+                                  name="password2"
+                                  value={password2}
+                                  onChange={handleInputpassword2}
+                                  placeholder="กรอกรหัสผ่านใหม่"
+                              />
+                            </div>
+                          </div>
+                        } 
                       </div>
-                      <div onClick={handleUpdateUser} className="button-submit">
-                        บันทึก
+                      <div
+                        className={ClickUpdate ? "bx-button" : "none bx-button"}
+                      >
+                        <div onClick={handleResetUser} className="button-reset">
+                          รีเซ็ท
+                        </div>
+                        <div onClick={handleUpdateUser} className="button-submit">
+                          บันทึก
+                        </div>
                       </div>
                     </div>
                   ) : Cookies.get("typesid") === "1" ||

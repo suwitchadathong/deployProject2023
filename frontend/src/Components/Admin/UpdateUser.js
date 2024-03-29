@@ -35,11 +35,15 @@ function AppUpdateUser() {
     const [StartError, setStartError] = useState(0);
 
     const [password, setpassword] = useState('');
+    const [password2, setpassword2] = useState('');
 
     const [checkpassword, setcheckpassword] = useState(false);
 
     const handleInputpassword = (event) => {
       setpassword(event.target.value);
+    };
+    const handleInputpassword2 = (event) => {
+      setpassword2(event.target.value);
     };
     const handletype = (event) => {
       settype(event.target.value);
@@ -210,52 +214,79 @@ function AppUpdateUser() {
               errorMessage += ", รหัสผ่าน\n";
             }
           }
+          if (password2 === "") {
+            if (errorMessage === "กรุณากรอก") {
+              errorMessage += " ยืนยันรหัสผ่าน\n";
+            } else {
+              errorMessage += ", ยืนยันรหัสผ่าน\n";
+            }
+          }
         }
         
         seterrortext(errorMessage);
-    }, [email, tel, fullname, Department, Faculty, Workplace , selectedRole, otherRole, type, password, checkpassword]);
+    }, [email, tel, fullname, Department, Faculty, Workplace , selectedRole, otherRole, type, password, password2, checkpassword]);
 
     async function handleUpdateUser(e) {
         e.preventDefault();
         if (errortext === "กรุณากรอก") {
           try {
             if(checkpassword === true){
-              const response = await fetch(
-                variables.API_URL + "user/update/" + id + "/",
-                {
-                  method: "PUT",
-                  headers: {
-                    Accept: "application/json, text/plain",
-                    "Content-Type": "application/json;charset=UTF-8",
-                  },
-                  body: JSON.stringify({
-                      email: email,
-                      fullname: fullname,
-                      password : password,
-                      tel: tel,
-                      job: selectedRole === "other" ? otherRole : selectedRole,
-                      department: Department,
-                      faculty: Faculty,
-                      workplace: Workplace,
-                      usageformat : checkbox1 === true || checkbox1 === 1 ? "[1,1]":"[0,1]",
-                      e_kyc : e_kyc,
-                      typesid:type
-                  }),
+              if(password === password2){
+                if(password.length >= 10 && password2.length >=10){
+                  const response = await fetch(
+                    variables.API_URL + "user/update/" + id + "/",
+                    {
+                      method: "PUT",
+                      headers: {
+                        Accept: "application/json, text/plain",
+                        "Content-Type": "application/json;charset=UTF-8",
+                      },
+                      body: JSON.stringify({
+                          email: email,
+                          fullname: fullname,
+                          password : password,
+                          tel: tel,
+                          job: selectedRole === "other" ? otherRole : selectedRole,
+                          department: Department,
+                          faculty: Faculty,
+                          workplace: Workplace,
+                          usageformat : checkbox1 === true || checkbox1 === 1 ? "[1,1]":"[0,1]",
+                          e_kyc : e_kyc,
+                          typesid:type
+                      }),
+                    }
+                  );
+          
+                  const result = await response.json();
+          
+                  if (result.err === undefined) {
+                    fetchDataUser();
+                    Swal.fire({
+                      title: "แก้ไขข้อมูลผู้ใช้เสร็จสิ้น",
+                      icon: "success", //error,question,warning,success
+                      confirmButtonColor: "#341699",
+                    }).then((result) => {
+                      window.location.href = '/Admin/User';
+                  });
+                   
+                  } else {
+                    Swal.fire({
+                      title: "เกิดข้อผิดพลาด" + result.err,
+                      icon: "error", //error,question,warning,success
+                      confirmButtonColor: "#341699",
+                    });
+                  }
+                }else{
+                  Swal.fire({
+                    title: "รหัสผ่านต้องมากกว่า 10 ตัวอักษร",
+                    icon: "error", //error,question,warning,success
+                    confirmButtonColor: "#341699",
+                  });
                 }
-              );
-      
-              const result = await response.json();
-      
-              if (result.err === undefined) {
-                fetchDataUser();
+
+              }else{
                 Swal.fire({
-                  title: "แก้ไขข้อมูลผู้ใช้เสร็จสิ้น",
-                  icon: "success", //error,question,warning,success
-                  confirmButtonColor: "#341699",
-                });
-              } else {
-                Swal.fire({
-                  title: "เกิดข้อผิดพลาด" + result.err,
+                  title: "รหัสผ่านไม่ตรงกัน",
                   icon: "error", //error,question,warning,success
                   confirmButtonColor: "#341699",
                 });
@@ -292,6 +323,8 @@ function AppUpdateUser() {
                   title: "แก้ไขข้อมูลผู้ใช้เสร็จสิ้น",
                   icon: "success", //error,question,warning,success
                   confirmButtonColor: "#341699",
+                }).then((result) => {
+                  window.location.href = '/Admin/User';
                 });
               } else {
                 Swal.fire({
@@ -455,17 +488,6 @@ function AppUpdateUser() {
                                 placeholder="กรอกสถานที่ทำงาน"
                             />
                         </div>
-                        {/* <div className="bx-input-fix">
-                            <label htmlFor="type">ประเภทการใช้งาน <span className="danger-font">*</span></label>
-                            <select id="type" value={type} onChange={handletype}>
-                                <option value="">กรุณาเลือกประเภทผู้ใช้งาน</option>
-                                {datatype.map((data, index) => (
-                                <option key={index} value={data.typesid}>
-                                    {data.typesname}
-                                </option>
-                                ))}
-                            </select>
-                        </div> */}
                         <div className="bx-input-fix">
                             <label htmlFor="type">ประเภทการใช้งาน <span className="danger-font">*</span></label>
                             <select id="type" value={type} onChange={handletype}>
@@ -481,17 +503,30 @@ function AppUpdateUser() {
                             <span className="flex"><input className="mgR10" type = "checkbox" checked={checkpassword} onChange={handlecheckpassword} />เปลี่ยนรหัสผ่าน </span>
                         </div>
                         {checkpassword === false ? '':
-                            <div className="bx-input-fix">
-                            <label htmlFor="password">กรอกรหัสผ่าน <span className="danger-font">*</span></label>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                value={password}
-                                onChange={handleInputpassword}
-                                placeholder="กรอกรหัสผ่านใหม่"
-                            />
-                          </div>
+                          <div>
+                              <div className="bx-input-fix">
+                                <label htmlFor="password">รหัสผ่าน <span className="danger-font">*</span></label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    value={password}
+                                    onChange={handleInputpassword}
+                                    placeholder="กรอกรหัสผ่านใหม่"
+                                />
+                              </div>
+                              <div className="bx-input-fix">
+                                <label htmlFor="password">ยืนยันรหัสผ่าน <span className="danger-font">*</span></label>
+                                <input
+                                    type="password"
+                                    id="password2"
+                                    name="password2"
+                                    value={password2}
+                                    onChange={handleInputpassword2}
+                                    placeholder="กรอกรหัสผ่านใหม่"
+                                />
+                              </div>
+                            </div>
                         } 
                         <div className='bx-button width100 flex-end'>
                             <div className='button-submit' onClick={handleUpdateUser}>บันทึก</div>
