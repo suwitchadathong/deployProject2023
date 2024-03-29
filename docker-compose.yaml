@@ -71,12 +71,14 @@ services:
     container_name: celerybeat
     restart: always
     image: celery
-    working_dir: /restframework
+    working_dir: /app
     depends_on:
       - postgresdb
       - redis
       - backend
     command: celery -A mysite beat --loglevel=INFO
+    volumes:
+      - ./restframework:/app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6380
@@ -87,12 +89,14 @@ services:
     container_name: celeryworker
     restart: always
     image: celery
-    working_dir: /restframework
+    working_dir: /app
     depends_on:
       - postgresdb
       - redis
       - backend
     command: celery -A mysite worker --loglevel=INFO
+    volumes:
+      - ./restframework:/app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6380
