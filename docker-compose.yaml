@@ -47,7 +47,7 @@ services:
     container_name: backend
     image: mydb
     ports:
-      - "8000:8000"
+      - "10.220.66.101:80:8000"
     depends_on:
       - showweb
       - postgresdb
