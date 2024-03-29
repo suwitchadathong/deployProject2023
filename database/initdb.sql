@@ -214,6 +214,6 @@ INSERT INTO "User" ("Email", "FullName", "Password", "Salt", "GoogleId", "Job", 
   '[1,1]',
   NULL,
   '1',
-  CURRENT_TIMESTAMP,
-  1
+  1,
+  CURRENT_TIMESTAMP
 );
