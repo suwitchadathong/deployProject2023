@@ -199,7 +199,7 @@ function AppQuestionnaireNo(){
                                         <div className="button-submit center w250px" onClick={handleCopyClick}>คัดลอกลิงค์แบบสอบถามออนไลน์</div>
                                     </div>
                                     <div className="bx-bx-details flexCenter">
-                                        <div className="button-submit center w250px" onClick={handleDownload}>ดาวโหลดแบบสอบถาม</div>
+                                        <div className="button-submit center w250px" onClick={handleDownload}>ดาวน์โหลดแบบสอบถาม</div>
                                     </div>
                                 </div>
                             </div> 

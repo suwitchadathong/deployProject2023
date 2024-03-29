@@ -6,7 +6,7 @@ import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCloudArrowUp,faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2'
-import Cookies from 'js-cookie';
+import Cookies, { set } from 'js-cookie';
 import {variables} from "../../Variables";
 function AppCreateQuestionnaire(){
     const [step,setstep] = useState(true);
@@ -381,6 +381,33 @@ function AppCreateQuestionnaire(){
         // setStatusItem(false)
         // setNameFileUpload('')
     };
+    function processDataTopic() {
+        setQH1C1('ช่วงอายุ')
+        setQH1C2('ต่ำกว่า 20 ปี')
+        setQH1C3('20-30 ปี')
+        setQH1C4('31-40 ปี')
+        setQH1C5('40 ปีขึ้นไป')
+        setQH2C1('เพศ')
+        setQH2C2('ชาย')
+        setQH2C3('หญิง')
+        setQH2C4('')
+        setQH2C5('')
+        setQH3C1('ระดับการศึกษา')
+        setQH3C2('ปริญญาตรี')
+        setQH3C3('ปริญญาโท')
+        setQH3C4('ปริญญาเอก')
+        setQH3C5('อื่นๆ')
+        setQH4C1('สถานะ')
+        setQH4C2('นักศึกษา')
+        setQH4C3('บุคลากร')
+        setQH4C4('บุคคลภายนอก')
+        setQH4C5('อื่นๆ')
+        setQH5C1('')
+        setQH5C2('')
+        setQH5C3('')
+        setQH5C4('')
+        setQH5C5('')
+    }
     function processData(data) {
         const newInputValues = [...inputValues];
         const newCheckboxValues = [...checkboxValues];
@@ -415,6 +442,7 @@ function AppCreateQuestionnaire(){
         setNameFileUpload('')
     };
     const handlereset2 = async (e) => {
+        processDataTopic()
         processData(dataPart2)
     };
     return(

@@ -253,7 +253,7 @@ function AppUploadAnswerSheet(){
                         confirmButtonColor: "#341699",
                         confirmButtonText: "ยืนยัน",  
                     }).then((result) => {
-                        fetchDataStartExam();
+                        window.location.href = '/Subject/SubjectNo/Exam/'+id;
                     });
                 }
                 });

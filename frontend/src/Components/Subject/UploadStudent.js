@@ -110,7 +110,7 @@ function AppUploadStudent(){
 
     const handleFileInputChange = (e) => {
         const file = e;
-        parseCSVData(file)
+        parseCSVDataUpload(file)
         setStatusItem(true);
         setNameFileUpload(file.path);
         setFile_(file);
@@ -118,15 +118,52 @@ function AppUploadStudent(){
 
     const parseCSVData = (text) => {
         Papa.parse(text, {
-            header: true, 
+            header: false, 
             dynamicTyping: true,
             skipEmptyLines: true,
             complete: function (result) {
-                setcsvData(result.data);
+                setcsvData(result.data);               
             },
         });
     };
 
+    const parseCSVDataUpload = (text) => {
+        Papa.parse(text, {
+            header: false, 
+            dynamicTyping: true,
+            skipEmptyLines: true,
+            complete: function (result) {
+                console.log(result.data[0].length)
+                if(result.data[0].length === 4){
+                    console.log(result.data[0][0])
+                    console.log(result.data[0][1])
+                    console.log(result.data[0][2])
+                    console.log(result.data[0][3])
+                    if(result.data[0][0] === "รหัสนักศึกษา" && result.data[0][1] === "ชื่อ-นามสกุล" && result.data[0][2] === "กลุ่มเรียน" && result.data[0][3] === "อีเมล"){
+                        setcsvData(result.data);
+                    }else{
+                        Swal.fire({
+                            title: "รูปแบบไฟล์ไม่ถูกต้อง",
+                            text: `ต้องใช้รูปแบบไฟล์ที่ดาวน์โหลดจากระบบมีให้`,
+                            icon: "error",//error,question,warning,success
+                            confirmButtonColor: "#341699",
+                            confirmButtonText: "ยืนยัน",
+                        }).then((result) => {
+                        });
+                    }
+                }else{
+                    Swal.fire({
+                        title: "รูปแบบไฟล์ไม่ถูกต้อง",
+                        text: `ต้องใช้รูปแบบไฟล์ที่ดาวน์โหลดจากระบบมีให้`,
+                        icon: "error",//error,question,warning,success
+                        confirmButtonColor: "#341699",
+                        confirmButtonText: "ยืนยัน",
+                    }).then((result) => {
+                    });
+                }
+            },
+        });
+    };
     async function handleSubmitFile(e) {
         e.preventDefault();
         if (File_ !== '') {
@@ -163,6 +200,8 @@ function AppUploadStudent(){
                                 icon: "success",
                                 confirmButtonColor: "#341699",
                                 confirmButtonText: "ยืนยัน",
+                            }).then((result) => {
+                                window.location.href = '/Subject/SubjectNo/Exam/'+id;
                             });
                         } else {
                             Swal.fire({
@@ -207,11 +246,11 @@ function AppUploadStudent(){
             cancelButtonColor: "#d33",
             cancelButtonText:"ยกเลิก"
         }).then((result) => {
-        if (result.isConfirmed) { // กดยินยัน
-            setNameFileUpload('');
-            setFile_('');
-            setStatusItem(false);
-        }
+            if (result.isConfirmed) { // กดยินยัน
+                setNameFileUpload('');
+                setFile_('');
+                setStatusItem(false);
+            }
         });
     }
   
@@ -296,19 +335,21 @@ function AppUploadStudent(){
                                 <table>
                                     <thead>
                                         <tr >
-                                            {csvData.length > 0 && Object.keys(csvData[0]).map((key, index) => (
-                                                <th key={index}>{key}</th>
-                                            ))}
+                                            <th >รหัสนักศึกษา</th>
+                                            <th >ชื่อ-นามสกุล</th>
+                                            <th >กลุ่มเรียน</th>
+                                            <th >อีเมล</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            {/* Render table rows with CSV data */}
                                             {csvData.map((row, rowIndex) => (
-                                                <tr key={rowIndex}>
+                                                    rowIndex === 0 ? ''
+                                                :
+                                                    <tr key={rowIndex}>
                                                     {Object.values(row).map((value, colIndex) => (
                                                         <td key={colIndex} align="center">{value}</td>
                                                     ))}
-                                                </tr>
+                                                    </tr>
                                             ))}
                                     </tbody>
                                 </table>

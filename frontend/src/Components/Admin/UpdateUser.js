@@ -34,8 +34,15 @@ function AppUpdateUser() {
     const [Start, setStart] = useState(0);
     const [StartError, setStartError] = useState(0);
 
+    const [password, setpassword] = useState('');
+
+    const [checkpassword, setcheckpassword] = useState(false);
+
+    const handleInputpassword = (event) => {
+      setpassword(event.target.value);
+    };
     const handletype = (event) => {
-        settype(event.target.value);
+      settype(event.target.value);
     };
     const handleInputemail = (e) => {
       setemail(e.target.value);
@@ -60,6 +67,9 @@ function AppUpdateUser() {
     };
     const handleCheckbox2 = (e) => {
       setCheckbox2(!checkbox2);
+    };
+    const handlecheckpassword = (e) => {
+      setcheckpassword(!checkpassword);
     };
     const handleRoleChange = (e) => {
         if(e.target.value === "นักเรียน" ){
@@ -192,51 +202,105 @@ function AppUpdateUser() {
               errorMessage += ", ประเภทผู้ใช้งาน\n";
             }
         }
+        if(checkpassword === true){
+          if (password === "") {
+            if (errorMessage === "กรุณากรอก") {
+              errorMessage += " รหัสผ่าน\n";
+            } else {
+              errorMessage += ", รหัสผ่าน\n";
+            }
+          }
+        }
+        
         seterrortext(errorMessage);
-    }, [email, tel, fullname, Department, Faculty, Workplace , selectedRole, otherRole, type]);
+    }, [email, tel, fullname, Department, Faculty, Workplace , selectedRole, otherRole, type, password, checkpassword]);
 
     async function handleUpdateUser(e) {
         e.preventDefault();
         if (errortext === "กรุณากรอก") {
           try {
-            const response = await fetch(
-              variables.API_URL + "user/update/" + id + "/",
-              {
-                method: "PUT",
-                headers: {
-                  Accept: "application/json, text/plain",
-                  "Content-Type": "application/json;charset=UTF-8",
-                },
-                body: JSON.stringify({
-                    email: email,
-                    fullname: fullname,
-                    tel: tel,
-                    job: selectedRole === "other" ? otherRole : selectedRole,
-                    department: Department,
-                    faculty: Faculty,
-                    workplace: Workplace,
-                    usageformat : checkbox1 === true || checkbox1 === 1 ? "[1,1]":"[0,1]",
-                    e_kyc : e_kyc,
-                    typesid:type
-                }),
+            if(checkpassword === true){
+              const response = await fetch(
+                variables.API_URL + "user/update/" + id + "/",
+                {
+                  method: "PUT",
+                  headers: {
+                    Accept: "application/json, text/plain",
+                    "Content-Type": "application/json;charset=UTF-8",
+                  },
+                  body: JSON.stringify({
+                      email: email,
+                      fullname: fullname,
+                      password : password,
+                      tel: tel,
+                      job: selectedRole === "other" ? otherRole : selectedRole,
+                      department: Department,
+                      faculty: Faculty,
+                      workplace: Workplace,
+                      usageformat : checkbox1 === true || checkbox1 === 1 ? "[1,1]":"[0,1]",
+                      e_kyc : e_kyc,
+                      typesid:type
+                  }),
+                }
+              );
+      
+              const result = await response.json();
+      
+              if (result.err === undefined) {
+                fetchDataUser();
+                Swal.fire({
+                  title: "แก้ไขข้อมูลผู้ใช้เสร็จสิ้น",
+                  icon: "success", //error,question,warning,success
+                  confirmButtonColor: "#341699",
+                });
+              } else {
+                Swal.fire({
+                  title: "เกิดข้อผิดพลาด" + result.err,
+                  icon: "error", //error,question,warning,success
+                  confirmButtonColor: "#341699",
+                });
               }
-            );
-    
-            const result = await response.json();
-    
-            if (result.err === undefined) {
-              fetchDataUser();
-              Swal.fire({
-                title: "แก้ไขข้อมูลผู้ใช้เสร็จสิ้น",
-                icon: "success", //error,question,warning,success
-                confirmButtonColor: "#341699",
-              });
-            } else {
-              Swal.fire({
-                title: "เกิดข้อผิดพลาด" + result.err,
-                icon: "error", //error,question,warning,success
-                confirmButtonColor: "#341699",
-              });
+            }else{
+              const response = await fetch(
+                variables.API_URL + "user/update/" + id + "/",
+                {
+                  method: "PUT",
+                  headers: {
+                    Accept: "application/json, text/plain",
+                    "Content-Type": "application/json;charset=UTF-8",
+                  },
+                  body: JSON.stringify({
+                      email: email,
+                      fullname: fullname,
+                      tel: tel,
+                      job: selectedRole === "other" ? otherRole : selectedRole,
+                      department: Department,
+                      faculty: Faculty,
+                      workplace: Workplace,
+                      usageformat : checkbox1 === true || checkbox1 === 1 ? "[1,1]":"[0,1]",
+                      e_kyc : e_kyc,
+                      typesid:type
+                  }),
+                }
+              );
+      
+              const result = await response.json();
+      
+              if (result.err === undefined) {
+                fetchDataUser();
+                Swal.fire({
+                  title: "แก้ไขข้อมูลผู้ใช้เสร็จสิ้น",
+                  icon: "success", //error,question,warning,success
+                  confirmButtonColor: "#341699",
+                });
+              } else {
+                Swal.fire({
+                  title: "เกิดข้อผิดพลาด" + result.err,
+                  icon: "error", //error,question,warning,success
+                  confirmButtonColor: "#341699",
+                });
+              }
+                          
             }
           } catch (err) {
             Swal.fire({
@@ -348,6 +412,7 @@ function AppUpdateUser() {
                                 </div>
                             )}
                         </div>
+                        <div> สิทธิ์การใช้งานในระบบ</div>
                         <div className="bx-input-fix">
                             <span className="flex"><input className="mgR10 wait" value = "1" type = "checkbox" checked={checkbox2} onChange={handleCheckbox2} />จัดการแบบสอบถาม </span>
                         </div>
@@ -412,6 +477,22 @@ function AppUpdateUser() {
                                 ))}
                             </select>
                         </div>
+                        <div className="bx-input-fix">
+                            <span className="flex"><input className="mgR10" type = "checkbox" checked={checkpassword} onChange={handlecheckpassword} />เปลี่ยนรหัสผ่าน </span>
+                        </div>
+                        {checkpassword === false ? '':
+                            <div className="bx-input-fix">
+                            <label htmlFor="password">กรอกรหัสผ่าน <span className="danger-font">*</span></label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={password}
+                                onChange={handleInputpassword}
+                                placeholder="กรอกรหัสผ่านใหม่"
+                            />
+                          </div>
+                        } 
                         <div className='bx-button width100 flex-end'>
                             <div className='button-submit' onClick={handleUpdateUser}>บันทึก</div>
                         </div>

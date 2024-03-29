@@ -334,7 +334,7 @@ function AppUploadAnswerSheet(){
                         confirmButtonColor: "#341699",
                         confirmButtonText: "ยืนยัน",  
                     }).then((result) => {
-                        
+                        window.location.href = '/Questionnaire/QuestionnaireNo/'+id;
                     });
                 }
                 });

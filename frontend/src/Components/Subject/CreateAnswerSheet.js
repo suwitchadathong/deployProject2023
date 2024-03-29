@@ -185,10 +185,7 @@ function AppCreateAnswerSheet(){
                                 confirmButtonColor: "#341699",
                                 confirmButtonText: "ยืนยัน",  
                             }).then((result) => {
-                                window.location.reload();
-                                setNameFileUpload('');
-                                setFile('');
-                                setStatusItem(false);
+                                window.location.href = '/Subject/SubjectNo/Exam/'+id;
                             });
                         }else{
                             Swal.close();

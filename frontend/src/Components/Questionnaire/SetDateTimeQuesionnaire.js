@@ -202,8 +202,8 @@ function AppSetDateTimeQuesionnaire() {
                 confirmButtonColor: "#341699",
                 confirmButtonText: "ยืนยัน",
               }).then((result) => {
-                window.location.reload();
-                // window.location.href = '/Questionnaire/QuestionnaireNo/ShowQuestionnaire/'+id;
+                // window.location.reload();
+                window.location.href = '/Questionnaire/QuestionnaireNo/'+id;
               });
             } else {
               Swal.close();

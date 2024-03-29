@@ -3,7 +3,8 @@ import './Style/StyleProperty.css'
 import './Style/Style.css'
 import './Style/Loading.css';
 import './Style/Home.css'
-import React from 'react';
+import React, { useEffect } from 'react';
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -70,6 +71,11 @@ import AppUsermanual from './Components/Usermanual';
 
 
 function App() {
+
+  useEffect(() => {
+    document.title = "MCQAS"; // Set the document title
+  }, []);
+
   return (
       <Router>
       <Routes>

@@ -116,7 +116,7 @@ const QuePart2 = ({ url , showChart}) => {
                                             <td align="center">{value[6]}</td>
                                             <td align="center">{value[7]}</td>
                                             <td align="center">{value[8]}</td>
-                                            <td align="center">{value[9]}</td>
+                                            <td align="center">{parseFloat(value[9]).toFixed(2)}</td>
                                             <td align="center">{value[10]}</td>
                                             <td align="center">{value[11]}</td>
                                         </tr>

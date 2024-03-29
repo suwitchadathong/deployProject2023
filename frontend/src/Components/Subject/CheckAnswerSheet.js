@@ -433,7 +433,7 @@ function AppCheckAnswerSheet(){
                         confirmButtonColor: "#341699",
                         confirmButtonText: "ยืนยัน",  
                     }).then((result) => {
-                        
+                        window.location.href = '/Subject/SubjectNo/Exam/'+id;
                     });
                 }
                 });
@@ -715,27 +715,18 @@ function AppCheckAnswerSheet(){
                                                 ) {
                                                     return (
                                                         <tr key={index}>
-                                                            <td className="center">{item.stdid } </td>
+                                                            <td className="center">{item.stdid} </td>
                                                             <td className="center">
-                                                                {/* {nameRepeat(item.errorstype) === true ?
-                                                                    <FontAwesomeIcon  className="danger-font" icon={faCircleXmark} />
-                                                                :
-                                                                    {item.stdid !== "" && item.stdid !== null  && item.stdid !== "0" && item.stdid !== 0? <p>
-                                                                        <FontAwesomeIcon className="green-font" icon={faCircleCheck} /></p> 
-                                                                    :
-                                                                        <FontAwesomeIcon  className="danger-font" icon={faCircleXmark} />
-                                                                    }
-                                                                } */}
                                                                 {
-                                                                nameRepeat(item.errorstype) ? (
-                                                                    <FontAwesomeIcon className="danger-font" icon={faCircleXmark} />
-                                                                ) : (
-                                                                    (item.stdid !== "" && item.stdid !== null && item.stdid !== "0" && item.stdid !== 0) ? (
-                                                                        <p><FontAwesomeIcon className="green-font" icon={faCircleCheck} /></p>
-                                                                    ) : (
+                                                                    nameRepeat(item.errorstype) ? (
                                                                         <FontAwesomeIcon className="danger-font" icon={faCircleXmark} />
+                                                                    ) : (
+                                                                        (item.stdid !== "" && item.stdid !== null && item.stdid !== "0" && item.stdid !== 0) ? (
+                                                                            <p><FontAwesomeIcon className="green-font" icon={faCircleCheck} /></p>
+                                                                        ) : (
+                                                                            <FontAwesomeIcon className="danger-font" icon={faCircleXmark} />
+                                                                        )
                                                                     )
-                                                                )
                                                                 }
                                                             </td>
                                                             <td className="center">{item.subjectidstd !== "" && item.subjectidstd !== null  && item.subjectidstd !== "0" && item.subjectidstd !== 0? <p><FontAwesomeIcon  className="green-font" icon={faCircleCheck} /></p>:<FontAwesomeIcon  className="danger-font" icon={faCircleXmark} />}</td>
@@ -755,7 +746,7 @@ function AppCheckAnswerSheet(){
                                             {dataduplicate.map((item, index) => {   
                                                 return (  
                                                     <tr key={index}>
-                                                        <td className="center danger-font">{item.stdid } </td>
+                                                        <td className="center danger-font">{item.stdid} </td>
                                                         <td className="center">{item.stdid !== "" && item.stdid !== null  && item.stdid !== "0" && item.stdid !== 0? <p><FontAwesomeIcon className="green-font" icon={faCircleCheck} /></p> :<FontAwesomeIcon  className="danger-font" icon={faCircleXmark} />}</td>
                                                         <td className="center">{item.subjectidstd !== "" && item.subjectidstd !== null  && item.subjectidstd !== "0" && item.subjectidstd !== 0? <p><FontAwesomeIcon  className="green-font" icon={faCircleCheck} /></p>:<FontAwesomeIcon  className="danger-font" icon={faCircleXmark} />}</td>
                                                         <td className="center">{item.setexaminfo !== ""  && item.setexaminfo !== null  && item.setexaminfo !== "0" && item.setexaminfo !== 0? <p><FontAwesomeIcon className="green-font" icon={faCircleCheck} /></p>:<FontAwesomeIcon  className="danger-font" icon={faCircleXmark} />}</td>

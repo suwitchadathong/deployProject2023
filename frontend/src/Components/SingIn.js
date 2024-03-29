@@ -83,6 +83,11 @@ function AppSingIn(){
         }); 
       }
     }catch(err){
+      Swal.fire({
+        title: err,
+        icon: "error",//error,question,warning,success
+        confirmButtonColor:"#341699",
+      });
     }
   }
 
@@ -175,7 +180,7 @@ function AppSingIn(){
                   <div>
                     <div className='width100 bx-button' style={{ width: '100%' }}>
                       {/* <button type="reset" className='button-cancel'>รีเซ็ท</button> */}
-                      <button type="submit"  className='button-submit width100'>ยืนยัน</button>
+                      <button type="submit"  className='button-submit width100'>เข้าสู่ระบบ</button>
                     </div>
                   </div>
               </form>            

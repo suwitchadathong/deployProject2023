@@ -173,7 +173,7 @@ function AppUpdateSubject(){
                                             name="SubjectID"
                                             value={SubjectID}
                                             onChange={handleInputSubjectID}
-                                            placeholder="กรอกรายวิชา"
+                                            placeholder="กรอกรหัสวิชา"
                                             maxLength={20}
                                         />
                                     </div>
@@ -185,7 +185,7 @@ function AppUpdateSubject(){
                                             name="SubjectName"
                                             value={SubjectName}
                                             onChange={handleInputSubjectName}
-                                            placeholder="กรอกรหัสวิชา"
+                                            placeholder="กรอกชื่อวิชา"
                                             max="99"
                                             maxLength={100}
                                         />

@@ -213,12 +213,8 @@ const TableHomeRequest = ({ columns }) => {
                                 row.values.status_request === 1 || row.values.status_request === "1" ? (
                                     <tr {...row.getRowProps()} key={row.id}>
                                         <td className={"center"}><Link to={""+row.values.requestid}>{Number(row.id)+1}</Link></td>
-                                        {/* <td className={""}><Link to={""}>{extractFilenameFromURL(row.values.imgrequest_path)}</Link></td> */}
                                         <td className={""}><Link to={""}>{(row.values.imgrequest_path)}</Link></td>
-
-                                        {/* <td className={""}><Link to={""}>{findUseremailById(row.values.userid)}</Link></td> */}
                                         <td className={""}><Link to={""}>{row.values.notes === null || row.values.notes === '' ? "-":row.values.notes}</Link></td> 
-                                        {/* <td className={""}><Link to={""}>{row.values.status_request === 1 || row.values.status_request === "1" ? 'รอการอนุมัติ' : row.values.status_request === 2 || row.values.status_request === '2' ? 'ไม่ผ่านการอนุมัติ' : 'ผ่านการอนุมัติ'}</Link></td> */}
                                         <td className={""}><Link to={""}>{row.values.status_request}</Link></td>
                                         <td className='center mw80px'><Link to={'/Admin/Request/Respond/'+row.values.requestid} className='' style={{ display: 'contents' }}><span className='border-icon-dark'><FontAwesomeIcon icon={faReply} /></span></Link></td>
                                     </tr>
@@ -226,7 +222,7 @@ const TableHomeRequest = ({ columns }) => {
                             );
                         })
                     )}
-                    {data.filter(item => item.status_request === '1').length === 0 && (
+                    {data.filter(item => item.status_request === '1').length === 0 && page.length >= 1 && (
                         <tr className='center'><td colSpan={6}>ไม่พบข้อมูล</td></tr>
                     )}
                     </tbody>

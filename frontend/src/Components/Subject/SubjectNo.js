@@ -126,7 +126,7 @@ function AppSubjectNo(){
                                     <div className="bx-details-box inline-grid"><p className="text-overflow">รหัสวิชา : {SubjectID}</p></div>
                                     <div className="bx-details-box inline-grid "><p className="text-overflow">วิชา : {SubjectName}</p></div>
                                     <div className="bx-details-box inline-grid"><p className="text-overflow">ปีการศึกษา : {Year}</p></div>
-                                    <div className="bx-details-box inline-grid"><p className="text-overflow">เทอม : {Semester}</p></div>
+                                    <div className="bx-details-box inline-grid"><p className="text-overflow">ภาคเรียน : {Semester}</p></div>
                                 </div>
                             </div>
                             

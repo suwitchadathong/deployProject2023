@@ -354,7 +354,7 @@ function AppScoreResults() {
                                     <div>
                                         <div className="bx-input-fix">
                                             <span className="flex">
-                                                <input className="mgR10" style={{minWidth:25}} value="" type="checkbox" checked={showscores} onChange = {handleshowscores} />แสดงข้อมูลการสอบ
+                                                <input className="mgR10" style={{minWidth:25}} value="" type="checkbox" checked={showscores} onChange = {handleshowscores} />แสดงข้อมูลการสอบในระบบ
                                             </span>
                                         </div>
                                     </div>
