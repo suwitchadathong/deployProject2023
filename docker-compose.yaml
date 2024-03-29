@@ -71,14 +71,13 @@ services:
     container_name: celerybeat
     restart: always
     image: celery
-    working_dir: /restframework
+    working_dir: ./restframework
     depends_on:
       - postgresdb
       - redis
       - backend
     command: celery -A mysite beat --loglevel=INFO
     environment:
-      - DJANGO_SETTINGS_MODULE=mysite.settings
       - REDIS_HOST=redis
       - REDIS_PORT=6380
       - CELERY_BROKER_URL=redis://redis:6380/0
@@ -88,14 +87,13 @@ services:
     container_name: celeryworker
     restart: always
     image: celery
-    working_dir: /restframework
+    working_dir: ./restframework
     depends_on:
       - postgresdb
       - redis
       - backend
     command: celery -A mysite worker --loglevel=INFO
     environment:
-      - DJANGO_SETTINGS_MODULE=mysite.settings
       - REDIS_HOST=redis
       - REDIS_PORT=6380
       - CELERY_BROKER_URL=redis://redis:6380/0
