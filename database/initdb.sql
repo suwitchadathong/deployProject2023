@@ -191,3 +191,10 @@ ALTER TABLE "QueHeadDetails" ADD FOREIGN KEY ("QueSheetID") REFERENCES "QueSheet
 ALTER TABLE "QueTopicDetails" ADD FOREIGN KEY ("QueSheetID") REFERENCES "QueSheet" ("QueSheetID");
 
 ALTER TABLE "QueInformation" ADD FOREIGN KEY ("QueSheetID") REFERENCES "QueSheet" ("QueSheetID");
+
+ALTER DATABASE mcqas SET TIMEZONE TO 'Asia/Bangkok';
+
+INSERT INTO "Type" ("TypesName", "LimitSubject", "LimitExam", "LimitQue") VALUES 
+('Admin', 1000, 1000, 1000),
+('Internaluser', 30, 5, 30),
+('Externalusers', 5, 5, 5);
