@@ -214,6 +214,6 @@ INSERT INTO "User" ("Email", "FullName", "Password", "Salt", "GoogleId", "Job", 
   '[1,1]',
   NULL,
   '1',
-  NULL,
+  2024-02-22 08:12:43+07,
   1
 );
