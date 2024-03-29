@@ -12,7 +12,7 @@ services:
       hostname: redis
       image: redis:7.0.5-alpine
       ports:
-        - "6380:6380"
+        - "6379:6379"
 
   postgresdb:
     container_name: postgres
