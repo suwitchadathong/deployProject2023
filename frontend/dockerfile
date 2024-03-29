@@ -1,7 +1,7 @@
 FROM node:18-alpine
 
 # ไปที่ app directory ใน node image
-WORKDIR /app
+WORKDIR /code
 
 # Copy package.json เข้า image
 COPY package*.json ./
