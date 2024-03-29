@@ -809,7 +809,7 @@ def examinformationUpdate(request, pk):
             serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
-        print("File")
+        # print("File")
         fs = FileSystemStorage()
         default_path = "/"+str(user.userid)+"/ans/"+str(exam.subid.subid)+"/"+str(request.data['examid'])+"/answersheet/"
         ori_path = fs.path('')+default_path+"original/"
@@ -973,7 +973,7 @@ def examinformationUploadPaper(request):
                 img_link = request.build_absolute_uri("/media"+default_path+"preprocess/"+pre_img_name)
                 examinfo['imgansstd_path'] = img_link
                 data = process_ans(pre_path, pre_img_name, exam.numberofexams, debug=False)
-                print(data)
+                # print(data)
                 error_data = ''
                 for i in range(0, len(data[0])):
                     if data[0][i] != None:
@@ -1052,7 +1052,8 @@ def examinformationUploadPaper(request):
         if examinfo_serializer.is_valid():
             examinfo_serializer.save()
         else:
-            print("examinfo_serializer.errors : ", examinfo_serializer.errors)
+            # print("examinfo_serializer.errors : ", examinfo_serializer.errors)
+            pass
         res.append(examinfo_serializer.data)
     res_dict = {"result" : res}
     # toc = time.time()
@@ -1062,6 +1063,7 @@ def examinformationUploadPaper(request):
     exam.save()
     return Response(res_dict, status=status.HTTP_201_CREATED)
 
+from urllib.parse import unquote
 @api_view(['GET'])
 def examinformationTableAns(request, pk):
     try:
@@ -1069,16 +1071,17 @@ def examinformationTableAns(request, pk):
     except Examinformation.DoesNotExist:
         return Response(examinformation_notfound, status=status.HTTP_404_NOT_FOUND)
     fs = FileSystemStorage()
-    examinfo_file_path = examinfo.imgansstd_path.split('/')[4:]
+    imgansstd_path = unquote(examinfo.imgansstd_path)
+    examinfo_file_path = imgansstd_path.split('/')[4:]
     examinfo_file_path[-1] = "table_ans_"+examinfo_file_path[-1]
     examinfo_file_path[-2] += "/table_ans_detect"
     table_ans_path = "/"+"/".join(examinfo_file_path)
     fs_table_ans_path = fs.path('')+table_ans_path
-    print(fs_table_ans_path)
+    # print(fs_table_ans_path)
     if os.path.exists(fs_table_ans_path) == False:
         examinfo_file_path = examinfo.imgansstd_path.split('/')[4:]
         pre_path = fs.path('')+"/"+"/".join(examinfo_file_path[0:-1])+"/"
-        file_name = examinfo_file_path[-1]
+        file_name = unquote(examinfo_file_path[-1])
         exam = Exam.objects.get(examid=examinfo_file_path[3])
         data = process_ans(pre_path, file_name, exam.numberofexams, debug=True)
         if data[0][2] == None:
