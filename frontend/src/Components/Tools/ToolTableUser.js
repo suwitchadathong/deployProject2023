@@ -221,7 +221,7 @@ const TableUser = ({ columns }) => {
                     <b>อีเมล์</b> : ${value.original.email}<br>
                     <b>ชื่อผู้ใช้</b> : ${value.original.fullname}<br>
                     <b>เบอร์โทรศัพท์</b> : ${value.original.tel}<br>
-                    <b>อาชีพ</b>  : ${value.original.tel}<br>
+                    <b>อาชีพ</b>  : ${value.original.job}<br>
                     <b>สังกัด/คณะ</b> : ${value.original.faculty}<br>
                     <b>ภาค/สาขา/สาย</b> : ${value.original.department}<br>
                     <b>องค์กรการศึกษา/สถานที่ทำงาน</b> : ${value.original.workplace}<br>
