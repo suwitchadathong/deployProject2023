@@ -212,8 +212,8 @@ INSERT INTO "User" ("Email", "FullName", "Password", "Salt", "GoogleId", "Job", 
   'KMITL',
   '0917296297',
   '[1,1]',
-  null,
+  NULL,
   '1',
-  '2024-03-29T10:55:55+07:00',
+  NULL,
   1
 );
