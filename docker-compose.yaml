@@ -37,7 +37,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@kmitl.ac.th
       PGADMIN_DEFAULT_PASSWORD: admin123
     ports:
-      - "10.220.66.101:80:80"
+      - "5050:5050"
     volumes:
       - pgadmin-data:/root/.pgadmin
     depends_on:
@@ -47,7 +47,7 @@ services:
     container_name: backend
     image: mydb
     ports:
-      - "8000:8000"
+      - "10.220.66.101:80:8000"
     depends_on:
       - showweb
       - postgresdb
