@@ -22,6 +22,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DB=mcqas
       - POSTGRES_PORT=5432
     volumes:
       - ./database/mcqas.sql:/docker-entrypoint-initdb.d/mcqas.sql
