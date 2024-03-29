@@ -37,7 +37,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@kmitl.ac.th
       PGADMIN_DEFAULT_PASSWORD: admin123
     ports:
-      - "5050:5050"
+      - "10.220.66.101:81:80"
     volumes:
       - pgadmin-data:/root/.pgadmin
     depends_on:
