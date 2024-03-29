@@ -10,6 +10,7 @@ services:
       restart: unless-stopped
       container_name: redis
       image: redis:7.0.5-alpine
+      command: ["redis-server", "--bind", "redis", "--port", "6379"]
       ports:
         - "6380:6379"
 
