@@ -71,7 +71,7 @@ services:
     container_name: celerybeat
     restart: always
     image: celery
-    working_dir: ./restframework
+    working_dir: /restframework
     depends_on:
       - postgresdb
       - redis
@@ -87,7 +87,7 @@ services:
     container_name: celeryworker
     restart: always
     image: celery
-    working_dir: ./restframework
+    working_dir: /restframework
     depends_on:
       - postgresdb
       - redis
