@@ -198,3 +198,22 @@ INSERT INTO "Type" ("TypesName", "LimitSubject", "LimitExam", "LimitQue") VALUES
 ('Admin', 1000, 1000, 1000),
 ('Internaluser', 30, 5, 30),
 ('Externalusers', 5, 5, 5);
+
+INSERT INTO "User" ("Email", "FullName", "Password", "Salt", "GoogleId", "Job", "Department", "Faculty", "Workplace", "Tel", "Usageformat", "ImgE_KYC_path", "E_KYC", "TypesID", "CreateTimeUser") VALUES 
+(
+  "admin@kmitl.ac.th",
+  "Admin",
+  "$2b$12$7aTX7fzSJRyup4gtqh1ht.Y8EG0Czfz2aht7SXuRGcGG8n3BeJcdK",
+  "$2b$12$7aTX7fzSJRyup4gtqh1ht.",
+  "admin",
+  "Admin",
+  "วิศวกรรมคอมพิวเตอร์",
+  "วิศวกรรมศาสตร์",
+  "KMITL",
+  "0917296297",
+  "[1,1]",
+  null,
+  "1",
+  "2024-03-29T10:55:55+07:00",
+  1
+);
