@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   showweb:
+    restart: unless-stopped
     container_name: showweb
     image: myreact
     ports:
@@ -15,9 +16,9 @@ services:
         - "6380:6380"
 
   postgresdb:
+    restart: unless-stopped
     container_name: postgres
     image: postgres:alpine3.18
-    restart: unless-stopped
     ports:
       - "5432:5432"
     environment:
@@ -30,9 +31,9 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
 
   pgadmin:
+    restart: unless-stopped
     image: dpage/pgadmin4
     container_name: pgadmin
-    restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@kmitl.ac.th
       PGADMIN_DEFAULT_PASSWORD: admin123
@@ -44,6 +45,7 @@ services:
       - postgresdb
 
   backend:
+    restart: unless-stopped
     container_name: backend
     image: mydb
     ports:
