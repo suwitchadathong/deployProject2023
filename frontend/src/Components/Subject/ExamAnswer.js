@@ -208,6 +208,7 @@ function AppExamAnswer(){
                         title: "แก้ไขเงื่อนไขการให้คะแนนและเกณฑ์การให้คะแนนเสร็จสิ้น",
                         icon: "success",//error,question,warning,success
                         confirmButtonColor: "#341699",
+                        confirmButtonText: "ยืนยัน",
                     }).then((result) => {
                         
                     });

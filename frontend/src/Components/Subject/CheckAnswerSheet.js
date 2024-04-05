@@ -242,6 +242,8 @@ function AppCheckAnswerSheet(){
                         icon: 'success',
                         title: 'แก้ไขข้อมูลเสร็จสิ้น',
                         text: '',
+                        confirmButtonColor: "#341699",
+                        confirmButtonText: "ยืนยัน",
                     }).then(() => {
                         window.location.reload();
                     });
@@ -270,6 +272,8 @@ function AppCheckAnswerSheet(){
                     icon: 'success',
                     title: 'แก้ไขข้อมูลเสร็จสิ้น',
                     text: '',
+                    confirmButtonColor: "#341699",
+                    confirmButtonText: "ยืนยัน",
                 }).then(() => {
                     window.location.reload();
                 });

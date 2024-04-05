@@ -270,7 +270,7 @@ function AppScoreResults() {
             dynamicTyping: true,
             skipEmptyLines: true,
             complete: function (result) {
-                console.log(result.data)
+                // console.log(result.data)
                 setcsvData(result.data);
             },
         });
@@ -368,9 +368,16 @@ function AppScoreResults() {
                                 <table>
                                     <thead>
                                         <tr >
-                                            {csvData.length > 0 && Object.keys(csvData[0]).map((key, index) => (
+                                            {/* {csvData.length > 0 && Object.keys(csvData[0]).map((key, index) => (
                                                 <th key={index}>{key}</th>
-                                            ))}
+                                            ))} */}
+                                            <th>{"รหัสนักศึกษา"}</th>
+                                            <th>{"ชื่อ-นามสกุล"}</th>
+                                            <th>{"กลุ่มเรียน"}</th>
+                                            <th>{"จำนวนข้อที่ตอบถูก"}</th>
+                                            <th>{"จำนวนข้อที่ตอบผิด"}</th>
+                                            <th>{"จำนวนข้อที่ไม่ตอบ"}</th>
+                                            <th>{"คะแนน"}</th>
                                         </tr>
                                     </thead>
                                     <tbody>

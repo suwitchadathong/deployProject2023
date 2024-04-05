@@ -403,7 +403,7 @@ function AppUpdateExamAnswer(){
                                 icon: "success",
                                 confirmButtonColor: "#341699",
                             }).then((result) => {
-                                window.location.href = '/Subject/SubjectNo/Exam/ExamAnswer/'+id+'/';
+                                window.location.href = '/Subject/SubjectNo/Exam/ExamAnswer/'+idexam;
                             });
                             
                         } else {
