@@ -938,7 +938,19 @@ def examinformationDelete(request, pk):
         examinformation = Examinformation.objects.get(examinfoid=pk)
     except Examinformation.DoesNotExist:
         return Response(examinformation_notfound, status=status.HTTP_404_NOT_FOUND)
-    
+    fs = FileSystemStorage()
+    path_split = examinformation.imgansstd_path.split('/')[4:]
+    if path_split[5] == "original":
+        file_ori_path  = fs.path('')+"\\"+os.path.join(*examinformation.imgansstd_path.split('/')[4:])
+        file_pre_path  = file_ori_path.replace('\\original\\','\\preprocess\\pre_')
+        file_pre_table_path  = file_ori_path.replace('\\original\\','\\preprocess\\table_ans_detect\\table_ans_pre_')
+    else:
+        file_pre_path  = fs.path('')+"\\"+os.path.join(*examinformation.imgansstd_path.split('/')[4:])
+        file_ori_path  = file_pre_path.replace('\\preprocess\\pre_','\\original\\')
+        file_pre_table_path  = file_pre_path.replace('\\preprocess\\pre_','\\preprocess\\table_ans_detect\\table_ans_pre_')
+    if os.path.exists(file_ori_path): os.remove(file_ori_path)
+    if os.path.exists(file_pre_path): os.remove(file_pre_path)
+    if os.path.exists(file_pre_table_path): os.remove(file_pre_table_path)
     examinformation.delete()
     return Response({"msg" : "ลบข้อมูลข้อสอบสำเร็จ"}, status=status.HTTP_200_OK)
 
@@ -958,6 +970,16 @@ def examinformationUploadPaper(request):
     pre_path_ = "/"+str(user.userid)+"/ans/"+str(exam.subid.subid)+"/"+str(request.data['examid'])+"/answersheet/"+"preprocess/"
     os.makedirs(ori_path, exist_ok=True)
 
+    if request.data['clear'] == True or request.data['clear'] == "true":
+        Examinformation.objects.filter(examid=request.data['examid']).delete()
+        for file_image_path in [ori_path, pre_path+"table_ans_detect/", pre_path]:
+            if os.path.exists(file_image_path):
+                file_list = os.listdir(file_image_path)
+                for file_name in file_list:
+                    file_path = os.path.join(file_image_path, file_name)
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+
     for file in request.FILES.getlist('file'):
         examinfo = {
             "examid" : request.data['examid']
@@ -973,7 +995,7 @@ def examinformationUploadPaper(request):
                 img_link = request.build_absolute_uri("/media"+default_path+"preprocess/"+pre_img_name)
                 examinfo['imgansstd_path'] = img_link
                 data = process_ans(pre_path, pre_img_name, exam.numberofexams, debug=False)
-                # print(data)
+                # (data)
                 error_data = ''
                 for i in range(0, len(data[0])):
                     if data[0][i] != None:
@@ -1007,13 +1029,21 @@ def examinformationUploadPaper(request):
                     err_std = "ไม่พบรหัสนักศึกษาในรายชื่อ" if index.empty else ''
                     examinfo['stdemail'] = df['อีเมล'][index[0]] if not index.empty else None
 
-                    try:
-                        queryset = Examanswers.objects.get(examid=request.data['examid'], examnoanswers=valid[5])
-                        examanswers_serializer = ExamanswersSerializer(queryset, many=False)
-                    except Examanswers.DoesNotExist:
-                        examanswers_serializer = None
+                    queryset = Examanswers.objects.filter(examid=request.data['examid'])
+                    examans_count = queryset.count()
+                    examanswers_serializer = None
+                    
+                    if examans_count == 1:
+                        examanswers_serializer = ExamanswersSerializer(queryset[0], many=False)
+                    else:
+                        try:
+                            queryset = Examanswers.objects.get(examid=request.data['examid'], examnoanswers=valid[5])
+                            examanswers_serializer = ExamanswersSerializer(queryset, many=False)
+                        except Examanswers.DoesNotExist:
+                            examanswers_serializer = None
                     
                     if examanswers_serializer != None:
+                        examinfo['setexaminfo'] = examanswers_serializer.data['examnoanswers']
                         # chk_ans return [error, ans, chans, max_score, score, right, wrong, rightperchoice, notans, analys]
                         ans = chk_ans(valid[6], exam.numberofexams, examanswers_serializer.data['choiceanswers'], examanswers_serializer.data['scoringcriteria'])
                         examinfo['score'] = ans[4]
@@ -1063,7 +1093,6 @@ def examinformationUploadPaper(request):
     exam.save()
     return Response(res_dict, status=status.HTTP_201_CREATED)
 
-from urllib.parse import unquote
 @api_view(['GET'])
 def examinformationTableAns(request, pk):
     try:
@@ -1071,8 +1100,7 @@ def examinformationTableAns(request, pk):
     except Examinformation.DoesNotExist:
         return Response(examinformation_notfound, status=status.HTTP_404_NOT_FOUND)
     fs = FileSystemStorage()
-    imgansstd_path = unquote(examinfo.imgansstd_path)
-    examinfo_file_path = imgansstd_path.split('/')[4:]
+    examinfo_file_path = examinfo.imgansstd_path.split('/')[4:]
     examinfo_file_path[-1] = "table_ans_"+examinfo_file_path[-1]
     examinfo_file_path[-2] += "/table_ans_detect"
     table_ans_path = "/"+"/".join(examinfo_file_path)
@@ -1081,7 +1109,7 @@ def examinformationTableAns(request, pk):
     if os.path.exists(fs_table_ans_path) == False:
         examinfo_file_path = examinfo.imgansstd_path.split('/')[4:]
         pre_path = fs.path('')+"/"+"/".join(examinfo_file_path[0:-1])+"/"
-        file_name = unquote(examinfo_file_path[-1])
+        file_name = examinfo_file_path[-1]
         exam = Exam.objects.get(examid=examinfo_file_path[3])
         data = process_ans(pre_path, file_name, exam.numberofexams, debug=True)
         if data[0][2] == None:
@@ -1712,7 +1740,16 @@ def queinformationDelete(request, pk):
         queinformation = Queinformation.objects.get(queinfoid=pk)
     except Queinformation.DoesNotExist:
         return Response(queinformation_notfound, status=status.HTTP_404_NOT_FOUND)
-    
+    fs = FileSystemStorage()
+    path_split = queinformation.imgansstd_path.split('/')[4:]
+    if path_split[4] == "original":
+        file_ori_path  = fs.path('')+"\\"+os.path.join(*queinformation.imgansstd_path.split('/')[4:])
+        file_pre_path  = file_ori_path.replace('\\original\\','\\preprocess\\pre_')
+    else:
+        file_pre_path  = fs.path('')+"\\"+os.path.join(*queinformation.imgansstd_path.split('/')[4:])
+        file_ori_path  = file_pre_path.replace('\\preprocess\\pre_','\\original\\')
+    if os.path.exists(file_ori_path): os.remove(file_ori_path)
+    if os.path.exists(file_pre_path): os.remove(file_pre_path)
     queinformation.delete()
     return Response({"msg" : "ลบข้อมูลแบบสอบถามสำเร็จ"}, status=status.HTTP_200_OK)
 
@@ -1752,6 +1789,17 @@ def queinformationUploadPaper(request):
     os.makedirs(part_1_path, exist_ok=True)
     part_3_path = fs.path('')+default_path+"result/part3/"
     os.makedirs(part_3_path, exist_ok=True)
+
+    if request.data['clear'] == True or request.data['clear'] == "true":
+        Queinformation.objects.filter(quesheetid=request.data['quesheetid']).delete()
+        for file_image_path in [ori_path, pre_path]:
+            if os.path.exists(file_image_path):
+                file_list = os.listdir(file_image_path)
+                for file_name in file_list:
+                    file_path = os.path.join(file_image_path, file_name)
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+
     for file in request.FILES.getlist('file'):
         queinformation_data = {
             "quesheetid" : request.data['quesheetid'],
