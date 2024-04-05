@@ -70,22 +70,22 @@ function AppCreateAnswerSheet(){
                     setExamNo(result.examno)
                     setExamNoShow(result.examid)
                     setimgoriginal([
-                        { id: '1', imageName: new URL(result.imganswersheetformat_path).origin+"/media/original_answersheet/answersheet_num.jpg", tag: 'free' },
-                        { id: '2', imageName: new URL(result.imganswersheetformat_path).origin+"/media/original_answersheet/answersheet_eng.jpg", tag: 'free' },
-                        { id: '3', imageName: new URL(result.imganswersheetformat_path).origin+"/media/original_answersheet/answersheet_thai.jpg", tag: 'free' },
+                        { id: '1', imageName: new URL(result.imganswersheetformat_path).origin+"/media/original_answersheet/answersheet_num.jpg"+"?"+ new Date().getTime(), tag: 'free' },
+                        { id: '2', imageName: new URL(result.imganswersheetformat_path).origin+"/media/original_answersheet/answersheet_eng.jpg"+"?"+ new Date().getTime(), tag: 'free' },
+                        { id: '3', imageName: new URL(result.imganswersheetformat_path).origin+"/media/original_answersheet/answersheet_thai.jpg"+"?"+ new Date().getTime(), tag: 'free' },
                     ])
                     setimganswersheetformat_path([
-                        { id: '1', imageName: result.imganswersheetformat_path+"answersheet_num.jpg", tag: 'free' },
-                        { id: '2', imageName: result.imganswersheetformat_path+"answersheet_eng.jpg", tag: 'free' },
-                        { id: '3', imageName: result.imganswersheetformat_path+"answersheet_thai.jpg", tag: 'free' }, 
+                        { id: '1', imageName: result.imganswersheetformat_path+"answersheet_num.jpg"+"?"+ new Date().getTime(), tag: 'free' },
+                        { id: '2', imageName: result.imganswersheetformat_path+"answersheet_eng.jpg"+"?"+ new Date().getTime(), tag: 'free' },
+                        { id: '3', imageName: result.imganswersheetformat_path+"answersheet_thai.jpg"+"?"+ new Date().getTime(), tag: 'free' }, 
                     ])
                     setSelectedOption(result.answersheetformat)
                     setsubid(result.subid)
                     setimgcheck(extractFilenameFromURL(result.imganswersheetformat_path))
                     setImages([
-                        { id: '1', imageName: result.imganswersheetformat_path+"answersheet_num.jpg", tag: 'free' },
-                        { id: '2', imageName: result.imganswersheetformat_path+"answersheet_eng.jpg", tag: 'free' },
-                        { id: '3', imageName: result.imganswersheetformat_path+"answersheet_thai.jpg", tag: 'free' }, 
+                        { id: '1', imageName: result.imganswersheetformat_path+"answersheet_num.jpg"+"?"+ new Date().getTime(), tag: 'free' },
+                        { id: '2', imageName: result.imganswersheetformat_path+"answersheet_eng.jpg"+"?"+ new Date().getTime(), tag: 'free' },
+                        { id: '3', imageName: result.imganswersheetformat_path+"answersheet_thai.jpg"+"?"+ new Date().getTime(), tag: 'free' }, 
                     ])
                     //Fetch API เพื่อทำการดึกข้อมูล subject/detail ขอข้อมูล เกี่ยวกับ รายวิชา
                     fetch(variables.API_URL+"subject/detail/"+result.subid+"/", {

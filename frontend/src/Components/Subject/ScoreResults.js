@@ -10,7 +10,6 @@ import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import Alertmanual from "../Tools/ToolAlertmanual";
 function AppScoreResults() {
     const { id } = useParams();
-
     // const [data, setdata] = useState([]);
     const [ExamNo, setExamNo] = useState('');
     const [ExamNoShow, setExamNoShow] = useState('');
@@ -18,6 +17,8 @@ function AppScoreResults() {
     const [subjectname, setsubjectname] = useState('');
 
     const [csvData, setcsvData] = useState([]);
+
+
     const [link_result, setlink_result] = useState([]);
     
     const [TextError, setTextError] = useState('');
@@ -218,7 +219,8 @@ function AppScoreResults() {
                 setExamNoShow(result.examid);
                 setsubid(result.subid);
                 setlink_result(result.result_csv_path)
-                const csvResponse = await fetch(result.result_csv_path);
+                const imageCSV = result.result_csv_path + '?' + new Date().getTime();
+                const csvResponse = await fetch(imageCSV);
                 const csvText = await csvResponse.text();
 
                 parseCSVData(csvText);
@@ -268,6 +270,7 @@ function AppScoreResults() {
             dynamicTyping: true,
             skipEmptyLines: true,
             complete: function (result) {
+                console.log(result.data)
                 setcsvData(result.data);
             },
         });
@@ -354,7 +357,7 @@ function AppScoreResults() {
                                     <div>
                                         <div className="bx-input-fix">
                                             <span className="flex">
-                                                <input className="mgR10" style={{minWidth:25}} value="" type="checkbox" checked={showscores} onChange = {handleshowscores} />แสดงข้อมูลการสอบในระบบ
+                                                <input className="mgR10" style={{minWidth:25}} value="" type="checkbox" checked={showscores} onChange = {handleshowscores} />แสดงข้อมูลผลการสอบสำหรับผู้เรียนในระบบ
                                             </span>
                                         </div>
                                     </div>
@@ -373,10 +376,17 @@ function AppScoreResults() {
                                     <tbody>
                                             {/* Render table rows with CSV data */}
                                             {csvData.map((row, rowIndex) => (
-                                                <tr key={rowIndex}>
+                                                <tr key={rowIndex} >
                                                     {Object.values(row).map((value, colIndex) => (
                                                         <td key={colIndex} align="center">{value}</td>
                                                     ))}
+                                                    {Object.values(row).length <= 6 ?
+                                                        Array.from({ length: 7 - Object.values(row).length }, (_, colIndex) => (
+                                                            <td key={colIndex} align="center">{" "}</td>
+                                                        ))
+                                                        :
+                                                        null
+                                                    }
                                                 </tr>
                                             ))}
                                     </tbody>

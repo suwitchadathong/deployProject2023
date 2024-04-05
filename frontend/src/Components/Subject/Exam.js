@@ -108,6 +108,16 @@ function AppExam(){
         return () => clearInterval(intervalId);
     }, [fetchDataExam]);
 
+    function checkexamanswers(data) {
+        for (let i = 0  ; i < data.length; i++) {
+           if(data[i].choiceanswers !== '' && data[i].choiceanswers !== null){
+           }else{
+            return false
+           }
+        }
+        return true
+    }
+
     return(
 
         <div className='content'>
@@ -187,12 +197,12 @@ function AppExam(){
                                     </div>
                                 </Link>
                             </div>
-                            <div className={sequencesteps >= 2 && sequencesteps <= 4? "bx-show":"bx-show wait" }>
+                            <div className={(sequencesteps >= 2 && sequencesteps <= 4) || sequencesteps >= 6 ?"bx-show":"bx-show wait" }>
                                 <Link to={"/Subject/SubjectNo/Exam/ExamAnswer/"+id}>
                                     <div className="box">
                                         <div className="box-img">
                                             {/* <span className="fb num-stap">3</span> */}
-                                            {data.length === SetExam ?<FontAwesomeIcon icon={faCircleCheck} className="icon-success" />:''}
+                                            {data.length === SetExam && checkexamanswers(data) === true ?<FontAwesomeIcon icon={faCircleCheck} className="icon-success" />:''}
                                             <img src='/img/step3.png' alt=''/>
                                             <p>สร้างเฉลย</p>
                                         </div>
@@ -214,7 +224,7 @@ function AppExam(){
                         </div>
                         <div className="fb">ขั้นตอนการประมวลผล</div>
                         <div className="bx-step-content">
-                            <div className={sequencesteps >= 4 && sequencesteps <= 5? "bx-show":"bx-show wait" }>
+                            <div className={(sequencesteps >= 4 && sequencesteps <= 5) || sequencesteps >= 6?  "bx-show":"bx-show wait" }>
                                 <Link to={"/Subject/SubjectNo/Exam/CheckAnswerSheet/"+id}>
                                     <div className="box">
                                         <div className="box-img">

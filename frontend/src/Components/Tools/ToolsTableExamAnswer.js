@@ -14,6 +14,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faChevronRight, faChevronLeft, faAnglesRight, faAnglesLeft, faTrashCan, faPen, faSortDown, faSortUp, faSort, faSquarePlus, faCircleCheck, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
+import { set } from 'js-cookie';
 
 const TableExamAnswer = ({ columns, examnoanswers }) => {
     const { id } = useParams(); 
@@ -21,6 +22,9 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
     const FullData = useState([]);
     const numbers = parseInt(examnoanswers)
     const [Start, setStart] = useState(0);
+
+    const [datanon, setdatanon] = useState([]);
+    const [dataduplicate, setdataduplicate] = useState([]);
 
     const Simulateddata = Array.from({ length: numbers }, (_, index) => ({
         choiceanswers: null,
@@ -30,6 +34,30 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
         papeans_path: null,
         scoringcriteria: null
     }));
+    const fetchDataExamInfo = async () => {
+        try{
+            fetch(variables.API_URL+"examinformation/detail/exam/"+id+"/", {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if(result.err !== undefined){
+                    
+                    }else{
+                        setdatanon(result.non_duplicate_records)
+                        setdataduplicate(result.duplicate_records)
+                    }
+                }
+            )
+        }catch (err) {
+            setdata([])
+        }
+
+    };
     const fetchDataExamAnswer = async () => {
         try{
             //Fetch API เพื่อทำการดึกข้อมูล examanswers/detail/exam/ ขอข้อมูล examanswers exam
@@ -43,15 +71,20 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
                 .then(response => response.json())
                 .then(result => {
                     // กำหนดการแสดงให้อยู่ในรูปแบบที่ต้องการ
-                    const output2Map = result.reduce((map, item) => {
-                        map[item.examnoanswers] = item;
-                        return map;
-                    }, {});
-                    const FullData = Simulateddata.map(item => {
-                        const output2Item = output2Map[item.examnoanswers];
-                        return output2Item ? output2Item : item;
+                    // const output2Map = result.reduce((map, item) => {
+                    //     map[item.examnoanswers] = item;
+                    //     return map;
+                    // }, {});
+                    // const FullData = Simulateddata.map(item => {
+                    //     const output2Item = output2Map[item.examnoanswers];
+                    //     return output2Item ? output2Item : item;
+                    // });
+                    // setdata(FullData)
+                    const sortedExamAnswers = result.sort((a, b) => {
+                        return parseInt(a.examnoanswers) - parseInt(b.examnoanswers);
                     });
-                    setdata(FullData)
+                    setdata(sortedExamAnswers)
+                    // console.log("sortedExamAnswers : ",sortedExamAnswers)
                 }
             )
         }catch (err) {
@@ -106,32 +139,45 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
     const handleDelCours = async (examanswersid,examnoanswers) => {
         Swal.fire({
             title: "ลบเฉลยคำตอบ",
-            text: `คุณต้องลบเฉลยข้อสอบชุดที่ ${examnoanswers} ใช่หรือไม่ `,
+            text: `คุณต้องการลบเฉลยข้อสอบชุดที่ ${examnoanswers} ใช่หรือไม่ `,
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#d33",
             confirmButtonText: "ยืนยัน",
             cancelButtonText:"ยกเลิก"
-        }).then( (result) => {
+        }).then( async (result) => {
             if (result.isConfirmed) { // กดยืนยัน
                 try{
-                    fetch(variables.API_URL+"examanswers/delete/"+examanswersid+"/", {
-                        method: "DELETE",
+                    const response = await fetch(variables.API_URL + "examanswers/update/"+examanswersid+"/", {
+                        method: "PUT",
                         headers: {
                             'Accept': 'application/json, text/plain',
                             'Content-Type': 'application/json;charset=UTF-8'
                         },
-                        })
-                        .then(response => response.json())
-                        .then(result => {
-                            Swal.fire({
-                                title: result.msg,
-                                icon: "success",//error,question,warning,success
-                                confirmButtonColor: "#341699",
-                            });
-                            fetchDataExamAnswer();
-                        }
-                    )
+                        body: JSON.stringify({
+                            choiceanswers : null
+                        }),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        fetchDataExamAnswer();
+                        Swal.fire({
+                            title: "ลบเฉลยชุดข้อสอบที่ "+examnoanswers+" เสร็จสิ้น",
+                            icon: "success",
+                            confirmButtonColor: "#341699",
+                        }).then((result) => {
+                           
+                        });
+                        
+                    }else{
+                        Swal.fire({
+                            title: "เกิดข้อผิดพลาดในการลบข้อสอบ",
+                            icon: "error",//error,question,warning,success
+                            confirmButtonColor:"#341699",
+                        });
+                    }
                 }catch (err) {
                     Swal.fire({
                         title: "เกิดข้อผิดพลาดในการลบการสอบ",
@@ -143,14 +189,14 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
         });
     };    
   
-    const showAlertCreate = (id,idsetexam) => {
+    const showAlertCreate = (id,idsetexam,idexamanswersid) => {
         const isMobile = window.innerWidth < 500;
         Swal.fire({
           title: 'รูปแบบการสร้างเฉลย  ',
           html: `
             <div className="bx-step-content" style="display: ${isMobile ? 'grid' : 'flex'};justify-content: center;" >
                 <div style="margin: 20px;">
-                    <a href="/Subject/SubjectNo/Exam/ExamAnswer/CreateExamAnswer/${id}/${idsetexam}/1">
+                    <a href="/Subject/SubjectNo/Exam/ExamAnswer/CreateExamAnswer/${id}/${idsetexam}/1/${idexamanswersid}">
                         <div className="bx-show" style="padding: 20px;border: 1px solid #DDDDDD" >
                             <div className="box">
                                 <div className="box-img"><img src='/img/AnsCustomized.png' alt='' />
@@ -161,7 +207,7 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
                     </a>
                 </div>
                 <div style="margin: 20px;">
-                    <a href="/Subject/SubjectNo/Exam/ExamAnswer/CreateExamAnswer/${id}/${idsetexam}/2">
+                    <a href="/Subject/SubjectNo/Exam/ExamAnswer/CreateExamAnswer/${id}/${idsetexam}/2/${idexamanswersid}">
                         <div className="bx-show" style="padding: 20px;border: 1px solid #DDDDDD;" >
                             <div className="box">
                                 <div className="box-img">
@@ -186,10 +232,12 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
 
 
     useEffect(() => {
+  
         if(data.length === 0){
-            fetchDataExamAnswer();
+            // fetchDataExamAnswer();
         }
     }, [data,FullData]);
+
     if(Start === 0){
         fetchDataExamAnswer();
         setStart(1);
@@ -259,6 +307,10 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
     };
 
     const choiceanswerslengthtable = (inputString) => {
+        // console.log("inputString",inputString)
+        if(inputString === null || inputString === ''){
+            return "0"
+        }
         const groups = inputString.split(',');
         const array = [0,0,0,0,0,0,0,0,0]
         groups.forEach((group, index) => {
@@ -369,7 +421,7 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
                         page.map((row) => {
                             prepareRow(row);
                             return (
-                                row.values.examanswersid !== null ?
+                                row.values.choiceanswers !== null ?
                                     <tr {...row.getRowProps()} key={row.id} className='LCshow'>
                                         <td className='center' onClick={() =>showcountOccurrences(row.values.scoringcriteria,row.values.choiceanswers)}><Link to={""}>{Number(row.id) + 1}</Link></td>
                                         <td onClick={() =>showcountOccurrences(row.values.scoringcriteria,row.values.choiceanswers)}><Link to={""}>{row.values.examnoanswers}</Link></td>
@@ -382,13 +434,13 @@ const TableExamAnswer = ({ columns, examnoanswers }) => {
                                             <Link to={"/Subject/SubjectNo/Exam/ExamAnswer/UpdateExamAnswer/" + row.values.examanswersid +"/"+ id +"/"+ row.values.examnoanswers} className='' style={{ display: 'contents' }}>
                                                 <span className='border-icon-dark'><FontAwesomeIcon icon={faPen} /></span>
                                             </Link>
-                                            <span className='danger light-font' onClick={() => handleDelCours(row.values.examanswersid, row.values.examnoanswers)}>
+                                            <span className={dataduplicate.length === 0 && datanon.length === 0 ? 'danger light-font wait':'danger light-font'} onClick={() => handleDelCours(row.values.examanswersid, row.values.examnoanswers)}>
                                                 <FontAwesomeIcon icon={faTrashCan} />
                                             </span>
                                         </td>
                                     </tr>  
                                     :
-                                    <tr {...row.getRowProps()} key={row.id} className='LCnotshow' onClick={() => showAlertCreate(id,Number(row.id) + 1)}>
+                                    <tr {...row.getRowProps()} key={row.id} className='LCnotshow' onClick={() => showAlertCreate(id,Number(row.id) + 1,row.values.examanswersid)}>
                                         <td className='center'><Link to={""}>{Number(row.id) + 1}</Link></td>
                                         <td><Link to={""}>{row.values.examnoanswers}</Link></td>
                                         <td><Link to={""}>-</Link></td>

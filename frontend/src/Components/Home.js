@@ -235,11 +235,11 @@ const AppHome = () => {
                                             <div>
                                                 <p className='fb'>สิทธิ์การใช้งาน "จัดการรายวิชา"</p>
                                                 <div className='left'>
-                                                    <p><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> สร้างรายวิชา <span className='danger-font'> (สร้างได้ {limitsubject} รายวิชา)</span></p>
-                                                    <p><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> สร้างการสอบ <span className='danger-font'> (สร้างได้ {limitexam} การสอบ)</span></p>
-                                                    <p><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> ตรวจข้อสอบ</p>
-                                                    <p><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> ดูผลลัพธ์การตรวจข้อสอบ</p>
-                                                    <p><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> ดูผลการวิเคราะห์ข้อสอบ</p>
+                                                    <p><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> สร้างรายวิชา <span className='danger-font'> (สร้างได้สูงสุด {limitsubject} รายวิชา)</span></p>
+                                                    <p className='pdl20px'><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> สร้างการสอบ <span className='danger-font'> (สร้างได้สูงสุด {limitexam} การสอบ)</span></p>
+                                                    <p className='pdl20px'><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> ตรวจข้อสอบ</p>
+                                                    <p className='pdl20px'><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> ดูผลลัพธ์การตรวจข้อสอบ</p>
+                                                    <p className='pdl20px'><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> ดูผลการวิเคราะห์ข้อสอบ</p>
                                                 </div>
                                             </div>
                                         </Link>
@@ -249,10 +249,10 @@ const AppHome = () => {
                                             <div>
                                                 <p className='fb'>สิทธิ์การใช้งาน "จัดการแบบสอบถาม"</p>
                                                 <div className='left'>
-                                                    <p><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> สร้างแบบสอบถาม <span className='danger-font'> (สร้างได้ {limitque} แบบสอบถาม)</span></p>
-                                                    <p><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> สร้างแบบสอบถามออนไลน์</p>
-                                                    <p><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> ตรวจสอบแบบสอบถาม</p>
-                                                    <p><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> ดูผลลัพธ์การตรวจแบบสอบถาม</p>
+                                                    <p><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> สร้างแบบสอบถาม <span className='danger-font'> (สร้างได้สูงสุด {limitque} แบบสอบถาม)</span></p>
+                                                    <p className='pdl20px'><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> สร้างแบบสอบถามออนไลน์</p>
+                                                    <p className='pdl20px'><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> ตรวจสอบแบบสอบถาม</p>
+                                                    <p className='pdl20px'><FontAwesomeIcon icon={faCircleCheck} className='green-font' /> ดูผลลัพธ์การตรวจแบบสอบถาม</p>
                                                 </div>
                                             </div>
                                         </Link>

@@ -36,9 +36,15 @@ function AppUploadAnswerSheet(){
     const [quetopicdetails, setquetopicdetails] = useState('');
     const [quetopicformat, setquetopicformat] = useState('');
 
+    const [checkclearque, setcheckclearque] = useState(false);
+
+
     const [Start, setStart] = useState(0);
     const [StartError, setStartError] = useState(0);
     
+    const handlecheckclearque = (event) => {
+        setcheckclearque(event.target.checked);
+    };
     const fetchDataquesheet = async () => {
         try{
             fetch(variables.API_URL+"quesheet/detail/"+id+"/", {
@@ -166,21 +172,38 @@ function AppUploadAnswerSheet(){
     async function handleSubmitFile(e) {
         e.preventDefault();
         if (File.length > 0) {
-            Swal.fire({
-                title: "",
-                text: `กดยืนยันเพื่อจะทำการประมวลผลแบบสอบถาม`,
-                icon: "question",
-                showCancelButton: true,
-                confirmButtonColor: "#341699",
-                confirmButtonText: "ยืนยัน",
-                cancelButtonColor: "#d33",
-                cancelButtonText: "ยกเลิก"
-            }).then(async (result) => {
-                if(result.isConfirmed){
-                    loading();
-                }
-                
-            });
+            if(checkclearque === true){
+                Swal.fire({
+                    title: "",
+                    text: `การอัปโหลดกระดาษแบบสอบถามจะทำการลบข้อมูลกระดาษแบบสอบถามก่อนหน้าทั้งหมดออก กดยืนยันเพื่อจะทำการประมวลผลกระดาษแบบสอบถาม `,
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#341699",
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonColor: "#d33",
+                    cancelButtonText: "ยกเลิก"
+                }).then(async (result) => {
+                    if(result.isConfirmed){ // กดยืนยัน
+                        loading();  // เรียกใช้ โมดูล loading
+                    }
+                });
+            }else{
+                Swal.fire({
+                    title: "",
+                    text: `กดยืนยันเพื่อจะทำการประมวลผลแบบสอบถาม`,
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#341699",
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonColor: "#d33",
+                    cancelButtonText: "ยกเลิก"
+                }).then(async (result) => {
+                    if(result.isConfirmed){
+                        loading();
+                    }
+                });
+            }
+           
         } else {
             Swal.fire({
                 title: "",
@@ -219,6 +242,8 @@ function AppUploadAnswerSheet(){
         formData.append("queheaddetails", JSON.stringify(queheaddetails_data))
         formData.append("quetopicdetails", JSON.stringify(quetopicdetails_data))
         formData.append("nonelogo",false)
+       
+        
 
         const formDataFalse = new FormData();
         const quesheet_data_false = {
@@ -265,6 +290,7 @@ function AppUploadAnswerSheet(){
                     }
                     formdataQueinfo.append("userid", Cookies.get('userid'));
                     formdataQueinfo.append("quesheetid", id);
+                    formdataQueinfo.append("clear",checkclearque)
 
                     fetch(variables.API_URL + "queinformation/upload/paper/", {
                         method: "POST",
@@ -385,6 +411,15 @@ function AppUploadAnswerSheet(){
                         <div className='bx-grid2-topic'>
                             <h2>อัปโหลดแบบสอบถาม<Alertmanual name={"uploadquestionnaire"} status={"1"}/></h2>
                         </div> 
+                        {sequencesteps === 3 ||sequencesteps === '3' ?
+                            
+                            <div className="bx-input-fix">
+                                <span className="flex"><input className="mgR10" type = "checkbox" checked={checkclearque} onChange = {handlecheckclearque} /> ดาวน์โหลดกระดาษแบบสอบถามใหม่ ทำการลบข้อมูลกระดาษแบบสอบถามเก่า <p className="fs10 flexJACenter">&nbsp;</p> </span>
+                            </div>
+                            
+                            :
+                            ''
+                        }
                     </div>
                     <div className='bx-details light'>
                         <div>รูปแบบฟอร์มแบบสอบถาม</div>

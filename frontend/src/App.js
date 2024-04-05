@@ -104,7 +104,7 @@ function App() {
         <Route path='/Subject/SubjectNo/Exam/UploadStudent/:id' element={<AppUploadStudent />}></Route>
         <Route path='/Subject/SubjectNo/Exam/CreateAnswerSheet/:id' element={<AppCreateAnswerSheet />}></Route>
         <Route path='/Subject/SubjectNo/Exam/ExamAnswer/:id' element={<AppExamAnswer />}></Route>
-        <Route path='/Subject/SubjectNo/Exam/ExamAnswer/CreateExamAnswer/:id/:idsetexam/:idstatus' element={<AppCreateExamAnswer />}></Route>
+        <Route path='/Subject/SubjectNo/Exam/ExamAnswer/CreateExamAnswer/:id/:idsetexam/:idstatus/:idexamanswersid' element={<AppCreateExamAnswer />}></Route>
         <Route path='/Subject/SubjectNo/Exam/ExamAnswer/UpdateExamAnswer/:id/:idexam/:idsetexam' element={<AppUpdateExamAnswer />}></Route>
         <Route path='/Subject/SubjectNo/Exam/UploadAnswerSheet/:id' element={<AppUploadAnswerSheet />}></Route>
         <Route path='/Subject/SubjectNo/Exam/CheckAnswerSheet/:id' element={<AppCheckAnswerSheet />}></Route>

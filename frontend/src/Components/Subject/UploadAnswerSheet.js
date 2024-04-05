@@ -28,6 +28,12 @@ function AppUploadAnswerSheet(){
     const [Start, setStart] = useState(0);
     const [StartError, setStartError] = useState(0);
     
+    const [checkclearexaminfo, setcheckclearexaminfo] = useState(false);
+
+    const handlecheckclearexaminfo = (event) => {
+        setcheckclearexaminfo(event.target.checked);
+    };
+
     const fetchDataStartExam = async () => {
         try{
             // featch ข้อมูล exam 
@@ -134,21 +140,38 @@ function AppUploadAnswerSheet(){
     async function handleSubmitFile(e) {
         e.preventDefault();
         if (File.length > 0) { // ต้องมีการอัปโหลดไฟล์
-            Swal.fire({
-                title: "",
-                text: `กดยืนยันเพื่อจะทำการประมวลผลกระดาษคำตอบ`,
-                icon: "question",
-                showCancelButton: true,
-                confirmButtonColor: "#341699",
-                confirmButtonText: "ยืนยัน",
-                cancelButtonColor: "#d33",
-                cancelButtonText: "ยกเลิก"
-            }).then(async (result) => {
-                if(result.isConfirmed){ // กดยืนยัน
-                    loading();  // เรียกใช้ โมดูล loading
-                }
-                
-            });
+            if(checkclearexaminfo === true){
+                Swal.fire({
+                    title: "",
+                    text: `การอัปโหลดกระดาษคำตอบจะทำการลบข้อมูลกระดาษคำตอบก่อนหน้าทั้งหมดออก กดยืนยันเพื่อจะทำการประมวลผลกระดาษคำตอบ `,
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#341699",
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonColor: "#d33",
+                    cancelButtonText: "ยกเลิก"
+                }).then(async (result) => {
+                    if(result.isConfirmed){ // กดยืนยัน
+                        loading();  // เรียกใช้ โมดูล loading
+                    }
+                });
+            }else{
+                Swal.fire({
+                    title: "",
+                    text: `กดยืนยันเพื่อจะทำการประมวลผลกระดาษคำตอบ`,
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#341699",
+                    confirmButtonText: "ยืนยัน",
+                    cancelButtonColor: "#d33",
+                    cancelButtonText: "ยกเลิก"
+                }).then(async (result) => {
+                    if(result.isConfirmed){ // กดยืนยัน
+                        loading();  // เรียกใช้ โมดูล loading
+                    }
+                });
+            }
+           
         } else {
             Swal.fire({
                 title: "",
@@ -168,7 +191,7 @@ function AppUploadAnswerSheet(){
         }
         formdata.append("userid", Cookies.get('userid'));
         formdata.append("examid", id);
-
+        formdata.append("clear", checkclearexaminfo);
         try { // fetch อัปเดท sequencesteps exam
             await fetch(variables.API_URL + "exam/update/"+id+"/", {
                 method: "PUT",
@@ -245,17 +268,17 @@ function AppUploadAnswerSheet(){
                     clearInterval(timerInterval);
                 }
                 }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {
-                    Swal.fire({
-                        title: "อัปโหลดกระดาษคำตอบเสร็จสิ้น",
-                        text: "ระหว่างที่รอกระดาษคำตอบประมวลผลสามารถทำอย่างอื่นรอก่อนได้",
-                        icon: "success",
-                        confirmButtonColor: "#341699",
-                        confirmButtonText: "ยืนยัน",  
-                    }).then((result) => {
-                        window.location.href = '/Subject/SubjectNo/Exam/'+id;
-                    });
-                }
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        Swal.fire({
+                            title: "อัปโหลดกระดาษคำตอบเสร็จสิ้น",
+                            text: "ระหว่างที่รอกระดาษคำตอบประมวลผลสามารถทำอย่างอื่นรอก่อนได้",
+                            icon: "success",
+                            confirmButtonColor: "#341699",
+                            confirmButtonText: "ยืนยัน",  
+                        }).then((result) => {
+                            window.location.href = '/Subject/SubjectNo/Exam/'+id;
+                        });
+                    }
                 });
 
             }else{
@@ -303,10 +326,18 @@ function AppUploadAnswerSheet(){
                             <p><Link to="/Subject">จัดการรายวิชา</Link> / <Link to="/Subject">รายวิชาทั้งหมด</Link> / <Link to={"/Subject/SubjectNo/"+subid}> {subjectname} </Link> / <Link to={"/Subject/SubjectNo/Exam/"+ExamNoShow}> การสอบครั้งที่ {ExamNo} </Link> / อัปโหลดกระดาษคำตอบ</p>
                         <div className='bx-grid2-topic'>
                             <h2>อัปโหลดกระดาษคำตอบ<Alertmanual name={"uploadanswersheet"} status={"1"}/></h2>
-                        
                         </div> 
                     </div>
                     <div className='bx-details light'>
+                        {sequencesteps === 4 ||sequencesteps === '4' ?
+                            
+                            <div className="bx-input-fix">
+                                <span className="flex"><input className="mgR10" type = "checkbox" checked={checkclearexaminfo} onChange = {handlecheckclearexaminfo} /> ดาวน์โหลดกระดาษคำตอบใหม่ ทำการลบข้อมูลกระดาษคำตอบเก่า <p className="fs10 flexJACenter">&nbsp;</p> </span>
+                            </div>
+                            
+                            :
+                            ''
+                        }
                         <div></div>
                         <div className="gtc2-CAS">
                             <div className="jc-center">

@@ -19,6 +19,13 @@ function AppCreateExam(){
     const handleInputNumExam = (e) => { setNumExam(e.target.value); };
     const handleInputSetExam = (e) => {setSetExam(e.target.value);};
 
+    function generateOutputexamanswers(num) {
+        let output = '';
+        for (let i = 1; i <= num; i++) {
+          output += `${i}:1:1:0,`;
+        }
+        return output.slice(0, -1); // Removing the last comma
+    }
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -43,17 +50,28 @@ function AppCreateExam(){
                 });
 
                 const result = await response.json();
+                // console.log("exam/create/"+result.examid,"NumExam:",NumExam)
 
                 if (response.ok) {
+                    for (let i = 1; i <= SetExam; i++) {
+                        fetch(variables.API_URL + "examanswers/create/", {
+                            method: "POST",
+                            headers: {
+                                'Accept': 'application/json, text/plain',
+                                'Content-Type': 'application/json;charset=UTF-8'
+                            },
+                            body: JSON.stringify({
+                                scoringcriteria : generateOutputexamanswers(NumExam),
+                                examnoanswers : i,
+                                examid : result.examid
+                            }),
+                        });
+                    }
                     Swal.fire({
                         title: "สร้างการสอบเสร็จสิ้น",
                         icon: "success",//error,question,warning,success
                         confirmButtonColor: "#341699",
                     }).then((result) => {
-                        setNameExam([]);
-                        setExamNo(1);
-                        setNumExam(40)
-                        setSetExam(1);
                         window.location.href = '/Subject/SubjectNo/'+id;
                     });
                 } 

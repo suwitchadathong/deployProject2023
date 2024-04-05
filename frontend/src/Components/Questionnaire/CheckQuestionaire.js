@@ -364,17 +364,17 @@ function AppCheckQuestionaire(){
                     clearInterval(timerInterval);
                 }
                 }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {
-                    Swal.fire({
-                        title:"ส่งผลแบบสอบถามเสร็จสิ้น",
-                        text: "ระหว่างที่รอวิเคราะห์ผลสามารถทำอย่างอื่นรอก่อนได้",
-                        icon: "success",
-                        confirmButtonColor: "#341699",
-                        confirmButtonText: "ยืนยัน",  
-                    }).then((result) => {
-                        window.location.href = '/Questionnaire/QuestionnaireNo/'+id;
-                    });
-                }
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        Swal.fire({
+                            title:"ส่งผลแบบสอบถามเสร็จสิ้น",
+                            text: "ระหว่างที่รอวิเคราะห์ผลสามารถทำอย่างอื่นรอก่อนได้",
+                            icon: "success",
+                            confirmButtonColor: "#341699",
+                            confirmButtonText: "ยืนยัน",  
+                        }).then((result) => {
+                            window.location.href = '/Questionnaire/QuestionnaireNo/'+id;
+                        });
+                    }
                 });
 
                 

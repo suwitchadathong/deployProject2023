@@ -6,7 +6,8 @@ import { useParams } from 'react-router-dom';
 import {variables} from "../../Variables";
 import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCloudArrowUp,faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {faCloudArrowUp,faTrashCan,faCircle} from "@fortawesome/free-solid-svg-icons";
+
 import Swal from 'sweetalert2'
 import Cookies from 'js-cookie';
 import Alertmanual from "../Tools/ToolAlertmanual";
@@ -16,6 +17,8 @@ function AppCreateExamAnswer(){
     const { id } = useParams();
     const { idsetexam } = useParams();
     const { idstatus } = useParams();
+    const { idexamanswersid } = useParams();
+    
 
     const [ExamNo, setExamNo] = useState('');
     const [ExamNoShow, setExamNoShow] = useState('');
@@ -81,12 +84,72 @@ function AppCreateExamAnswer(){
             setStartError(1);
         }
     };
-
+    const fetchDataExamanswersStart = async () => {
+        try{
+            // Fetch ข้อมูลไปยัง API เพื่อขอข้อมูลเกี่ยวกับ examanswers
+            fetch(variables.API_URL+"examanswers/detail/"+id+"/", {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if(result.err !== undefined){
+                        setStartError(1);
+                    }
+                    else{
+                        // จัดการช้อยให้อยู่ในรูปบแบบที่ตรงกับข้อมูลที่ดึงออกมา
+                        transformScoringCriteria(result.scoringcriteria)
+                    }  
+                }
+            ) 
+        }catch (err) {
+            setStartError(2);
+        }
+    };
+    const fetchDataExamAnswer = async () => {
+        try{
+            //Fetch API เพื่อทำการดึกข้อมูล examanswers/detail/exam/ ขอข้อมูล examanswers exam
+            fetch(variables.API_URL+"examanswers/detail/exam/"+id+"/", {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                })
+                .then(response => response.json())
+                .then(result => {
+                    const sortedExamAnswers = result.sort((a, b) => {
+                        return parseInt(a.examnoanswers) - parseInt(b.examnoanswers);
+                    });
+                    getType(sortedExamAnswers)
+                }
+            )
+        }catch (err) {
+        }
+    };
     if(Start === 0){
         fetchDataStart();
+        fetchDataExamanswersStart();
+        fetchDataExamAnswer()
         setStart(1);
     }
+    function getType(dataExamAnswer) {
+        try{
+            const input = dataExamAnswer[0].scoringcriteria
+            const pairs = input.split(',');
+            let typeOption = '1';
+            pairs.forEach(pair => {
+                const letters = pair.split(':');
+                typeOption = letters[1]
+            });
+            setSelectedOption(typeOption)
+        }catch(e){
 
+        }
+    }
     // สร้างคำตอบ
     const [checkboxValues1, setCheckboxValues1] = useState(Array(NumExam).fill(false));//ก
     const [checkboxValues2, setCheckboxValues2] = useState(Array(NumExam).fill(false));//ข
@@ -263,19 +326,31 @@ function AppCreateExamAnswer(){
             }).then( async (result) => {
                 if(result.isConfirmed){
                     try {
-                        const response = await fetch(variables.API_URL + "examanswers/create/", {
-                            method: "POST",
+                        // const response = await fetch(variables.API_URL + "examanswers/create/", {
+                        //     method: "POST",
+                        //     headers: {
+                        //         'Accept': 'application/json, text/plain',
+                        //         'Content-Type': 'application/json;charset=UTF-8'
+                        //     },
+                        //     body: JSON.stringify({
+                        //         // examnoanswers : idsetexam,
+                        //         examnoanswers : idsetexam,
+                        //         scoringcriteria : ScoringCriteriaOutput,
+                        //         choiceanswers : ChoiceAnswersOutput,
+                        //         papeans_path : null,
+                        //         examid : id
+                        //     }),
+                        // });
+
+                        const response = await fetch(variables.API_URL + "examanswers/update/"+idexamanswersid+"/", {
+                            method: "PUT",
                             headers: {
                                 'Accept': 'application/json, text/plain',
                                 'Content-Type': 'application/json;charset=UTF-8'
                             },
                             body: JSON.stringify({
-                                // examnoanswers : idsetexam,
-                                examnoanswers : idsetexam,
                                 scoringcriteria : ScoringCriteriaOutput,
-                                choiceanswers : ChoiceAnswersOutput,
-                                papeans_path : null,
-                                examid : id
+                                choiceanswers : ChoiceAnswersOutput
                             }),
                         });
 
@@ -374,7 +449,23 @@ function AppCreateExamAnswer(){
         }
         });
     }
+    function transformScoringCriteria(input) {
+        const pairs = input.split(',');
+        let typeOption = '1';
+        let inputV1 = [];
+        let inputV2 = [];
+        pairs.forEach(pair => {
+            const letters = pair.split(':');
+            typeOption = letters[1]
+            inputV1.push(letters[2])
+            inputV2.push(letters[3])
 
+        });
+
+        setSelectedOption(typeOption)
+        setInputValues1(inputV1);
+        setInputValues2(inputV2);
+    }
     async function handleSubmitFile(e) {
         e.preventDefault();
         if ((File !== '')) {
@@ -528,6 +619,11 @@ function AppCreateExamAnswer(){
                                     <div >
                                         <div className="fb">เงื่อนไขการให้คะแนน</div>
                                         <div>
+                                            <div>{selectedOption === '1' || selectedOption === 1 ? <div><span className="green-font"><FontAwesomeIcon icon={faCircle} /></span> ต้องตอบถูกทุกข้อ </div>: <div><span className="grey-font"><FontAwesomeIcon icon={faCircle} /></span> ต้องตอบถูกทุกข้อ </div>}</div>
+                                            <div>{selectedOption === '2' || selectedOption === 2 ? <div><span className="green-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อได้คะแนนตามสัดส่วน (ห้ามตอบเกิน) </div> : <div><span className="grey-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อได้คะแนนตามสัดส่วน (ห้ามตอบเกิน)</div>}</div>
+                                            <div>{selectedOption === '3' || selectedOption === 3 ? <div><span className="green-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อลบคะแนนตามสัดส่วน (ห้ามตอบเกิน) </div> : <div><span className="grey-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อลบคะแนนตามสัดส่วน (ห้ามตอบเกิน)</div>}</div>
+                                        </div>
+                                        {/* <div>
                                             <div className="bx-input-fix">
                                                 <span className="flex">
                                                     <div className="w30px"><input className="mgR10" type="radio" name="option" value="1" checked={selectedOption === '1'} onChange={handleOptionChange}/></div>ต้องตอบถูกทุกข้อ
@@ -543,7 +639,7 @@ function AppCreateExamAnswer(){
                                                     <div className="w30px"><input className="mgR10" type="radio" name="option" value="3" checked={selectedOption === '3'} onChange={handleOptionChange}/></div>ตอบถูกบางข้อลบคะแนนตามสัดส่วน (ห้ามตอบเกิน)
                                                 </span>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         <div className="fb">เกณฑ์การให้คะแนน</div>
                                         <div className="bx-input-fix">
                                             <label htmlFor="input1" className="w100px">คะแนนตอบถูก</label>

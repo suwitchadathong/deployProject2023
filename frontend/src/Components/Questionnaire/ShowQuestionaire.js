@@ -29,7 +29,7 @@ function AppShowQuestionaire(){
                         setStartError(1);
                     }
                     setQueSheetName(result.quesheetname)
-                    setimgquesheet_path(result.imgquesheet_path)
+                    setimgquesheet_path(result.imgquesheet_path+"?"+ new Date().getTime())
                    
                 }
             )

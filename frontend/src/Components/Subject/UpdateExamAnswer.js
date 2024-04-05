@@ -4,6 +4,8 @@ import {
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {variables} from "../../Variables";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle} from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
 function AppUpdateExamAnswer(){
 
@@ -20,6 +22,8 @@ function AppUpdateExamAnswer(){
     const [subid, setsubid] = useState('');
     const [subjectname, setsubjectname] = useState('');
     
+    const [data, setdata] = useState([]);
+    const [dataduplicate, setdataduplicate] = useState([]);
 
     const [selectedOption, setSelectedOption] = useState('1');
     const [inputValue1, setInputValue1] = useState('1');
@@ -177,7 +181,29 @@ function AppUpdateExamAnswer(){
             setStepCreate(0)
         }
     }
+    const fetchDataExamInfo = async () => {
+        try{
+            fetch(variables.API_URL+"examinformation/detail/exam/"+idexam+"/", {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if(result.err !== undefined){
+                        setStartError(1);
+                    }
+                    setdata(result.non_duplicate_records)
+                    setdataduplicate(result.duplicate_records)
+                }
+            )
+        }catch (err) {
+            setdata([])
+        }
 
+    };
     const fetchDataStart = async () => {
         try{
             fetch(variables.API_URL+"exam/detail/"+idexam+"/", {
@@ -315,6 +341,7 @@ function AppUpdateExamAnswer(){
     if(Start === 0){
         fetchDataStart();
         fetchDataExamanswersStart();
+        fetchDataExamInfo();
         setStart(1);
         setTimeout(function() {
             setStartError2()
@@ -364,7 +391,6 @@ function AppUpdateExamAnswer(){
                             body: JSON.stringify({
                                 scoringcriteria : ScoringCriteriaOutput,
                                 choiceanswers : ChoiceAnswersOutput
-                              
                             }),
                         });
 
@@ -377,7 +403,7 @@ function AppUpdateExamAnswer(){
                                 icon: "success",
                                 confirmButtonColor: "#341699",
                             }).then((result) => {
-                               
+                                window.location.href = '/Subject/SubjectNo/Exam/ExamAnswer/'+id+'/';
                             });
                             
                         } else {
@@ -454,6 +480,12 @@ function AppUpdateExamAnswer(){
                                     <div >
                                         <div className="fb">เงื่อนไขการให้คะแนน</div>
                                         <div>
+                                            <div>{selectedOption === '1' || selectedOption === 1 ? <div><span className="green-font"><FontAwesomeIcon icon={faCircle} /></span> ต้องตอบถูกทุกข้อ </div>: <div><span className="grey-font"><FontAwesomeIcon icon={faCircle} /></span> ต้องตอบถูกทุกข้อ </div>}</div>
+                                            <div>{selectedOption === '2' || selectedOption === 2 ? <div><span className="green-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อได้คะแนนตามสัดส่วน (ห้ามตอบเกิน) </div> : <div><span className="grey-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อได้คะแนนตามสัดส่วน (ห้ามตอบเกิน)</div>}</div>
+                                            <div>{selectedOption === '3' || selectedOption === 3 ? <div><span className="green-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อลบคะแนนตามสัดส่วน (ห้ามตอบเกิน) </div> : <div><span className="grey-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อลบคะแนนตามสัดส่วน (ห้ามตอบเกิน)</div>}</div>
+                                        </div>
+                                        {/* <div>
+                                            
                                             <div className="bx-input-fix">
                                                 <span className="flex">
                                                     <div className="w30px"><input className="mgR10" type="radio" name="option" value="1" checked={selectedOption === '1'} onChange={handleOptionChange}/></div>ต้องตอบถูกทุกข้อ
@@ -469,7 +501,7 @@ function AppUpdateExamAnswer(){
                                                     <div className="w30px"><input className="mgR10" type="radio" name="option" value="3" checked={selectedOption === '3'} onChange={handleOptionChange}/></div>ตอบถูกบางข้อลบคะแนนตามสัดส่วน (ห้ามตอบเกิน)
                                                 </span>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         <div className="fb">เกณฑ์การให้คะแนน </div>
                                         <div className="danger-font"> คลิกช่องสี่เหลี่ยมหลังเกณฑ์การให้คะแนน คะแนนตอบถูก หรือ คะแนนตอบผิด เพื่อนำเกณฑ์คะแนนไปใช้แทนที่เกณฑ์คะแนนเก่าทั้งหมด</div>
                                         <div className="bx-input-fix set-ip-cb ">
@@ -667,7 +699,7 @@ function AppUpdateExamAnswer(){
                                                 
                                                 <div className="button-cancel" onClick={handleReverseStep}>ย้อนกลับ</div>
                                                 <div className="button-reset" onClick={handleReset}>รีเซ็ต</div>
-                                                <div className='button-submit' onClick={handleSubmit}>บันทึก</div>
+                                                <div className={dataduplicate.length === 0 && data.length === 0 ? 'button-submit':'wait button-submit'} onClick={handleSubmit}>บันทึก</div>
                                             </div>
                                         </div>
                                     </form>

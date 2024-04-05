@@ -50,7 +50,7 @@ function AppUploadStudent(){
                 setExamNoShow(result.examid);
                 setsubid(result.subid);
                 if (result.std_csv_path !== null) {
-                    const csvResponse = await fetch(result.std_csv_path);
+                    const csvResponse = await fetch(result.std_csv_path+"?"+ new Date().getTime());
                     const csvText = await csvResponse.text();
                     const csvBlob = new Blob([csvText], { type: 'text/csv' });
                     const csvFile = new File([csvBlob], 'student_list.csv', { type: 'text/csv' });

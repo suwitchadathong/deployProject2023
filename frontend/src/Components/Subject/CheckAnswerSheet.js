@@ -386,7 +386,7 @@ function AppCheckAnswerSheet(){
         if(checknomistake(non_duplicate_records) === true){
             Swal.fire({
                 title: "วิเคราะห์ผล",
-                text: `โปรดมั่นใจว่าคุณได้แก้ไขข้อผิดพลาดของข้อมูลเสร็จสิ้นแล้วหากกดยืนยันแล้วจะไม่สามารถกลับมาแก้ไขข้อมูลได้ \nกดยืนยันเพื่อทำการวิเคราะห์ผล `,
+                html: `โปรดมั่นใจว่า<br> <span style="color:red">คุณได้แก้ไขข้อผิดพลาดของข้อมูลเสร็จสิ้นแล้ว หากกดยืนยันแล้วจะไม่สามารถกลับมาแก้ไขข้อมูลได้</span> <br>กดยืนยันเพื่อทำการวิเคราะห์ผล`,
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: "#341699",
@@ -649,7 +649,7 @@ function AppCheckAnswerSheet(){
                                 {/* <div>จำนวนนักศึกษาในไฟล์ที่อัปโหลด {csvData.length} รายชื่อ</div> */}
                                 <div className="fb">ตารางแสดงความถูกต้องของไฟล์กระดาษคำตอบ ที่ถูกต้อง</div>
                                 <div className="tableSub">
-                                <table className={sequencesteps >= 5 ? "wait" : ""}>
+                                <table className={sequencesteps >= 5 ? "" : ""}>
                                     <thead>
                                         <tr>
                                             <th style={{ minWidth: '150px',maxWidth: '150px' ,overflowX: 'auto', whiteSpace: 'nowrap'}}>#</th>
@@ -678,7 +678,7 @@ function AppCheckAnswerSheet(){
                                                 <td className="center">{item.anschoicestd !== ""  && item.anschoicestd !== null && item.anschoicestd !== "0" && item.anschoicestd !== 0 ?<p onClick={() =>submitprocessimg(item.examinfoid,item.imgansstd_path,extractFilenameFromURL(item.imgansstd_path))}><FontAwesomeIcon className="cursor-p green-font" icon={faCircleCheck} /></p>:<FontAwesomeIcon  className="danger-font" icon={faCircleXmark} />}</td>
                                                 <td className="hover-trigger center green-font"><p className="hover-content">รายละเอียดถูกต้อง{item.errorstype}</p><FontAwesomeIcon icon={faCircleCheck} /></td>
                                                 <td className="w150px" style={{ overflowX: 'auto', whiteSpace: 'nowrap'}}>{extractFilenameFromURL(item.imgansstd_path)}</td>
-                                                <td className="center mw80px"> 
+                                                <td className={sequencesteps >= 5 ? "center mw80px wait" : "center mw80px"}> 
                                                     <Link to="#" onClick={() =>showCustomAlert(item.examinfoid,item.stdid,item.subjectidstd,item.setexaminfo,item.imgansstd_path, '3')} className='' style={{ display: 'contents' }}><span className='border-icon-dark'>{<FontAwesomeIcon icon={faPen} />}</span></Link>
                                                     <span className='danger light-font' onClick={() => handleDelCours(item.examinfoid,extractFilenameFromURL(item.imgansstd_path))}><FontAwesomeIcon icon={faTrashCan} /></span>
                                                 </td>
