@@ -361,6 +361,7 @@ function AppCreateExamAnswer(){
                                 title: "สร้างเฉลยข้อสอบเสร็จสิ้น",
                                 icon: "success",//error,question,warning,success
                                 confirmButtonColor: "#341699",
+                                confirmButtonText: "ยืนยัน",
                             }).then((result) => {
                                 window.location.href = '/Subject/SubjectNo/Exam/ExamAnswer/'+id+'/';
                             });
