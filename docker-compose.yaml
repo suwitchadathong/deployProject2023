@@ -1,14 +1,14 @@
 version: "3.9"
 services:
   showweb:
-    restart: unless-stopped
+    restart: always
     container_name: showweb
     image: myreact
     ports:
       - "10.220.66.101:443:3000"
 
   redis:
-    restart: unless-stopped
+    restart: always
     container_name: redis
     image: redis:7.0.5-alpine
     command: ["redis-server", "--bind", "redis", "--port", "6380"]
@@ -16,7 +16,7 @@ services:
       - "6380:6380"
 
   postgresdb:
-    restart: unless-stopped
+    restart: always
     container_name: postgres
     image: postgres:alpine3.18
     ports:
@@ -31,7 +31,7 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
 
   pgadmin:
-    restart: unless-stopped
+    restart: always
     image: dpage/pgadmin4
     container_name: pgadmin
     environment:
@@ -45,7 +45,7 @@ services:
       - postgresdb
 
   backend:
-    restart: unless-stopped
+    restart: always
     container_name: backend
     image: mydb
     ports:
