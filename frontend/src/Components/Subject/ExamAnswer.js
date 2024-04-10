@@ -293,7 +293,7 @@ function AppExamAnswer(){
                             <div>
                                 <div>{selectedOption === '1' || selectedOption === 1 ? <div><span className="green-font"><FontAwesomeIcon icon={faCircle} /></span> ต้องตอบถูกทุกข้อ </div>: <div><span className="grey-font"><FontAwesomeIcon icon={faCircle} /></span> ต้องตอบถูกทุกข้อ </div>}</div>
                                 <div>{selectedOption === '2' || selectedOption === 2 ? <div><span className="green-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อได้คะแนนตามสัดส่วน (ห้ามตอบเกิน) </div> : <div><span className="grey-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อได้คะแนนตามสัดส่วน (ห้ามตอบเกิน)</div>}</div>
-                                <div>{selectedOption === '3' || selectedOption === 3 ? <div><span className="green-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อลบคะแนนตามสัดส่วน (ห้ามตอบเกิน) </div> : <div><span className="grey-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อลบคะแนนตามสัดส่วน (ห้ามตอบเกิน)</div>}</div>
+                                <div className="none">{selectedOption === '3' || selectedOption === 3 ? <div><span className="green-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อลบคะแนนตามสัดส่วน (ห้ามตอบเกิน) </div> : <div><span className="grey-font"><FontAwesomeIcon icon={faCircle} /></span> ตอบถูกบางข้อลบคะแนนตามสัดส่วน (ห้ามตอบเกิน)</div>}</div>
                             </div>
                             {/* <div className="fb">เกณฑ์การให้คะแนน</div>
                             <div>คะแนนตอบถูก : 1</div>
@@ -313,7 +313,7 @@ function AppExamAnswer(){
                                         <div className="w30px"><input className="mgR10" type="radio" name="option" value="2" checked={selectedOption === '2'} onChange={handleOptionChange}/></div>ตอบถูกบางข้อได้คะแนนตามสัดส่วน (ห้ามตอบเกิน)
                                     </span>
                                 </div>
-                                <div className="bx-input-fix">
+                                <div className="bx-input-fix none">
                                     <span className="flex">
                                         <div className="w30px"><input className="mgR10" type="radio" name="option" value="3" checked={selectedOption === '3'} onChange={handleOptionChange}/></div>ตอบถูกบางข้อลบคะแนนตามสัดส่วน (ห้ามตอบเกิน)
                                     </span>
